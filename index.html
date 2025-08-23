@@ -1,1 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your EEE Blog - Exploring Engineering & Innovation</title>
+    <!-- Google Fonts for Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Global Styles & Variables --- */
+        :root {
+            --dark-bg: #121212;
+            --dark-surface: #1e1e1e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --accent-color: #03dac6; /* A vibrant, modern green/cyan */
+            --accent-dark: #018786;
+            --font-heading: 'Inter', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+        h2 { font-size: clamp(2rem, 5vw, 3rem); }
+        h3 { font-size: clamp(1.5rem, 4vw, 2rem); }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        a:hover {
+            color: var(--accent-dark);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            padding: 0.8rem 2rem;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .cta-button:hover {
+            background-color: var(--text-primary);
+            transform: translateY(-3px);
+        }
+
+        .cta-button.secondary {
+            background-color: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .cta-button.secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: var(--dark-surface);
+            margin: 4rem 0;
+        }
+
+        /* --- Header & Navigation --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background-color: var(--dark-surface);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .nav a {
+            margin-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1579567993444-118805f69666?q=80&w=2670&auto=format&fit=crop') no-repeat center center/cover;
+            position: relative;
+        }
+
+        .hero-content {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .tagline {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* --- About Section --- */
+        .about-section {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .about-section p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Categories Section --- */
+        .categories-section {
+            padding: 5rem 0;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background-color: var(--dark-surface);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .category-card p {
+            color: var(--text-secondary);
+        }
+
+        /* --- Latest Blogs Section --- */
+        .latest-blogs-section {
+            padding: 5rem 0;
+        }
+
+        .blog-list {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .blog-post {
+            background-color: var(--dark-surface);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .blog-post h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .excerpt {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .read-more {
+            font-weight: bold;
+        }
+
+        /* --- Call to Action Section --- */
+        .cta-section {
+            background-color: var(--dark-surface);
+            text-align: center;
+            padding: 4rem 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 4rem;
+        }
+
+        .cta-section p {
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: #000;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-links a,
+        .social-media a {
+            color: var(--text-secondary);
+            margin: 0 1rem;
+            font-size: 1rem;
+        }
+
+        .footer-links,
+        .social-media {
+            margin-bottom: 1rem;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+            }
+
+            .nav {
+                margin-top: 1rem;
+            }
+
+            .nav a {
+                margin: 0 0.5rem;
+            }
+
+            .hero-section {
+                height: 60vh;
+            }
+
+            .categories-grid, .blog-list {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links, .social-media {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Your EEE Blog</a>
+        <nav class="nav">
+            <a href="#">Home</a>
+            <a href="#">Blogs</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Bridging the Gap Between Circuits and the Future.</h1>
+                <p class="tagline">Exploring Engineering, Innovation, and Future Energy.</p>
+                <a href="#" class="cta-button">Read Blogs</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section">
+            <div class="container">
+                <h2>About the Blog</h2>
+                <p>This blog is a hub for Electrical & Electronics enthusiasts, from students to professionals. Our mission is to demystify complex concepts, showcase exciting projects, and explore the cutting edge of green technology. Join us as we build, learn, and innovate.</p>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <div class="container">
+                <h2>Explore Categories</h2>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <h3>EEE Concepts</h3>
+                        <p>Dive deep into fundamental theories and advanced topics in Electrical and Electronics Engineering.</p>
+                    </div>
+                    <div class="category-card">
+                        <h3>Projects & Experiments</h3>
+                        <p>Follow along with hands-on projects, from simple circuits to complex embedded systems.</p>
+                    </div>
+                    <div class="category-card">
+                        <h3>Green Tech Insights</h3>
+                        <p>Stay informed on the latest in renewable energy, sustainable engineering, and green innovation.</p>
+                    </div>
+                    <div class="category-card">
+                        <h3>Personal Learnings</h3>
+                        <p>Discover tips, tricks, and lessons learned from a personal journey in the world of engineering.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- Latest Blogs Section -->
+        <section class="latest-blogs-section">
+            <div class="container">
+                <h2>Latest Blogs</h2>
+                <div class="blog-list">
+                    <article class="blog-post">
+                        <h3>10 Essential Tools for Your Electronics Workbench</h3>
+                        <p class="excerpt">A guide to the must-have tools every budding electronics engineer needs to get started with projects. We cover multimeters, soldering irons, and more.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </article>
+                    <article class="blog-post">
+                        <h3>Building a Solar-Powered Smart Planter</h3>
+                        <p class="excerpt">Step-by-step instructions on creating a self-watering planter that runs on clean, renewable energy. Perfect for a weekend project!</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </article>
+                    <article class="blog-post">
+                        <h3>Understanding Transistor Amplifiers in Under 5 Minutes</h3>
+                        <p class="excerpt">Learn the core principles of how transistors can be used to amplify signals in a simple, easy-to-understand way.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- Call to Action Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to explore more?</h2>
+                <p>Browse our entire library of articles and find your next great read.</p>
+                <a href="#" class="cta-button secondary">View All Blogs</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-media">
+            <a href="#" aria-label="LinkedIn">LinkedIn</a>
+            <a href="#" aria-label="GitHub">GitHub</a>
+            <a href="#" aria-label="Twitter">Twitter</a>
+        </div>
+        <p>&copy; 2025 Your EEE Blog. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
 
