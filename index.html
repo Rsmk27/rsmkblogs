@@ -1,425 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EEE Blog - Exploring Engineering & Innovation</title>
-    <!-- Google Fonts for Typography -->
+    <title>ElectroTech | The Future of Electronics & Engineering</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* --- Global Styles & Variables --- */
-        :root {
-            --dark-bg: #121212;
-            --dark-surface: #1e1e1e;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0b0;
-            --accent-color: #03dac6; /* A vibrant, modern green/cyan */
-            --accent-dark: #018786;
-            --font-heading: 'Inter', sans-serif;
-            --font-body: 'Inter', sans-serif;
-            --border-radius: 8px;
-            --transition-speed: 0.3s;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--dark-bg);
-            color: var(--text-primary);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        h1, h2, h3 {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 1rem;
-        }
-
-        h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
-        h2 { font-size: clamp(2rem, 5vw, 3rem); }
-        h3 { font-size: clamp(1.5rem, 4vw, 2rem); }
-
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-            transition: color var(--transition-speed), transform var(--transition-speed);
-        }
-
-        a:hover {
-            color: var(--accent-dark);
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--dark-bg);
-            padding: 0.8rem 2rem;
-            border-radius: var(--border-radius);
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: background-color var(--transition-speed), transform var(--transition-speed);
-        }
-
-        .cta-button:hover {
-            background-color: var(--text-primary);
-            transform: translateY(-3px);
-        }
-
-        .cta-button.secondary {
-            background-color: transparent;
-            border: 2px solid var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .cta-button.secondary:hover {
-            background-color: var(--accent-color);
-            color: var(--dark-bg);
-            transform: translateY(-3px);
-        }
-
-        hr {
-            border: 0;
-            height: 1px;
-            background-color: var(--dark-surface);
-            margin: 4rem 0;
-        }
-
-        /* --- Header & Navigation --- */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            background-color: var(--dark-surface);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .nav a {
-            margin-left: 1.5rem;
-            color: var(--text-secondary);
-        }
-
-        .nav a:hover {
-            color: var(--accent-color);
-        }
-
-        /* --- Hero Section --- */
-        .hero-section {
-            height: 80vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1579567993444-118805f69666?q=80&w=2670&auto=format&fit=crop') no-repeat center center/cover;
-            position: relative;
-        }
-
-        .hero-content {
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        .tagline {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        /* --- About Section --- */
-        .about-section {
-            padding: 5rem 0;
-            text-align: center;
-        }
-
-        .about-section p {
-            max-width: 700px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-        }
-
-        /* --- Categories Section --- */
-        .categories-section {
-            padding: 5rem 0;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .category-card {
-            background-color: var(--dark-surface);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .category-card h3 {
-            color: var(--accent-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .category-card p {
-            color: var(--text-secondary);
-        }
-
-        /* --- Latest Blogs Section --- */
-        .latest-blogs-section {
-            padding: 5rem 0;
-        }
-
-        .blog-list {
-            display: grid;
-            gap: 2rem;
-        }
-
-        .blog-post {
-            background-color: var(--dark-surface);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-        }
-
-        .blog-post:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .blog-post h3 {
-            margin-bottom: 0.5rem;
-        }
-
-        .excerpt {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .read-more {
-            font-weight: bold;
-        }
-
-        /* --- Call to Action Section --- */
-        .cta-section {
-            background-color: var(--dark-surface);
-            text-align: center;
-            padding: 4rem 2rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 4rem;
-        }
-
-        .cta-section p {
-            margin-bottom: 2rem;
-            color: var(--text-secondary);
-        }
-
-        /* --- Footer --- */
-        .footer {
-            background-color: #000;
-            padding: 3rem 2rem;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        .footer-links a,
-        .social-media a {
-            color: var(--text-secondary);
-            margin: 0 1rem;
-            font-size: 1rem;
-        }
-
-        .footer-links,
-        .social-media {
-            margin-bottom: 1rem;
-        }
-
-        /* --- Animations --- */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-            }
-
-            .nav {
-                margin-top: 1rem;
-            }
-
-            .nav a {
-                margin: 0 0.5rem;
-            }
-
-            .hero-section {
-                height: 60vh;
-            }
-
-            .categories-grid, .blog-list {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-links, .social-media {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-        }
-    </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
 
-    <header class="header">
-        <a href="#" class="logo">Your EEE Blog</a>
-        <nav class="nav">
-            <a href="#">Home</a>
-            <a href="#">Blogs</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-        </nav>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Electro<span>Tech</span>.</a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
+            <nav class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="#">Electronics</a>
+                <a href="#">Trending Tech</a>
+                <a href="#">Projects</a>
+                <a href="#">About</a>
+            </nav>
+        </div>
     </header>
 
     <main>
         <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-content">
-                <h1>Bridging the Gap Between Circuits and the Future.</h1>
-                <p class="tagline">Exploring Engineering, Innovation, and Future Energy.</p>
-                <a href="#" class="cta-button">Read Blogs</a>
+        <section class="hero">
+            <div class="hero-bg">
+                <img src="assets/images/hero-bg.png" alt="Futuristic Circuit Board">
             </div>
-        </section>
-
-        <!-- About Section -->
-        <section class="about-section">
-            <div class="container">
-                <h2>About the Blog</h2>
-                <p>This blog is a hub for Electrical & Electronics enthusiasts, from students to professionals. Our mission is to demystify complex concepts, showcase exciting projects, and explore the cutting edge of green technology. Join us as we build, learn, and innovate.</p>
-            </div>
-        </section>
-
-        <hr>
-
-        <!-- Categories Section -->
-        <section class="categories-section">
-            <div class="container">
-                <h2>Explore Categories</h2>
-                <div class="categories-grid">
-                    <div class="category-card">
-                        <h3>EEE Concepts</h3>
-                        <p>Dive deep into fundamental theories and advanced topics in Electrical and Electronics Engineering.</p>
-                    </div>
-                    <div class="category-card">
-                        <h3>Projects & Experiments</h3>
-                        <p>Follow along with hands-on projects, from simple circuits to complex embedded systems.</p>
-                    </div>
-                    <div class="category-card">
-                        <h3>Green Tech Insights</h3>
-                        <p>Stay informed on the latest in renewable energy, sustainable engineering, and green innovation.</p>
-                    </div>
-                    <div class="category-card">
-                        <h3>Personal Learnings</h3>
-                        <p>Discover tips, tricks, and lessons learned from a personal journey in the world of engineering.</p>
-                    </div>
+            <div class="hero-overlay"></div>
+            <div class="container hero-content">
+                <h1>Innovating the Future of <span class="text-gradient">Electronics</span></h1>
+                <p>Welcome to the ultimate hub for electrical enthusiasts. Explore cutting-edge articles, hands-on
+                    Arduino projects, and the latest in sustainable technology.</p>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a href="#articles" class="btn btn-primary">Explore Articles</a>
+                    <a href="#newsletter" class="btn btn-outline">Subscribe</a>
                 </div>
             </div>
         </section>
 
-        <hr>
+        <!-- Stats/Info Bar -->
+        <div class="stats-bar">
+            <div class="container stats-grid">
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Articles</p>
+                </div>
+                <div class="stat-item">
+                    <h3>50k+</h3>
+                    <p>Engineers</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100+</h3>
+                    <p>DIY Projects</p>
+                </div>
+                <div class="stat-item">
+                    <h3>24/7</h3>
+                    <p>Innovation</p>
+                </div>
+            </div>
+        </div>
 
-        <!-- Latest Blogs Section -->
-        <section class="latest-blogs-section">
+        <!-- Latest Articles -->
+        <section id="articles" class="section-padding">
             <div class="container">
-                <h2>Latest Blogs</h2>
-                <div class="blog-list">
-                    <article class="blog-post">
-                        <h3>10 Essential Tools for Your Electronics Workbench</h3>
-                        <p class="excerpt">A guide to the must-have tools every budding electronics engineer needs to get started with projects. We cover multimeters, soldering irons, and more.</p>
-                        <a href="#" class="read-more">Read More →</a>
+                <div class="featured-header">
+                    <h2>Latest Insights</h2>
+                    <p>Stay ahead of the curve with our curated selection of articles on electronics, AI, and green
+                        energy.</p>
+                </div>
+
+                <div class="blog-grid">
+                    <!-- Article 1 -->
+                    <article class="blog-card">
+                        <div class="blog-card-img">
+                            <span class="category-tag">Robotics</span>
+                            <img src="assets/images/arduino.png" alt="Arduino Project">
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span>Dec 06, 2025</span>
+                                <span>5 min read</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blogs/arduino-guide.html">Mastering Arduino: A Beginner's
+                                    Guide</a></h3>
+                            <p class="blog-excerpt">Start your journey into embedded systems with this comprehensive
+                                guide to setting up your first Arduino project.</p>
+                            <a href="blogs/arduino-guide.html" class="read-more-link">Read Article <svg width="18"
+                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg></a>
+                        </div>
                     </article>
-                    <article class="blog-post">
-                        <h3>Building a Solar-Powered Smart Planter</h3>
-                        <p class="excerpt">Step-by-step instructions on creating a self-watering planter that runs on clean, renewable energy. Perfect for a weekend project!</p>
-                        <a href="#" class="read-more">Read More →</a>
+
+                    <!-- Article 2 -->
+                    <article class="blog-card">
+                        <div class="blog-card-img">
+                            <span class="category-tag" style="background: var(--secondary-color); color: #fff;">Green
+                                Tech</span>
+                            <img src="assets/images/ev-charging.png" alt="EV Charging">
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span>Dec 05, 2025</span>
+                                <span>8 min read</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blogs/ev-charging.html">The EV Revolution: Charging
+                                    Infrastructure</a></h3>
+                            <p class="blog-excerpt">An in-depth look at how fast-charging networks are evolving to meet
+                                the demands of tomorrow's electric vehicles.</p>
+                            <a href="blogs/ev-charging.html" class="read-more-link">Read Article <svg width="18"
+                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg></a>
+                        </div>
                     </article>
-                    <article class="blog-post">
-                        <h3>Understanding Transistor Amplifiers in Under 5 Minutes</h3>
-                        <p class="excerpt">Learn the core principles of how transistors can be used to amplify signals in a simple, easy-to-understand way.</p>
-                        <a href="#" class="read-more">Read More →</a>
+
+                    <!-- Article 3 -->
+                    <article class="blog-card">
+                        <div class="blog-card-img">
+                            <span class="category-tag" style="background: var(--accent-color); color: #fff;">IoT</span>
+                            <img src="assets/images/smart-home.png" alt="Smart Home">
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span>Dec 04, 2025</span>
+                                <span>6 min read</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blogs/smart-home.html">Building a Smart Home Ecosystem</a>
+                            </h3>
+                            <p class="blog-excerpt">How to integrate disparate IoT devices into a seamless, automated
+                                home environment using open standards.</p>
+                            <a href="blogs/smart-home.html" class="read-more-link">Read Article <svg width="18"
+                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg></a>
+                        </div>
+                    </article>
+
+                    <!-- Article 4 -->
+                    <article class="blog-card">
+                        <div class="blog-card-img">
+                            <span class="category-tag">UAVs</span>
+                            <img src="assets/images/drone.png" alt="Drone Tech">
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span>Dec 03, 2025</span>
+                                <span>7 min read</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blogs/ai-drones.html">Next-Gen Drones: AI in Flight</a></h3>
+                            <p class="blog-excerpt">Exploring how artificial intelligence is enabling drones to navigate
+                                complex environments autonomously.</p>
+                            <a href="blogs/ai-drones.html" class="read-more-link">Read Article <svg width="18"
+                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg></a>
+                        </div>
+                    </article>
+
+                    <!-- Article 5 -->
+                    <article class="blog-card">
+                        <div class="blog-card-img">
+                            <span class="category-tag" style="background: #ffcc00; color: #000;">Hardware</span>
+                            <img src="assets/images/microchip.png" alt="Microchips">
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span>Dec 02, 2025</span>
+                                <span>10 min read</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blogs/semiconductors.html">Semiconductors Explained</a></h3>
+                            <p class="blog-excerpt">The brains behind the operation. We break down how microchips work
+                                and the physics behind the silicon.</p>
+                            <a href="blogs/semiconductors.html" class="read-more-link">Read Article <svg width="18"
+                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg></a>
+                        </div>
+                    </article>
+
+                    <!-- Article 6 -->
+                    <article class="blog-card">
+                        <div class="blog-card-img">
+                            <!-- Using a gradient placeholder if needed, or reusing an image for variety -->
+                            <div
+                                style="width:100%; height:100%; background: linear-gradient(45deg, #222, #444); display:flex; align-items:center; justify-content:center; color:#555;">
+                                <img src="assets/images/hero-bg.png" style="opacity:0.5" alt="Circuit">
+                            </div>
+                            <span class="category-tag">Careers</span>
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span>Dec 01, 2025</span>
+                                <span>4 min read</span>
+                            </div>
+                            <h3 class="blog-title"><a href="blogs/careers.html">Top 5 Career Paths in EEE</a></h3>
+                            <p class="blog-excerpt">Not sure where to take your degree? Here are the most lucrative and
+                                exciting career paths for electrical engineers.</p>
+                            <a href="blogs/careers.html" class="read-more-link">Read Article <svg width="18" height="18"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg></a>
+                        </div>
                     </article>
                 </div>
             </div>
         </section>
 
-        <hr>
-
-        <!-- Call to Action Section -->
-        <section class="cta-section">
-            <div class="container">
-                <h2>Ready to explore more?</h2>
-                <p>Browse our entire library of articles and find your next great read.</p>
-                <a href="#" class="cta-button secondary">View All Blogs</a>
+        <!-- Tech Highlight -->
+        <section class="container">
+            <div class="tech-highlight">
+                <div class="tech-overlay"></div>
+                <div class="tech-content">
+                    <h2>The Chip Shortage: A Deep Dive</h2>
+                    <p>Understanding the global supply chain crisis and how it affects everything from your car to your
+                        gaming console.</p>
+                    <br>
+                    <a href="blogs/semiconductors.html" class="btn btn-primary">Read Full Report</a>
+                </div>
             </div>
         </section>
+
+        <!-- Newsletter -->
+        <section id="newsletter" class="section-padding">
+            <div class="container">
+                <div class="newsletter">
+                    <h2>Join the Spark</h2>
+                    <p>Get the latest electrical news and project tutorials delivered straight to your inbox.</p>
+                    <form class="input-group">
+                        <input type="email" placeholder="Enter your email address">
+                        <button type="button" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-links">
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-            <a href="#">Privacy Policy</a>
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo" style="font-size: 1.5rem;">Electro<span>Tech</span>.</a>
+                    <p>Empowering the next generation of electrical engineers and tech innovators with high-quality
+                        content and resources.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="#">Embbeded Systems</a></li>
+                        <li><a href="#">Power Systems</a></li>
+                        <li><a href="#">Consumer Tech</a></li>
+                        <li><a href="#">Robotics</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ElectroTech Blog. All rights reserved.</p>
+            </div>
         </div>
-        <div class="social-media">
-            <a href="#" aria-label="LinkedIn">LinkedIn</a>
-            <a href="#" aria-label="GitHub">GitHub</a>
-            <a href="#" aria-label="Twitter">Twitter</a>
-        </div>
-        <p>&copy; 2025 Your EEE Blog. All rights reserved.</p>
     </footer>
 
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('.nav-links');
+            nav.classList.toggle('active');
+        }
+    </script>
 </body>
-</html>
 
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semiconductors Explained | ElectroTech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">Electro<span>Tech</span>.</a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="#">Electronics</a>
+                <a href="#">Trending Tech</a>
+                <a href="#">Projects</a>
+                <a href="#">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <article>
+            <div class="blog-post-header">
+                <div class="container">
+                    <div class="blog-post-meta">
+                        <span>Hardware & Engineering</span> &bull; <span>December 02, 2025</span>
+                    </div>
+                    <h1 class="blog-post-title">Semiconductors Explained: The Race to 2nm and Beyond</h1>
+                </div>
+            </div>
+
+            <div class="container">
+                <img src="../assets/images/microchip.png" alt="Microchip Macro Shot" class="blog-featured-image">
+
+                <div class="blog-content">
+                    <p>They are the brains of modern civilization. From the phone in your pocket to the car in your
+                        driveway, semiconductors are the invisible engine of the global economy. In 2025, the industry
+                        is pushing the boundaries of physics as we approach the "Angstrom Era."</p>
+
+                    <h2>The Current Landscape: 3nm is the New Normal</h2>
+                    <p>Leading foundries like TSMC and Samsung have stabilized mass production of 3nm chips. These
+                        processors power the latest generation of smartphones and data centers, offering a massive leap
+                        in performance-per-watt. But the hunger for AI computing power is driving demand faster than
+                        supply can keep up.</p>
+
+                    <h2>The Next Frontier: 2nm and GAAFETs</h2>
+                    <p>The industry is currently transitioning to the 2nm process node (N2), utilizing a new transistor
+                        architecture known as <strong>Gate-All-Around (GAA)</strong> FETs. Unlike the FinFETs of the
+                        past decade, GAA transistors stack nanosheets vertically, allowing for better control over
+                        current flow and reduced leakage. This is crucial for maintaining energy efficiency as we cram
+                        billions more transistors onto a single die.</p>
+
+                    <h2>Advanced Packaging: More Than Just Shrinking</h2>
+                    <p>With Moore's Law slowing down in terms of raw density, <strong>Advanced Packaging</strong> has
+                        become the new innovation vector. Technologies like "Chiplets" and 3D stacking allow engineers
+                        to mix and match different types of silicon (memory, logic, I/O) into a single package. This is
+                        the secret sauce behind the massive AI accelerators driving the current generative AI boom.</p>
+
+                    <h2>Strategic Sovereignty</h2>
+                    <p>The "Chip Shortage" of the early 2020s taught the world a hard lesson. Today, nations are racing
+                        to build domestic fabrication capacity. The US CHIPS Act and similar initiatives in Europe and
+                        Japan are beginning to bear fruit, with new "Mega-Fabs" coming online in 2025, aiming to
+                        rebalance the global supply chain and secure the future of computing.</p>
+                </div>
+            </div>
+        </article>
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="newsletter">
+                    <h2>Get Hardwired</h2>
+                    <p>Deep dives into hardware engineering, sent weekly.</p>
+                    <form class="input-group">
+                        <input type="email" placeholder="Enter your email address">
+                        <button type="button" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 ElectroTech Blog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('.nav-links');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
