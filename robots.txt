@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://blogs.rsmk.me/sitemap.xml
