@@ -42,18 +42,30 @@
             </div>
 
             <div class="container">
-                <img src="../assets/images/arduino_nano.png" alt="Arduino Nano Board" class="blog-featured-image">
+                <img src="../assets/images/arduino_nano.webp" alt="Arduino Nano Board" class="blog-featured-image">
 
                 <div class="blog-content">
                     <h2>Introduction: Why Mastering Fundamentals Matters in Modern Engineering</h2>
-                    <p>In an era dominated by high-level abstractions, cloud services, and ready-made solutions, the ability to understand and manipulate hardware at a fundamental level has become a rare and valuable skill. Modern engineers often face a critical gap: they can build sophisticated applications but struggle when confronted with timing constraints, voltage drops, or interrupt priority conflicts.</p>
+                    <p>In an era dominated by high-level abstractions, cloud services, and ready-made solutions, the
+                        ability to understand and manipulate hardware at a fundamental level has become a rare and
+                        valuable skill. Modern engineers often face a critical gap: they can build sophisticated
+                        applications but struggle when confronted with timing constraints, voltage drops, or interrupt
+                        priority conflicts.</p>
 
-                    <p>The Arduino Nano represents more than just a convenient development board—it's a complete engineering education compressed into 45mm × 18mm. While industry veterans might dismiss it as a "toy," this perspective misses a crucial truth: the constraints and challenges inherent in working with the Arduino Nano mirror exactly what engineers encounter in production systems. The difference lies not in the principles, but in the scale and consequences.</p>
+                    <p>The Arduino Nano represents more than just a convenient development board—it's a complete
+                        engineering education compressed into 45mm × 18mm. While industry veterans might dismiss it as a
+                        "toy," this perspective misses a crucial truth: the constraints and challenges inherent in
+                        working with the Arduino Nano mirror exactly what engineers encounter in production systems. The
+                        difference lies not in the principles, but in the scale and consequences.</p>
 
-                    <p>This article examines why the Arduino Nano serves as an ideal foundation for building genuine engineering competence, and how the skills developed through working with this platform translate directly to professional embedded systems development.</p>
+                    <p>This article examines why the Arduino Nano serves as an ideal foundation for building genuine
+                        engineering competence, and how the skills developed through working with this platform
+                        translate directly to professional embedded systems development.</p>
 
                     <h2>What Is Arduino Nano? Architecture and Capabilities</h2>
-                    <p>The Arduino Nano is a compact, breadboard-friendly microcontroller board based on the ATmega328P (Arduino Nano 3.x). Despite its diminutive size, it packs the essential components necessary for embedded systems development:</p>
+                    <p>The Arduino Nano is a compact, breadboard-friendly microcontroller board based on the ATmega328P
+                        (Arduino Nano 3.x). Despite its diminutive size, it packs the essential components necessary for
+                        embedded systems development:</p>
 
                     <ul>
                         <li><strong>Microcontroller:</strong> ATmega328P running at 16 MHz</li>
@@ -67,103 +79,218 @@
                         <li><strong>DC Current per I/O Pin:</strong> 40 mA (absolute maximum)</li>
                     </ul>
 
-                    <p>The ATmega328P is an 8-bit AVR microcontroller featuring a Harvard architecture with separate program and data memory spaces. It employs a RISC (Reduced Instruction Set Computer) architecture, executing most instructions in a single clock cycle. This predictable execution model makes it an excellent platform for understanding timing-critical operations and real-time constraints.</p>
+                    <p>The ATmega328P is an 8-bit AVR microcontroller featuring a Harvard architecture with separate
+                        program and data memory spaces. It employs a RISC (Reduced Instruction Set Computer)
+                        architecture, executing most instructions in a single clock cycle. This predictable execution
+                        model makes it an excellent platform for understanding timing-critical operations and real-time
+                        constraints.</p>
 
-                    <p>The board's compact form factor—roughly one-third the size of an Arduino Uno—makes it ideal for permanent installations and space-constrained applications. The standard 0.1" pin spacing allows direct insertion into breadboards, eliminating the need for custom mounting solutions during prototyping.</p>
+                    <p>The board's compact form factor—roughly one-third the size of an Arduino Uno—makes it ideal for
+                        permanent installations and space-constrained applications. The standard 0.1" pin spacing allows
+                        direct insertion into breadboards, eliminating the need for custom mounting solutions during
+                        prototyping.</p>
 
                     <h2>Why Arduino Nano Is the Perfect Learning Platform</h2>
-                    <p>The Arduino Nano's greatest strength as an educational tool lies in its constraints. With only 2 KB of RAM and 30 KB of usable flash memory, inefficient code fails spectacularly and immediately. This forces developers to confront resource management, memory allocation, and code optimization—skills that remain critical even when working with more capable platforms.</p>
+                    <p>The Arduino Nano's greatest strength as an educational tool lies in its constraints. With only 2
+                        KB of RAM and 30 KB of usable flash memory, inefficient code fails spectacularly and
+                        immediately. This forces developers to confront resource management, memory allocation, and code
+                        optimization—skills that remain critical even when working with more capable platforms.</p>
 
-                    <p><strong>Complete Development Cycle Exposure:</strong> Unlike simulation environments or high-level frameworks, working with Arduino Nano exposes engineers to the entire development lifecycle: circuit design, component selection, code development, debugging, power budgeting, and thermal management. Each project requires consideration of electrical characteristics, timing constraints, and failure modes.</p>
+                    <p><strong>Complete Development Cycle Exposure:</strong> Unlike simulation environments or
+                        high-level frameworks, working with Arduino Nano exposes engineers to the entire development
+                        lifecycle: circuit design, component selection, code development, debugging, power budgeting,
+                        and thermal management. Each project requires consideration of electrical characteristics,
+                        timing constraints, and failure modes.</p>
 
-                    <p>The platform operates at a level where cause and effect remain traceable. When an LED doesn't light, you can verify voltage with a multimeter. When timing seems off, you can observe it with an oscilloscope. When current consumption exceeds expectations, you can measure it directly. This immediate feedback loop builds intuition that proves invaluable when debugging complex systems.</p>
+                    <p>The platform operates at a level where cause and effect remain traceable. When an LED doesn't
+                        light, you can verify voltage with a multimeter. When timing seems off, you can observe it with
+                        an oscilloscope. When current consumption exceeds expectations, you can measure it directly.
+                        This immediate feedback loop builds intuition that proves invaluable when debugging complex
+                        systems.</p>
 
                     <h2>Core Engineering Concepts Learned with Arduino Nano</h2>
 
                     <h3>Embedded C/C++ Programming</h3>
-                    <p>The Arduino framework, despite its simplified API, compiles to standard AVR-GCC C/C++. Writing efficient code for the Arduino Nano requires understanding pointers, memory management, volatile variables, and bit manipulation. The 2 KB RAM constraint means every array allocation, every string operation, and every recursive function call must be justified and optimized.</p>
+                    <p>The Arduino framework, despite its simplified API, compiles to standard AVR-GCC C/C++. Writing
+                        efficient code for the Arduino Nano requires understanding pointers, memory management, volatile
+                        variables, and bit manipulation. The 2 KB RAM constraint means every array allocation, every
+                        string operation, and every recursive function call must be justified and optimized.</p>
 
-                    <p>Consider a temperature logging application. Storing readings as floating-point values (4 bytes each) versus scaled integers (2 bytes each) directly impacts how many readings can be buffered. These decisions, trivial on a modern PC, become critical design choices that affect system capability.</p>
+                    <p>Consider a temperature logging application. Storing readings as floating-point values (4 bytes
+                        each) versus scaled integers (2 bytes each) directly impacts how many readings can be buffered.
+                        These decisions, trivial on a modern PC, become critical design choices that affect system
+                        capability.</p>
 
                     <h3>Digital and Analog I/O</h3>
-                    <p>The Arduino Nano provides direct access to GPIO (General Purpose Input/Output) pins, requiring engineers to understand electrical characteristics: maximum current per pin (40 mA absolute maximum, 20 mA recommended), input impedance, pull-up resistor values (20-50 kΩ internal), and signal integrity considerations.</p>
+                    <p>The Arduino Nano provides direct access to GPIO (General Purpose Input/Output) pins, requiring
+                        engineers to understand electrical characteristics: maximum current per pin (40 mA absolute
+                        maximum, 20 mA recommended), input impedance, pull-up resistor values (20-50 kΩ internal), and
+                        signal integrity considerations.</p>
 
-                    <p>The 10-bit ADC (Analog-to-Digital Converter) introduces concepts of resolution, reference voltage selection, sampling rate, and conversion time. Engineers learn that reading analog values isn't instantaneous—the ADC requires approximately 100 microseconds per conversion—and that reference voltage selection (AREF, AVCC, or internal 1.1V) affects both range and accuracy.</p>
+                    <p>The 10-bit ADC (Analog-to-Digital Converter) introduces concepts of resolution, reference voltage
+                        selection, sampling rate, and conversion time. Engineers learn that reading analog values isn't
+                        instantaneous—the ADC requires approximately 100 microseconds per conversion—and that reference
+                        voltage selection (AREF, AVCC, or internal 1.1V) affects both range and accuracy.</p>
 
                     <h3>Timers, PWM, and Interrupts</h3>
-                    <p>The ATmega328P includes three hardware timers (Timer0, Timer1, Timer2), which the Arduino core uses for millis(), delay(), and PWM generation. Understanding timer operation, prescaler values, and overflow rates becomes essential for applications requiring precise timing or custom PWM frequencies.</p>
+                    <p>The ATmega328P includes three hardware timers (Timer0, Timer1, Timer2), which the Arduino core
+                        uses for millis(), delay(), and PWM generation. Understanding timer operation, prescaler values,
+                        and overflow rates becomes essential for applications requiring precise timing or custom PWM
+                        frequencies.</p>
 
-                    <p>Implementing motor control with specific PWM frequencies (often 25 kHz to avoid audible whine) requires direct timer register manipulation. This pushes engineers beyond the Arduino abstraction layer into the microcontroller's datasheet, learning to interpret timing diagrams and calculate prescaler values.</p>
+                    <p>Implementing motor control with specific PWM frequencies (often 25 kHz to avoid audible whine)
+                        requires direct timer register manipulation. This pushes engineers beyond the Arduino
+                        abstraction layer into the microcontroller's datasheet, learning to interpret timing diagrams
+                        and calculate prescaler values.</p>
 
-                    <p>Interrupt handling introduces critical concepts: interrupt service routine (ISR) constraints, volatile variable usage, interrupt priority, and reentrancy issues. A poorly written ISR that executes too long or modifies shared data without proper protection creates intermittent bugs that challenge debugging skills.</p>
+                    <p>Interrupt handling introduces critical concepts: interrupt service routine (ISR) constraints,
+                        volatile variable usage, interrupt priority, and reentrancy issues. A poorly written ISR that
+                        executes too long or modifies shared data without proper protection creates intermittent bugs
+                        that challenge debugging skills.</p>
 
                     <h3>Serial Communication Protocols</h3>
-                    <p>The Arduino Nano supports multiple communication protocols: UART (hardware serial), I2C (TWI), and SPI. Each protocol presents different tradeoffs in speed, wire count, complexity, and power consumption.</p>
+                    <p>The Arduino Nano supports multiple communication protocols: UART (hardware serial), I2C (TWI),
+                        and SPI. Each protocol presents different tradeoffs in speed, wire count, complexity, and power
+                        consumption.</p>
 
-                    <p>Implementing I2C communication with multiple sensors teaches address management, clock stretching, bus arbitration, and pull-up resistor calculation. SPI implementations expose concepts of clock polarity, data sampling edge, and full-duplex communication. These protocols form the foundation of embedded systems communication, appearing in everything from sensor networks to industrial control systems.</p>
+                    <p>Implementing I2C communication with multiple sensors teaches address management, clock
+                        stretching, bus arbitration, and pull-up resistor calculation. SPI implementations expose
+                        concepts of clock polarity, data sampling edge, and full-duplex communication. These protocols
+                        form the foundation of embedded systems communication, appearing in everything from sensor
+                        networks to industrial control systems.</p>
 
                     <h3>Power Management and Electrical Limits</h3>
-                    <p>The Arduino Nano operates within strict electrical limits: 5V logic levels, 40 mA maximum per pin, 200 mA total for all pins combined. Exceeding these limits results in immediate, observable failures—LEDs that dim collectively, brownout resets, or permanent damage.</p>
+                    <p>The Arduino Nano operates within strict electrical limits: 5V logic levels, 40 mA maximum per
+                        pin, 200 mA total for all pins combined. Exceeding these limits results in immediate, observable
+                        failures—LEDs that dim collectively, brownout resets, or permanent damage.</p>
 
-                    <p>This teaches power budgeting: calculating total current draw, implementing proper current limiting for LEDs, using transistors or MOSFETs for high-current loads, and understanding voltage drop across components. Battery-powered projects introduce sleep modes, power-down strategies, and energy optimization—skills directly applicable to IoT and remote sensing applications.</p>
+                    <p>This teaches power budgeting: calculating total current draw, implementing proper current
+                        limiting for LEDs, using transistors or MOSFETs for high-current loads, and understanding
+                        voltage drop across components. Battery-powered projects introduce sleep modes, power-down
+                        strategies, and energy optimization—skills directly applicable to IoT and remote sensing
+                        applications.</p>
 
                     <h3>Debugging Real Hardware Faults</h3>
-                    <p>Software debugging tools like print statements and debuggers remain available, but hardware debugging introduces new dimensions: incorrect wiring, floating inputs, contact resistance, electromagnetic interference, and component tolerance variations.</p>
+                    <p>Software debugging tools like print statements and debuggers remain available, but hardware
+                        debugging introduces new dimensions: incorrect wiring, floating inputs, contact resistance,
+                        electromagnetic interference, and component tolerance variations.</p>
 
-                    <p>Intermittent failures teach methodical troubleshooting: isolating subsystems, verifying power supply stability, checking ground connections, and using test equipment effectively. The distinction between "works on my desk" and "fails in the field" becomes painfully clear, introducing concepts of environmental factors, stress testing, and reliability engineering.</p>
+                    <p>Intermittent failures teach methodical troubleshooting: isolating subsystems, verifying power
+                        supply stability, checking ground connections, and using test equipment effectively. The
+                        distinction between "works on my desk" and "fails in the field" becomes painfully clear,
+                        introducing concepts of environmental factors, stress testing, and reliability engineering.</p>
 
                     <h2>Real Projects Built Using Arduino Nano</h2>
 
                     <h3>Motor Control Systems</h3>
-                    <p>Implementing DC motor control with H-bridge drivers (L298N, L293D) or brushless ESCs teaches PWM signal generation, direction control, and feedback integration. Adding encoders for closed-loop control introduces PID algorithms, sampling rates, and control system stability.</p>
+                    <p>Implementing DC motor control with H-bridge drivers (L298N, L293D) or brushless ESCs teaches PWM
+                        signal generation, direction control, and feedback integration. Adding encoders for closed-loop
+                        control introduces PID algorithms, sampling rates, and control system stability.</p>
 
-                    <p>Servo motor control demonstrates precise timing requirements—PWM pulses of 1-2 ms width at 50 Hz—and the challenges of controlling multiple servos simultaneously within timer constraints. Stepper motor control exposes microstepping concepts, acceleration profiles, and the difference between position and velocity control.</p>
+                    <p>Servo motor control demonstrates precise timing requirements—PWM pulses of 1-2 ms width at 50
+                        Hz—and the challenges of controlling multiple servos simultaneously within timer constraints.
+                        Stepper motor control exposes microstepping concepts, acceleration profiles, and the difference
+                        between position and velocity control.</p>
 
                     <h3>Sensor-Based Automation</h3>
-                    <p>Building environmental monitoring systems with temperature (DHT22, DS18B20), humidity, pressure (BMP280), and light sensors creates multi-sensor data acquisition systems. Engineers learn sensor calibration, noise filtering, moving average algorithms, and data validation techniques.</p>
+                    <p>Building environmental monitoring systems with temperature (DHT22, DS18B20), humidity, pressure
+                        (BMP280), and light sensors creates multi-sensor data acquisition systems. Engineers learn
+                        sensor calibration, noise filtering, moving average algorithms, and data validation techniques.
+                    </p>
 
-                    <p>Ultrasonic distance sensors (HC-SR04) require precise timing measurement (microseconds) and demonstrate the importance of proper trigger pulse generation. PIR motion sensors introduce debouncing concepts and state machine implementation for reliable detection.</p>
+                    <p>Ultrasonic distance sensors (HC-SR04) require precise timing measurement (microseconds) and
+                        demonstrate the importance of proper trigger pulse generation. PIR motion sensors introduce
+                        debouncing concepts and state machine implementation for reliable detection.</p>
 
                     <h3>Data Acquisition Systems</h3>
-                    <p>Logging sensor data to SD cards introduces file system concepts, SPI communication at high speeds, buffering strategies, and error handling for storage failures. Time-stamping requires RTC (Real-Time Clock) integration via I2C, teaching crystal accuracy, backup power requirements, and calendar algorithms.</p>
+                    <p>Logging sensor data to SD cards introduces file system concepts, SPI communication at high
+                        speeds, buffering strategies, and error handling for storage failures. Time-stamping requires
+                        RTC (Real-Time Clock) integration via I2C, teaching crystal accuracy, backup power requirements,
+                        and calendar algorithms.</p>
 
-                    <p>Wireless data transmission using nRF24L01+ or HC-05 Bluetooth modules demonstrates protocol stack complexity, packet formation, error detection, and the challenges of reliable wireless communication in electrically noisy environments.</p>
+                    <p>Wireless data transmission using nRF24L01+ or HC-05 Bluetooth modules demonstrates protocol stack
+                        complexity, packet formation, error detection, and the challenges of reliable wireless
+                        communication in electrically noisy environments.</p>
 
                     <h2>Lessons Textbooks Don't Teach</h2>
-                    <p>Academic courses provide theoretical foundations, but practical engineering involves constraints and tradeoffs rarely discussed in textbooks. Working with Arduino Nano exposes these realities:</p>
+                    <p>Academic courses provide theoretical foundations, but practical engineering involves constraints
+                        and tradeoffs rarely discussed in textbooks. Working with Arduino Nano exposes these realities:
+                    </p>
 
-                    <p><strong>Constraint-Driven Design:</strong> Limited memory forces algorithmic efficiency. A naive string concatenation that works fine on a PC exhausts RAM on Arduino Nano, requiring redesign using fixed buffers or streaming approaches. This teaches that hardware constraints directly shape software architecture.</p>
+                    <p><strong>Constraint-Driven Design:</strong> Limited memory forces algorithmic efficiency. A naive
+                        string concatenation that works fine on a PC exhausts RAM on Arduino Nano, requiring redesign
+                        using fixed buffers or streaming approaches. This teaches that hardware constraints directly
+                        shape software architecture.</p>
 
-                    <p><strong>Reliability Engineering:</strong> A prototype that works perfectly on a breadboard fails in a vibrating enclosure or at temperature extremes. This introduces practical concepts: connector reliability, thermal management, mechanical stress, and the difference between "works" and "works reliably."</p>
+                    <p><strong>Reliability Engineering:</strong> A prototype that works perfectly on a breadboard fails
+                        in a vibrating enclosure or at temperature extremes. This introduces practical concepts:
+                        connector reliability, thermal management, mechanical stress, and the difference between "works"
+                        and "works reliably."</p>
 
-                    <p><strong>System Behavior Under Failure:</strong> What happens when a sensor fails? Does the system hang, crash, or degrade gracefully? Implementing watchdog timers, brownout detection, and error recovery strategies teaches defensive programming and fault-tolerant design.</p>
+                    <p><strong>System Behavior Under Failure:</strong> What happens when a sensor fails? Does the system
+                        hang, crash, or degrade gracefully? Implementing watchdog timers, brownout detection, and error
+                        recovery strategies teaches defensive programming and fault-tolerant design.</p>
 
-                    <p><strong>Performance vs. Power Tradeoffs:</strong> Running at 16 MHz provides faster execution but higher power consumption. Learning to use sleep modes, reduce sampling rates, and optimize code paths demonstrates the constant tension between capability and efficiency that defines embedded systems.</p>
+                    <p><strong>Performance vs. Power Tradeoffs:</strong> Running at 16 MHz provides faster execution but
+                        higher power consumption. Learning to use sleep modes, reduce sampling rates, and optimize code
+                        paths demonstrates the constant tension between capability and efficiency that defines embedded
+                        systems.</p>
 
                     <h2>Scaling Beyond Arduino Nano: Career Progression</h2>
-                    <p>The skills developed with Arduino Nano transfer directly to professional development platforms. The transition to ESP32 introduces Wi-Fi/Bluetooth connectivity, dual-core processing, and more resources, but the fundamental concepts—GPIO control, interrupt handling, power management—remain identical.</p>
+                    <p>The skills developed with Arduino Nano transfer directly to professional development platforms.
+                        The transition to ESP32 introduces Wi-Fi/Bluetooth connectivity, dual-core processing, and more
+                        resources, but the fundamental concepts—GPIO control, interrupt handling, power
+                        management—remain identical.</p>
 
-                    <p>Moving to STM32 platforms exposes ARM Cortex-M architecture, DMA (Direct Memory Access), advanced timers, and industrial-grade peripherals. However, engineers who mastered timing constraints, memory management, and debugging on Arduino Nano adapt quickly. The principles scale; only the complexity and capabilities increase.</p>
+                    <p>Moving to STM32 platforms exposes ARM Cortex-M architecture, DMA (Direct Memory Access), advanced
+                        timers, and industrial-grade peripherals. However, engineers who mastered timing constraints,
+                        memory management, and debugging on Arduino Nano adapt quickly. The principles scale; only the
+                        complexity and capabilities increase.</p>
 
-                    <p>Professional embedded systems—automotive ECUs, medical devices, industrial controllers—employ the same concepts: interrupt priorities, communication protocols, power budgets, and reliability requirements. The Arduino Nano provides a safe, affordable environment to build these skills before the stakes involve human safety or million-dollar production runs.</p>
+                    <p>Professional embedded systems—automotive ECUs, medical devices, industrial controllers—employ the
+                        same concepts: interrupt priorities, communication protocols, power budgets, and reliability
+                        requirements. The Arduino Nano provides a safe, affordable environment to build these skills
+                        before the stakes involve human safety or million-dollar production runs.</p>
 
                     <h2>Career Impact: How Arduino Nano Builds Real Engineers</h2>
-                    <p>Employers seek engineers who can navigate ambiguity, debug complex interactions between hardware and software, and design within constraints. These skills cannot be learned solely through simulation or high-level programming.</p>
+                    <p>Employers seek engineers who can navigate ambiguity, debug complex interactions between hardware
+                        and software, and design within constraints. These skills cannot be learned solely through
+                        simulation or high-level programming.</p>
 
-                    <p>An engineer who has debugged intermittent I2C failures on Arduino Nano, optimized code to fit in 2 KB RAM, and implemented reliable power management brings immediately applicable skills. They understand that "it compiles" doesn't mean "it works," and "it works once" doesn't mean "it's ready for production."</p>
+                    <p>An engineer who has debugged intermittent I2C failures on Arduino Nano, optimized code to fit in
+                        2 KB RAM, and implemented reliable power management brings immediately applicable skills. They
+                        understand that "it compiles" doesn't mean "it works," and "it works once" doesn't mean "it's
+                        ready for production."</p>
 
-                    <p>Portfolio projects built on Arduino Nano demonstrate practical capability. A documented motor control system with source code, schematics, and performance analysis proves more than theoretical knowledge—it demonstrates problem-solving ability, documentation skills, and attention to system-level concerns.</p>
+                    <p>Portfolio projects built on Arduino Nano demonstrate practical capability. A documented motor
+                        control system with source code, schematics, and performance analysis proves more than
+                        theoretical knowledge—it demonstrates problem-solving ability, documentation skills, and
+                        attention to system-level concerns.</p>
 
-                    <p>The debugging mindset developed through hardware/software integration work—methodical isolation, hypothesis testing, measurement validation—applies universally. Whether debugging embedded systems, server infrastructure, or distributed applications, the fundamental approach remains the same.</p>
+                    <p>The debugging mindset developed through hardware/software integration work—methodical isolation,
+                        hypothesis testing, measurement validation—applies universally. Whether debugging embedded
+                        systems, server infrastructure, or distributed applications, the fundamental approach remains
+                        the same.</p>
 
                     <h2>Conclusion: Why Every Serious Engineer Should Start Here</h2>
-                    <p>The Arduino Nano doesn't build engineers because it's easy—it builds engineers because it's constrained, immediate, and unforgiving. Every design decision has visible consequences. Every optimization yields measurable results. Every failure provides clear diagnostic information.</p>
+                    <p>The Arduino Nano doesn't build engineers because it's easy—it builds engineers because it's
+                        constrained, immediate, and unforgiving. Every design decision has visible consequences. Every
+                        optimization yields measurable results. Every failure provides clear diagnostic information.</p>
 
-                    <p>Starting with Arduino Nano provides a foundation that extends throughout an engineering career. The understanding of hardware limitations, timing constraints, power budgets, and system-level thinking developed through working with this platform creates engineers who can navigate the full stack—from transistor-level circuit behavior to application-level architecture.</p>
+                    <p>Starting with Arduino Nano provides a foundation that extends throughout an engineering career.
+                        The understanding of hardware limitations, timing constraints, power budgets, and system-level
+                        thinking developed through working with this platform creates engineers who can navigate the
+                        full stack—from transistor-level circuit behavior to application-level architecture.</p>
 
-                    <p>For engineering students and embedded developers seeking to build genuine capability rather than superficial familiarity, the Arduino Nano offers an ideal starting point. It's affordable, well-documented, broadly supported, and perfectly positioned at the intersection of accessibility and engineering rigor.</p>
+                    <p>For engineering students and embedded developers seeking to build genuine capability rather than
+                        superficial familiarity, the Arduino Nano offers an ideal starting point. It's affordable,
+                        well-documented, broadly supported, and perfectly positioned at the intersection of
+                        accessibility and engineering rigor.</p>
 
-                    <p>The engineers who can bridge hardware and software, who understand both the theoretical ideal and practical constraint, who can debug both logic errors and electrical faults—these are the engineers who build the systems that matter. And remarkably often, their journey began with a small board, 30 KB of flash memory, and the determination to make it work.</p>
+                    <p>The engineers who can bridge hardware and software, who understand both the theoretical ideal and
+                        practical constraint, who can debug both logic errors and electrical faults—these are the
+                        engineers who build the systems that matter. And remarkably often, their journey began with a
+                        small board, 30 KB of flash memory, and the determination to make it work.</p>
                 </div>
             </div>
         </article>
