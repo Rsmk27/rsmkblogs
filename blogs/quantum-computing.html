@@ -1,16 +1,17 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Computing: The Next Frontier | RSMK Blogs</title>
+    <title>Quantum Computing: The Next Frontier | RSMK</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;500;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;700;800&display=swap"
         rel="stylesheet">
-    <link rel="icon" type="image/png" href="../assets/images/favicon.webp">
+    <link rel="icon" type="image/png" href="../assets/images/logo.png">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
@@ -18,11 +19,16 @@
 
     <header>
         <div class="container">
-            <a href="../index.html" class="logo">RSMK<span>Blogs</span>.</a>
-            <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
-                        <nav class="nav-links">
+            <a href="../index.html" class="logo"><img src="../assets/images/logo.png" alt="RSMK Logo"
+                    class="nav-logo">RSMK<span>.</span></a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">?</div>
+            <nav class="nav-links">
                 <a href="../index.html">Home</a>
-                <a href="../index.html#articles">Articles</a>
+                <a href="../blogs.html" class="active">Blogs</a>
+                <a href="../about.html">About</a>
+                <a href="../projects.html">Projects</a>
+                <a href="#contact">Contact</a>
+                <button class="theme-toggle-btn" id="theme-toggle">??</button>
             </nav>
         </div>
     </header>
@@ -32,7 +38,10 @@
             <div class="blog-post-header">
                 <div class="container">
                     <div class="blog-post-meta">
-                        <span>Future Tech</span> &bull; <span>December 08, 2025</span>
+                        <span class="category-tag"
+                            style="position: static; margin-right: 10px; background: #9c27b0; color: #fff;">Future
+                            Tech</span>
+                        <span>December 08, 2025</span> &bull; <span>8 min read</span>
                     </div>
                     <h1 class="blog-post-title">Quantum Computing: The Next Frontier</h1>
                 </div>
@@ -42,51 +51,163 @@
                 <img src="../assets/images/quantum-computing.webp" alt="Quantum Chip" class="blog-featured-image">
 
                 <div class="blog-content">
+                    <!-- Table of Contents -->
+                    <div class="table-of-contents" id="toc">
+                        <h3>Table of Contents</h3>
+                        <ul></ul>
+                    </div>
+
                     <p>Quantum computing is stepping out of the theoretical realm and into practical application. Unlike
                         classical computers that use bits (0s and 1s), quantum computers utilize qubits, which can exist
                         in multiple states simultaneously thanks to superposition. This fundamental difference allows
                         them to solve problems that are currently impossible for even the most powerful supercomputers.
                     </p>
 
-                    <h2>The Power of Qubits</h2>
+                    <h2 id="power-of-qubits">The Power of Qubits</h2>
                     <p>Classical bits are binary. Qubits, however, can represent a 0, a 1, or both at once. When
                         entangled, the state of one qubit is instantly correlated with another, no matter the distance.
                         This allows quantum computers to process massive amounts of data in parallel, offering
                         exponential jumps in processing power for specific types of algorithms.</p>
 
-                    <h2>Revolutionizing Cryptography</h2>
+                    <h2 id="revolutionizing-cryptography">Revolutionizing Cryptography</h2>
                     <p>One of the most immediate impacts of quantum computing will be in the field of cryptography.
                         Current encryption standards (like RSA) rely on the difficulty of factoring large prime
                         numbers—a task that would take classical computers millions of years. A quantum computer could
                         potentially crack these codes in minutes. This is driving the urgent race for "post-quantum
                         cryptography" to secure our digital infrastructure.</p>
 
-                    <h2>Drug Discovery and Materials Science</h2>
+                    <h2 id="drug-discovery">Drug Discovery and Materials Science</h2>
                     <p>Simulating molecular interactions is incredibly complex for classical machines. Quantum computers
                         are naturally suited for this, allowing scientists to model chemical reactions with
                         unprecedented accuracy. This could lead to the rapid discovery of new life-saving drugs, more
                         efficient solar panels, and room-temperature superconductors.</p>
 
-                    <h2>Optimization Problems</h2>
+                    <h2 id="optimization-problems">Optimization Problems</h2>
                     <p>From traffic flow management to financial portfolio optimization and supply chain logistics,
                         quantum algorithms can analyze billions of possibilities to find the optimal solution in a
                         fraction of the time it takes today.</p>
 
-                    <h2>The Road Ahead</h2>
+                    <h2 id="road-ahead">The Road Ahead</h2>
                     <p>While we are still in the "Noisy Intermediate-Scale Quantum" (NISQ) era—meaning current quantum
                         computers are prone to errors—rapid advancements in error correction and qubit stability are
                         bringing us closer to fault-tolerant quantum machines. The quantum revolution is not just
                         coming; it's already beginning.</p>
                 </div>
+
+                <!-- Share Buttons -->
+                <div class="container" style="max-width: 800px; margin: 0 auto;">
+                    <div class="share-buttons">
+                        <span class="share-label">Share this article:</span>
+                        <a href="#" class="share-btn">Twitter / X</a>
+                        <a href="#" class="share-btn">LinkedIn</a>
+                        <a href="#" class="share-btn">Facebook</a>
+                    </div>
+                </div>
+
+                <!-- Author Section -->
+                <div class="container" style="max-width: 800px; margin: 0 auto;">
+                    <div class="author-section">
+                        <!-- Use a generic avatar or placeholder if no specific image available -->
+                        <img src="../assets/images/hero-bg.webp" alt="RSMK" class="author-avatar"
+                            style="object-fit: cover;"> <!-- Using hero bg as placeholder effectively -->
+                        <div class="author-info">
+                            <h3>About the Author</h3>
+                            <p>RSMK is an Electrical & Electronics Engineer and tech innovator passionate about Smart
+                                Energy, Embedded Systems, and building technologies that shape the future.</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </article>
     </main>
 
-    <footer>
+    <!-- Related Posts -->
+    <section class="related-posts">
         <div class="container">
+            <h2>Related Articles</h2>
+            <div class="blog-grid">
+                <!-- Related 1 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <span class="category-tag"
+                            style="background: var(--accent-color); color: #fff;">Telecommunications</span>
+                        <img src="../assets/images/6g-network.webp" alt="6G Network" loading="lazy">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-meta">
+                            <span>Dec 09, 2025</span>
+                            <span>7 min read</span>
+                        </div>
+                        <h3 class="blog-title"><a href="5g-6g-tech.html">From 5G to 6G: What to Expect</a></h3>
+                        <a href="5g-6g-tech.html" class="read-more-link">Read Article <svg width="18" height="18"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg></a>
+                    </div>
+                </article>
+                <!-- Related 2 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <span class="category-tag" style="background: #ffcc00; color: #000;">Hardware</span>
+                        <img src="../assets/images/microchip.webp" alt="Semiconductors" loading="lazy">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-meta">
+                            <span>Dec 02, 2025</span>
+                            <span>10 min read</span>
+                        </div>
+                        <h3 class="blog-title"><a href="semiconductors.html">Semiconductors Explained</a></h3>
+                        <a href="semiconductors.html" class="read-more-link">Read Article <svg width="18" height="18"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg></a>
+                    </div>
+                </article>
+                <!-- Related 3 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <span class="category-tag" style="background: var(--secondary-color); color: #fff;">Green
+                            Tech</span>
+                        <img src="../assets/images/renewable-energy.webp" alt="Renewable Energy" loading="lazy">
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-meta">
+                            <span>Dec 07, 2025</span>
+                            <span>6 min read</span>
+                        </div>
+                        <h3 class="blog-title"><a href="renewable-energy.html">Renewable Energy Solutions</a></h3>
+                        <a href="renewable-energy.html" class="read-more-link">Read Article <svg width="18" height="18"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg></a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo" style="font-size: 1.5rem;">RSMK<span>.</span></a>
+                    <p>Building Future Technologies</p>
+                    <div class="footer-socials">
+                        <a href="#" class="footer-social-link">LinkedIn</a>
+                        <a href="#" class="footer-social-link">GitHub</a>
+                        <a href="#" class="footer-social-link">Email</a>
+                    </div>
+                </div>
+            </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 RSMK Blogs. All rights reserved. <a href="https://rsmk.me" target="_blank"
-                        class="glow-text">BY RSMK</a></p>
+                <p>&copy; 2026 RSMK. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -96,10 +217,46 @@
             const nav = document.querySelector('.nav-links');
             nav.classList.toggle('active');
         }
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme == 'light') { document.body.setAttribute('data-theme', 'light'); }
+
+        themeToggle.addEventListener('click', () => {
+            let theme = document.body.getAttribute('data-theme');
+            if (theme === 'light') {
+                document.body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Auto Generate Table of Contents
+        document.addEventListener('DOMContentLoaded', function () {
+            const tocList = document.querySelector('#toc ul');
+            const headers = document.querySelectorAll('.blog-content h2');
+
+            if (headers.length > 0) {
+                headers.forEach(header => {
+                    const id = header.id || header.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                    header.id = id;
+
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = '#' + id;
+                    a.textContent = header.textContent;
+
+                    li.appendChild(a);
+                    tocList.appendChild(li);
+                });
+            } else {
+                document.getElementById('toc').style.display = 'none';
+            }
+        });
     </script>
 </body>
 
 </html>
-
-
-
