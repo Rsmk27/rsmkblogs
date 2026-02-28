@@ -57,6 +57,8 @@
 
 <body>
 
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <header>
         <div class="container">
             <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="RSMK Logo"
@@ -78,7 +80,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content">
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-bg-graphic"></div>
@@ -95,7 +97,7 @@
         </section>
 
         <!-- About Preview -->
-        <section class="section-padding" style="background: var(--surface-color);">
+        <section class="section-padding reveal" style="background: var(--surface-color);">
             <div class="container">
                 <div style="max-width: 800px; margin: 0 auto; text-align: center;">
                     <h2
@@ -118,7 +120,7 @@
         </section>
 
         <!-- Make It Real / What I'm Building -->
-        <section class="section-padding">
+        <section class="section-padding reveal">
             <div class="container">
                 <div class="featured-header">
                     <h2>What I'm Building Now</h2>
@@ -187,7 +189,7 @@
         </section>
 
         <!-- Focus Areas -->
-        <section class="section-padding" style="background: var(--surface-color);">
+        <section class="section-padding reveal" style="background: var(--surface-color);">
             <div class="container">
                 <div class="featured-header">
                     <h2>Focus Areas</h2>
@@ -220,7 +222,7 @@
         </section>
 
         <!-- Featured Blogs (Subset of existing) -->
-        <section class="section-padding" id="featured-blogs">
+        <section class="section-padding reveal" id="featured-blogs">
             <div class="container">
                 <div class="featured-header">
                     <h2>Featured Insights</h2>
@@ -308,6 +310,13 @@
 
     </main>
 
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
     <footer id="contact">
         <div class="container">
             <div class="footer-grid">
@@ -315,7 +324,7 @@
                     <a href="index.html" class="logo" style="font-size: 1.5rem;">RSMK<span>.</span></a>
                     <p>Building Future Technologies</p>
                     <div class="footer-socials">
-                        <a href="https://rsmk.me" class="footer-social-link" title="Portfolio" target="_blank"><svg
+                        <a href="https://rsmk.me" class="footer-social-link" title="Portfolio" target="_blank" aria-label="Portfolio"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
@@ -326,7 +335,7 @@
                                 </path>
                             </svg></a>
                         <a href="https://www.linkedin.com/in/rsmk27/" class="footer-social-link" title="LinkedIn"
-                            target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            target="_blank" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path
@@ -336,7 +345,7 @@
                                 <circle cx="4" cy="4" r="2"></circle>
                             </svg></a>
                         <a href="https://github.com/Rsmk27" class="footer-social-link" title="GitHub"
-                            target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            target="_blank" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path
@@ -344,7 +353,7 @@
                                 </path>
                             </svg></a>
                         <a href="https://www.instagram.com/rsmk_27/" class="footer-social-link" title="Instagram"
-                            target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            target="_blank" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -352,18 +361,25 @@
                                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                             </svg></a>
                         <a href="https://x.com/SrinivasManik20" class="footer-social-link" title="X (Twitter)"
-                            target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            target="_blank" aria-label="X (Twitter)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 fill="currentColor" viewBox="0 0 16 16">
                                 <path
                                     d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z" />
                             </svg></a>
-                        <a href="https://t.me/RSMK_27" class="footer-social-link" title="Telegram" target="_blank"><svg
+                        <a href="https://t.me/RSMK_27" class="footer-social-link" title="Telegram" target="_blank" aria-label="Telegram"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
                                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                             </svg></a>
+                    </div>
+                    <div class="newsletter">
+                        <p style="margin-top: 25px; color: var(--text-main); font-weight: 600;">Subscribe to Newsletter</p>
+                        <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+                            <input type="email" placeholder="Enter your email" required aria-label="Email address">
+                            <button type="submit">Subscribe</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -388,12 +404,7 @@
         if (currentTheme == 'light') {
             document.body.setAttribute('data-theme', 'light');
         } else {
-            // Default to dark or system pref. Current CSS default is Dark (root).
-            // If we wanted light default, we'd toggle class.
-            // Since root is dark, we add data-theme="light" for light.
-            // If user prefers light and no storage, set light.
             if (!currentTheme && !prefersDarkScheme.matches) {
-                // But design implies Dark First. Let's stick to Dark Default unless specified.
             }
         }
 
@@ -402,12 +413,51 @@
             if (theme === 'light') {
                 document.body.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme', 'dark');
-                // Change Icon if needed, or simple rotation
             } else {
                 document.body.setAttribute('data-theme', 'light');
                 localStorage.setItem('theme', 'light');
             }
         });
+
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Reveal Animations on Scroll
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                const elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    el.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        // Newsletter Form Handler
+        function handleNewsletterSubmit(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            alert('Thank you for subscribing! We\'ll send updates to: ' + email);
+            event.target.reset();
+        }
     </script>
 </body>
 
