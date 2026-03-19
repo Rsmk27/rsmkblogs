@@ -9,6 +9,7 @@ const rootDir = path.resolve(__dirname, "..");
 const topicsFile = path.join(__dirname, "topics.json");
 const usedTopicsFile = path.join(__dirname, "used-topics.json");
 const blogsDir = path.join(rootDir, "blogs");
+const assetsImagesDir = path.join(rootDir, "assets", "images");
 const articleTemplateSourceFile = path.join(blogsDir, "arduino-uno.html");
 const blogIndexCandidates = [
   path.join(rootDir, "blogs.html"),
@@ -18,6 +19,9 @@ const blogIndexCandidates = [
 
 const anthropicEndpoint = "https://api.anthropic.com/v1/messages";
 const anthropicModel = "claude-sonnet-4-20250514";
+const groqEndpoint = "https://api.groq.com/openai/v1/chat/completions";
+const groqDefaultModel = "llama-3.3-70b-versatile";
+const siteBaseUrl = "https://blogs.rsmk.me";
 
 function formatLongDate(date = new Date()) {
   return new Intl.DateTimeFormat("en-US", {
@@ -228,7 +232,7 @@ Where:
 - META_DESCRIPTION = one sentence SEO description under 160 characters`;
 }
 
-function extractClaudeText(responseJson) {
+function extractAnthropicText(responseJson) {
   const blocks = responseJson?.content;
   if (!Array.isArray(blocks)) {
     throw new Error("Anthropic API response did not include content blocks.");
@@ -240,6 +244,42 @@ function extractClaudeText(responseJson) {
   }
 
   return textBlock.text.trim();
+}
+
+function extractGroqText(responseJson) {
+  const text = responseJson?.choices?.[0]?.message?.content;
+  if (!text || typeof text !== "string") {
+    throw new Error("Groq API response did not include message content.");
+  }
+  return text.trim();
+}
+
+function resolveAiProviderConfig() {
+  const aiProvider = (process.env.AI_PROVIDER || (process.env.GROQ_API_KEY ? "groq" : "anthropic")).toLowerCase();
+
+  if (aiProvider === "groq") {
+    if (!process.env.GROQ_API_KEY) {
+      throw new Error("Missing GROQ_API_KEY. Set it in environment variables or add it to .env.local.");
+    }
+
+    return {
+      provider: "groq",
+      model: process.env.GROQ_MODEL || groqDefaultModel
+    };
+  }
+
+  if (aiProvider === "anthropic") {
+    if (!process.env.ANTHROPIC_API_KEY) {
+      throw new Error("Missing ANTHROPIC_API_KEY. Set it in environment variables or add it to .env.local.");
+    }
+
+    return {
+      provider: "anthropic",
+      model: process.env.ANTHROPIC_MODEL || anthropicModel
+    };
+  }
+
+  throw new Error("Invalid AI_PROVIDER. Use 'groq' or 'anthropic'.");
 }
 
 function sanitizeHtmlOutput(text) {
@@ -270,6 +310,295 @@ function normalizeSlugUrls(html, slug) {
     .replace(/(rel="canonical"\s+href=")([^"]+)(")/i, `$1https://blogs.rsmk.me/blogs/${slug}.html$3`)
     .replace(/(property="og:url"\s+content=")([^"]+)(")/i, `$1https://blogs.rsmk.me/blogs/${slug}.html$3`)
     .replace(/(property="twitter:url"\s+content=")([^"]+)(")/i, `$1https://blogs.rsmk.me/blogs/${slug}.html$3`);
+}
+
+function contentTypeToExtension(contentType) {
+  const normalized = String(contentType || "").toLowerCase();
+  if (normalized.includes("image/jpeg") || normalized.includes("image/jpg")) {
+    return "jpg";
+  }
+  if (normalized.includes("image/png")) {
+    return "png";
+  }
+  if (normalized.includes("image/webp")) {
+    return "webp";
+  }
+  return "jpg";
+}
+
+function buildImageQuery(topic) {
+  const normalized = topic
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const words = normalized.split(" ").filter(Boolean).slice(0, 6);
+  return ["electronics", ...words].join(",");
+}
+
+function tokenizeForRelevance(text) {
+  const stopWords = new Set([
+    "the", "and", "for", "with", "from", "that", "this", "your", "into", "about", "using", "guide",
+    "how", "what", "why", "new", "best", "more", "less", "over", "under", "versus", "vs", "practical"
+  ]);
+
+  return new Set(
+    String(text || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, " ")
+      .split(/\s+/)
+      .map((token) => token.trim())
+      .filter((token) => token.length > 2 && !stopWords.has(token))
+  );
+}
+
+function scoreTopicRelevance(topic, candidateText) {
+  const topicTokens = tokenizeForRelevance(topic);
+  const candidateTokens = tokenizeForRelevance(candidateText);
+  if (!topicTokens.size || !candidateTokens.size) {
+    return 0;
+  }
+
+  let overlap = 0;
+  for (const token of topicTokens) {
+    if (candidateTokens.has(token)) {
+      overlap += 1;
+    }
+  }
+
+  return overlap / topicTokens.size;
+}
+
+async function findRelevantCommonsImage(topic) {
+  const commonsSearchUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrsearch=${encodeURIComponent(topic)}&gsrlimit=12&prop=pageimages|imageinfo|categories&pithumbsize=1600&iiprop=url|mime|extmetadata&cllimit=20`;
+  const commonsResponse = await fetch(commonsSearchUrl, {
+    headers: {
+      "User-Agent": "rsmkblogs-article-generator/1.0"
+    }
+  });
+
+  if (!commonsResponse.ok) {
+    throw new Error(`Wikimedia search failed (${commonsResponse.status})`);
+  }
+
+  const commonsJson = await commonsResponse.json();
+  const pages = Object.values(commonsJson?.query?.pages || {});
+  let bestCandidate = null;
+
+  for (const page of pages) {
+    const imageInfo = page?.imageinfo?.[0] || {};
+    const extMetadata = imageInfo?.extmetadata || {};
+    const title = page?.title || "";
+    const categories = (page?.categories || []).map((item) => item?.title || "").join(" ");
+    const description = `${extMetadata?.ImageDescription?.value || ""} ${extMetadata?.ObjectName?.value || ""}`;
+    const candidateText = `${title} ${categories} ${description}`;
+    const relevance = scoreTopicRelevance(topic, candidateText);
+    const url = page?.thumbnail?.source || imageInfo?.url;
+
+    if (!url || !/^https?:\/\//i.test(url)) {
+      continue;
+    }
+
+    if (!bestCandidate || relevance > bestCandidate.relevance) {
+      bestCandidate = {
+        url,
+        relevance
+      };
+    }
+  }
+
+  return bestCandidate;
+}
+
+async function findWikipediaTopicImage(topic) {
+  const title = topic
+    .replace(/[^a-zA-Z0-9\s-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\s/g, "_");
+
+  if (!title) {
+    return null;
+  }
+
+  const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+  const response = await fetch(summaryUrl, {
+    headers: {
+      "User-Agent": "rsmkblogs-article-generator/1.0"
+    }
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const json = await response.json();
+  const imageUrl = json?.originalimage?.source || json?.thumbnail?.source || null;
+  if (!imageUrl || !/^https?:\/\//i.test(imageUrl)) {
+    return null;
+  }
+
+  return imageUrl;
+}
+
+async function fetchAndSaveTopicImage(topic, slug) {
+  const candidateUrls = [];
+
+  try {
+    const commonsCandidate = await findRelevantCommonsImage(topic);
+    if (commonsCandidate) {
+      if (commonsCandidate.relevance >= 0.34) {
+        candidateUrls.push(commonsCandidate.url);
+        console.log(`Wikimedia image relevance score: ${commonsCandidate.relevance.toFixed(2)}`);
+      } else {
+        // Keep a low-score Wikimedia candidate as a fallback before synthetic generation.
+        candidateUrls.push(commonsCandidate.url);
+        console.log(`Wikimedia low relevance fallback score: ${commonsCandidate.relevance.toFixed(2)}`);
+      }
+    }
+  } catch {
+    // Ignore Wikimedia lookup failures and continue with prompt-based fallback.
+  }
+
+  try {
+    const wikipediaImage = await findWikipediaTopicImage(topic);
+    if (wikipediaImage) {
+      candidateUrls.push(wikipediaImage);
+    }
+  } catch {
+    // Ignore Wikipedia lookup failures.
+  }
+
+  // Prompt-based fallback using exact topic tokens.
+  candidateUrls.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(`${topic} electronics technology photo realistic`)}`);
+  candidateUrls.push(`https://source.unsplash.com/1600x900/?${encodeURIComponent(buildImageQuery(topic))}&sig=${Date.now()}`);
+
+  let lastError = "";
+  for (const imageUrl of candidateUrls) {
+    try {
+      const response = await fetch(imageUrl, {
+        headers: {
+          "User-Agent": "rsmkblogs-article-generator/1.0"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const contentType = response.headers.get("content-type") || "";
+      if (!contentType.toLowerCase().startsWith("image/")) {
+        throw new Error("Response was not an image");
+      }
+
+      const extension = contentTypeToExtension(contentType);
+      const fileName = `blog-${slug}.${extension}`;
+      const outputPath = path.join(assetsImagesDir, fileName);
+      const bytes = Buffer.from(await response.arrayBuffer());
+      await fs.writeFile(outputPath, bytes);
+
+      return {
+        siteRelativePath: `assets/images/${fileName}`,
+        articleRelativePath: `../assets/images/${fileName}`,
+        absoluteUrl: `${siteBaseUrl}/assets/images/${fileName}`
+      };
+    } catch (error) {
+      lastError = error.message || String(error);
+    }
+  }
+
+  throw new Error(`Image download failed from all sources (${lastError}).`);
+}
+
+function replaceIndexCardImage(indexHtml, slug, imagePath) {
+  const escapedSlug = slug.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const blockRegex = new RegExp(`(<!--\\s*Auto Article\\s*-\\s*${escapedSlug}\\s*-->[\\s\\S]*?<img\\s+src=")([^"]+)("[\\s\\S]*?<\\/article>)`, "i");
+  if (!blockRegex.test(indexHtml)) {
+    return {
+      updated: indexHtml,
+      changed: false
+    };
+  }
+
+  return {
+    updated: indexHtml.replace(blockRegex, `$1${imagePath}$3`),
+    changed: true
+  };
+}
+
+async function backfillImagesForGeneratedArticles() {
+  const usedTopics = await readJsonArray(usedTopicsFile, []);
+  if (!usedTopics.length) {
+    console.log("No used topics found. Nothing to backfill.");
+    return;
+  }
+
+  const indexFile = await findBlogIndexFile();
+  let indexHtml = await fs.readFile(indexFile, "utf8");
+  let indexChanged = false;
+  let updatedArticles = 0;
+
+  for (const topic of usedTopics) {
+    const slug = topicToSlug(topic);
+    try {
+      const articleFilePath = path.join(blogsDir, `${slug}.html`);
+      if (!(await exists(articleFilePath))) {
+        console.log(`Skipping ${slug}: article file not found.`);
+        continue;
+      }
+
+      const originalHtml = await fs.readFile(articleFilePath, "utf8");
+      const articleTitle = extractArticleTitle(originalHtml);
+      const imagePaths = await fetchAndSaveTopicImage(topic, slug);
+      const updatedArticleHtml = applyArticleImage(originalHtml, imagePaths, articleTitle);
+      await fs.writeFile(articleFilePath, `${updatedArticleHtml.trim()}\n`, "utf8");
+
+      const replacement = replaceIndexCardImage(indexHtml, slug, imagePaths.siteRelativePath);
+      if (replacement.changed) {
+        indexHtml = replacement.updated;
+        indexChanged = true;
+      }
+
+      updatedArticles += 1;
+      console.log(`Backfilled image for ${slug}: ${imagePaths.siteRelativePath}`);
+    } catch (error) {
+      console.log(`Backfill failed for ${slug}: ${error.message || error}`);
+    }
+  }
+
+  if (indexChanged) {
+    await fs.writeFile(indexFile, indexHtml, "utf8");
+    console.log(`Updated index card images in: ${path.relative(rootDir, indexFile).replace(/\\/g, "/")}`);
+  }
+
+  console.log(`Backfill complete. Updated ${updatedArticles} generated article(s).`);
+}
+
+function applyArticleImage(html, imagePaths, title) {
+  let updated = html;
+  const safeTitle = escapeHtml(title || "Blog featured image");
+
+  updated = updated.replace(
+    /<img\s+[^>]*class="blog-featured-image"[^>]*>/i,
+    `<img src="${imagePaths.articleRelativePath}" alt="${safeTitle}" class="blog-featured-image">`
+  );
+
+  updated = updated.replace(
+    /(<meta\s+property="og:image"\s+content=")([^"]+)("\s*\/?\s*>)/i,
+    `$1${imagePaths.absoluteUrl}$3`
+  );
+
+  updated = updated.replace(
+    /(<meta\s+property="twitter:image"\s+content=")([^"]+)("\s*\/?\s*>)/i,
+    `$1${imagePaths.absoluteUrl}$3`
+  );
+
+  updated = updated.replace(
+    /("image"\s*:\s*")([^"]+)(")/i,
+    `$1${imagePaths.absoluteUrl}$3`
+  );
+
+  return updated;
 }
 
 function extractReturnedSlug(html) {
@@ -380,7 +709,7 @@ async function findBlogIndexFile() {
   throw new Error("Could not find a blogs index file with id=\"blog-grid\".");
 }
 
-function buildNewIndexCard({ slug, title, excerpt, category, dateShort, readTime }) {
+function buildNewIndexCard({ slug, title, excerpt, category, dateShort, readTime, imagePath }) {
   const categoryStyle = category === "Green Energy"
     ? ' style="background: var(--secondary-color); color: #fff;"'
     : category === "IoT"
@@ -391,7 +720,7 @@ function buildNewIndexCard({ slug, title, excerpt, category, dateShort, readTime
                     <article class="blog-card" data-category="${escapeHtml(category)}">
                         <div class="blog-card-img">
                             <span class="category-tag"${categoryStyle}>${escapeHtml(category)}</span>
-                            <img src="assets/images/hero-bg.webp" alt="${escapeHtml(title)}" loading="lazy">
+                            <img src="${escapeHtml(imagePath)}" alt="${escapeHtml(title)}" loading="lazy">
                         </div>
                         <div class="blog-card-content">
                             <div class="blog-meta">
@@ -412,7 +741,7 @@ function buildNewIndexCard({ slug, title, excerpt, category, dateShort, readTime
 `;
 }
 
-async function updateBlogIndex({ slug, title, excerpt, category, dateShort, readTime }) {
+async function updateBlogIndex({ slug, title, excerpt, category, dateShort, readTime, imagePath }) {
   const indexFile = await findBlogIndexFile();
   const indexHtml = await fs.readFile(indexFile, "utf8");
 
@@ -429,44 +758,69 @@ async function updateBlogIndex({ slug, title, excerpt, category, dateShort, read
   }
 
   const insertionPoint = markerIndex + marker.length;
-  const cardHtml = `\n${buildNewIndexCard({ slug, title, excerpt, category, dateShort, readTime })}`;
+  const cardHtml = `\n${buildNewIndexCard({ slug, title, excerpt, category, dateShort, readTime, imagePath })}`;
   const updatedHtml = `${indexHtml.slice(0, insertionPoint)}${cardHtml}${indexHtml.slice(insertionPoint)}`;
 
   await fs.writeFile(indexFile, updatedHtml, "utf8");
   return indexFile;
 }
 
-async function generateArticleHtml(topic, todayFormatted) {
+async function generateArticleHtml(topic, todayFormatted, providerConfig) {
   const sourceHtml = await fs.readFile(articleTemplateSourceFile, "utf8");
   const articleTemplateHTML = buildArticleTemplate(sourceHtml);
   const prompt = await buildPrompt(topic, articleTemplateHTML, todayFormatted);
 
-  const response = await fetch(anthropicEndpoint, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": process.env.ANTHROPIC_API_KEY,
-      "anthropic-version": "2023-06-01"
-    },
-    body: JSON.stringify({
-      model: anthropicModel,
-      max_tokens: 2000,
-      messages: [
-        {
-          role: "user",
-          content: prompt
-        }
-      ]
-    })
-  });
+  let response;
+  if (providerConfig.provider === "groq") {
+    response = await fetch(groqEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.GROQ_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: providerConfig.model,
+        temperature: 0.7,
+        max_tokens: 2500,
+        messages: [
+          {
+            role: "user",
+            content: prompt
+          }
+        ]
+      })
+    });
+  } else {
+    response = await fetch(anthropicEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01"
+      },
+      body: JSON.stringify({
+        model: providerConfig.model,
+        max_tokens: 2000,
+        messages: [
+          {
+            role: "user",
+            content: prompt
+          }
+        ]
+      })
+    });
+  }
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Anthropic API call failed (${response.status}): ${errorText}`);
+    const label = providerConfig.provider === "groq" ? "Groq" : "Anthropic";
+    throw new Error(`${label} API call failed (${response.status}): ${errorText}`);
   }
 
   const responseJson = await response.json();
-  const rawText = extractClaudeText(responseJson);
+  const rawText = providerConfig.provider === "groq"
+    ? extractGroqText(responseJson)
+    : extractAnthropicText(responseJson);
   const html = sanitizeHtmlOutput(rawText);
 
   if (!html.toLowerCase().includes("<html")) {
@@ -478,11 +832,12 @@ async function generateArticleHtml(topic, todayFormatted) {
 
 async function main() {
   await loadEnvLocal();
-
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error("Missing ANTHROPIC_API_KEY. Set it in environment variables or add it to .env.local.");
-    process.exit(1);
+  if (process.argv.includes("--backfill-images")) {
+    await backfillImagesForGeneratedArticles();
+    return;
   }
+
+  const providerConfig = resolveAiProviderConfig();
 
   const todayLong = formatLongDate();
   const todayShort = formatShortDate();
@@ -497,8 +852,9 @@ async function main() {
 
   console.log(`Selected topic: ${topic}`);
   console.log(`Generated slug: ${slug}`);
+  console.log(`AI provider: ${providerConfig.provider} (${providerConfig.model})`);
 
-  let articleHtml = await generateArticleHtml(topic, todayLong);
+  let articleHtml = await generateArticleHtml(topic, todayLong, providerConfig);
   const returnedSlug = extractReturnedSlug(articleHtml);
   articleHtml = ensureMetaSlug(articleHtml, slug);
   articleHtml = normalizeSlugUrls(articleHtml, slug);
@@ -507,14 +863,27 @@ async function main() {
     console.log(`Model returned slug '${returnedSlug}', but script enforced '${slug}'.`);
   }
 
-  const articleFilePath = path.join(blogsDir, `${slug}.html`);
-  await fs.writeFile(articleFilePath, `${articleHtml.trim()}\n`, "utf8");
-
   const title = extractArticleTitle(articleHtml);
   const excerpt = extractMetaDescription(articleHtml);
   const primaryTag = extractPrimaryTag(articleHtml);
   const category = inferCategory(topic, primaryTag);
   const readTime = estimateReadMinutes(articleHtml);
+  let imagePaths = {
+    siteRelativePath: "assets/images/hero-bg.webp",
+    articleRelativePath: "../assets/images/hero-bg.webp",
+    absoluteUrl: `${siteBaseUrl}/assets/images/hero-bg.webp`
+  };
+
+  try {
+    imagePaths = await fetchAndSaveTopicImage(topic, slug);
+    articleHtml = applyArticleImage(articleHtml, imagePaths, title);
+    console.log(`Downloaded topic image: ${imagePaths.siteRelativePath}`);
+  } catch (error) {
+    console.log(`Image fetch skipped, using fallback image: ${error.message || error}`);
+  }
+
+  const articleFilePath = path.join(blogsDir, `${slug}.html`);
+  await fs.writeFile(articleFilePath, `${articleHtml.trim()}\n`, "utf8");
 
   const indexFile = await updateBlogIndex({
     slug,
@@ -522,7 +891,8 @@ async function main() {
     excerpt,
     category,
     dateShort: todayShort,
-    readTime
+    readTime,
+    imagePath: imagePaths.siteRelativePath
   });
 
   await writeJson(usedTopicsFile, [...usedTopics, topic]);
