@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Building a Home EV Charger Monitor with ESP32 and MQTT">
+    <meta name="article-slug" content="building-a-home-ev-charger-monitor-with-esp32-and-mqtt">
+    <meta name="keywords" content="IoT, ESP32, MQTT, EV Charger">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://blogs.rsmk.me/blogs/building-a-home-ev-charger-monitor-with-esp32-and-mqtt.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://blogs.rsmk.me/blogs/building-a-home-ev-charger-monitor-with-esp32-and-mqtt.html">
+    <meta property="og:title" content="Building a Home EV Charger Monitor with ESP32 and MQTT | RSMK Blogs">
+    <meta property="og:description" content="Building a Home EV Charger Monitor with ESP32 and MQTT">
+    <meta property="og:image" content="https://blogs.rsmk.me/assets/images/ev-charger-monitor.webp">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://blogs.rsmk.me/blogs/building-a-home-ev-charger-monitor-with-esp32-and-mqtt.html">
+    <meta property="twitter:title" content="Building a Home EV Charger Monitor with ESP32 and MQTT | RSMK Blogs">
+    <meta property="twitter:description" content="Building a Home EV Charger Monitor with ESP32 and MQTT">
+    <meta property="twitter:image" content="https://blogs.rsmk.me/assets/images/ev-charger-monitor.webp">
+
+    <title>Building a Home EV Charger Monitor with ESP32 and MQTT | RSMK Blogs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="../assets/images/logo.png">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Building a Home EV Charger Monitor with ESP32 and MQTT",
+      "image": "https://blogs.rsmk.me/assets/images/ev-charger-monitor.webp",
+      "author": {
+        "@type": "Person",
+        "name": "RSMK"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "RSMK Blogs",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://blogs.rsmk.me/assets/images/logo.png"
+        }
+      },
+      "datePublished": "2026-03-19",
+      "description": "Building a Home EV Charger Monitor with ESP32 and MQTT"
+    }
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">RSMK<span>Blogs</span>.</a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">?</div>
+                        <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#articles">Articles</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <article>
+            <div class="blog-post-header">
+                <div class="container">
+                    <div class="blog-post-meta">
+                        <span>IoT</span> &bull; <span>March 19, 2026</span>
+                    </div>
+                    <h1 class="blog-post-title">Building a Home EV Charger Monitor with ESP32 and MQTT</h1>
+                </div>
+            </div>
+
+            <div class="container">
+                <img src="../assets/images/ev-charger-monitor.webp" alt="EV Charger Monitor" class="blog-featured-image">
+
+                <div class="blog-content">
+                    <h2>Introduction</h2>
+                    <p>As the world shifts towards electric vehicles, the need for efficient and convenient charging solutions has become increasingly important. One way to achieve this is by building a home EV charger monitor using ESP32 and MQTT. In this article, we will explore the process of creating such a system and its benefits.</p>
+                    <h3>Hardware Requirements</h3>
+                    <p>To build the EV charger monitor, you will need the following hardware components:</p>
+                    <ul>
+                        <li>ESP32 board</li>
+                        <li>MQTT broker (e.g., Mosquitto)</li>
+                        <li>Current sensor (e.g., ACS712)</li>
+                        <li>Voltage sensor (e.g., ZMCT103C)</li>
+                        <li>Relay module (e.g., SRD-05VDC-SL-C)</li>
+                    </ul>
+                    <h2>Software Requirements</h2>
+                    <p>The software requirements for this project include:</p>
+                    <ul>
+                        <li>Arduino IDE</li>
+                        <li>ESP32 board support package</li>
+                        <li>MQTT library (e.g., PubSubClient)</li>
+                    </ul>
+                    <h3>System Design</h3>
+                    <p>The system design consists of the following components:</p>
+                    <p>The ESP32 board acts as the brain of the system, reading data from the current and voltage sensors, and sending it to the MQTT broker. The relay module is used to control the charging process. The MQTT broker is used to store and forward the data to the cloud or a local server.</p>
+                    <h2>Implementation</h2>
+                    <p>To implement the system, follow these steps:</p>
+                    <p>Connect the current and voltage sensors to the ESP32 board. Connect the relay module to the ESP32 board. Install the MQTT library and configure the ESP32 board to connect to the MQTT broker. Write the code to read data from the sensors and send it to the MQTT broker. Write the code to control the relay module based on the data received from the MQTT broker.</p>
+                    <h3>Benefits</h3>
+                    <p>The benefits of building a home EV charger monitor using ESP32 and MQTT include:</p>
+                    <p>Real-time monitoring of charging data, remote control of the charging process, and energy efficiency. The system can also be integrated with other smart home devices, making it a convenient and efficient solution for EV owners.</p>
+                    <h2>Conclusion</h2>
+                    <p>In conclusion, building a home EV charger monitor using ESP32 and MQTT is a viable solution for EV owners. The system provides real-time monitoring of charging data, remote control of the charging process, and energy efficiency. With the increasing demand for electric vehicles, this project can be a valuable contribution to the development of smart and efficient charging solutions.</p>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 RSMK Blogs. All rights reserved. <a href="https://rsmk.me" target="_blank"
+                        class="glow-text">BY RSMK</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('.nav-links');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>

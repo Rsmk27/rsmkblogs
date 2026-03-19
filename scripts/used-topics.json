@@ -5,5 +5,6 @@
   "Building Robust OTA Update Pipelines for ESP Devices",
   "LoRa vs NB-IoT for Long-Range Sensor Networks",
   "A Practical Guide to EMI Mitigation in PCB Design",
-  "Embedded Logging Strategies for Faster Root-Cause Analysis"
+  "Embedded Logging Strategies for Faster Root-Cause Analysis",
+  "Building a Home EV Charger Monitor with ESP32 and MQTT"
 ]
