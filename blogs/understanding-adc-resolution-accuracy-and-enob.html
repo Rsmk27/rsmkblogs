@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Understanding ADC resolution, accuracy, and ENOB" />
+    <meta name="article-slug" content="understanding-adc-resolution-accuracy-and-enob">
+    <meta name="keywords" content="ADC, resolution, accuracy, ENOB">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://blogs.rsmk.me/blogs/understanding-adc-resolution-accuracy-and-enob.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://blogs.rsmk.me/blogs/understanding-adc-resolution-accuracy-and-enob.html">
+    <meta property="og:title" content="Understanding ADC Resolution, Accuracy, and ENOB | RSMK Blogs">
+    <meta property="og:description" content="Understanding ADC resolution, accuracy, and ENOB">
+    <meta property="og:image" content="https://blogs.rsmk.me/assets/images/arduino_uno.webp">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://blogs.rsmk.me/blogs/understanding-adc-resolution-accuracy-and-enob.html">
+    <meta property="twitter:title" content="Understanding ADC Resolution, Accuracy, and ENOB | RSMK Blogs">
+    <meta property="twitter:description" content="Understanding ADC resolution, accuracy, and ENOB">
+    <meta property="twitter:image" content="https://blogs.rsmk.me/assets/images/arduino_uno.webp">
+
+    <title>Understanding ADC Resolution, Accuracy, and ENOB | RSMK Blogs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="../assets/images/logo.png">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Understanding ADC Resolution, Accuracy, and ENOB",
+      "image": "https://blogs.rsmk.me/assets/images/arduino_uno.webp",
+      "author": {
+        "@type": "Person",
+        "name": "RSMK"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "RSMK Blogs",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://blogs.rsmk.me/assets/images/logo.png"
+        }
+      },
+      "datePublished": "2026-03-20",
+      "description": "Understanding ADC resolution, accuracy, and ENOB"
+    }
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">RSMK<span>Blogs</span>.</a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">?</div>
+                        <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#articles">Articles</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <article>
+            <div class="blog-post-header">
+                <div class="container">
+                    <div class="blog-post-meta">
+                        <span>Electronics</span> &bull; <span>March 20, 2026</span>
+                    </div>
+                    <h1 class="blog-post-title">Understanding ADC Resolution, Accuracy, and ENOB</h1>
+                </div>
+            </div>
+
+            <div class="container">
+                <img src="../assets/images/arduino_uno.webp" alt="Arduino UNO Board" class="blog-featured-image">
+
+                <div class="blog-content">
+                    <h2>Introduction to ADC</h2>
+                    <p>Analog-to-Digital Converters (ADCs) are essential components in many electronic systems, including IoT devices, embedded systems, and green tech projects. They convert analog signals from sensors or other sources into digital signals that can be processed by microcontrollers or other digital systems. Understanding ADC resolution, accuracy, and Effective Number of Bits (ENOB) is crucial for designing and implementing efficient and reliable electronic systems.</p>
+                    <h3>ADC Resolution</h3>
+                    <p>ADC resolution refers to the number of bits used to represent the digital output of the ADC. A higher resolution means a larger number of bits, resulting in a more precise representation of the analog input signal. For example, a 10-bit ADC can represent 1024 (2^10) different digital values, while a 12-bit ADC can represent 4096 (2^12) different digital values. The resolution of an ADC is typically specified in bits, and common resolutions include 8-bit, 10-bit, 12-bit, and 16-bit.</p>
+                    <h3>ADC Accuracy</h3>
+                    <p>ADC accuracy refers to the degree to which the digital output of the ADC represents the actual analog input signal. Accuracy is affected by various factors, including the ADC's resolution, noise, and non-linearity. A high-accuracy ADC is essential for applications where precise measurements are critical, such as in medical devices or industrial control systems.</p>
+                    <h3>Effective Number of Bits (ENOB)</h3>
+                    <p>ENOB is a measure of the actual resolution of an ADC, taking into account the effects of noise and non-linearity. ENOB is typically lower than the nominal resolution of the ADC, and it represents the number of bits that are actually usable in practice. For example, a 12-bit ADC may have an ENOB of 10.5 bits, indicating that the noise and non-linearity of the ADC limit its effective resolution to 10.5 bits.</p>
+                    <h2>Factors Affecting ADC Performance</h2>
+                    <p>Several factors can affect the performance of an ADC, including:</p>
+                    <ul>
+                        <li>Noise: Noise can reduce the accuracy and resolution of an ADC, and it can be caused by various sources, including thermal noise, shot noise, and electromagnetic interference.</li>
+                        <li>Non-linearity: Non-linearity occurs when the ADC's transfer function is not perfectly linear, resulting in errors in the digital output.</li>
+                        <li>Offset and gain errors: Offset and gain errors can occur due to mismatches in the ADC's analog circuitry, resulting in errors in the digital output.</li>
+                    </ul>
+                    <h2>Conclusion</h2>
+                    <p>In conclusion, understanding ADC resolution, accuracy, and ENOB is essential for designing and implementing efficient and reliable electronic systems. By selecting an ADC with the appropriate resolution and accuracy for a given application, and by minimizing the effects of noise and non-linearity, engineers can ensure that their systems provide accurate and reliable measurements. Whether you're working on an IoT device, an embedded system, or a green tech project, a deep understanding of ADC performance is crucial for achieving success.</p>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 RSMK Blogs. All rights reserved. <a href="https://rsmk.me" target="_blank"
+                        class="glow-text">BY RSMK</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('.nav-links');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
