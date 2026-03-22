@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Optimize ESP32 battery life with deep sleep modes" />
+    <meta name="article-slug" content="esp32-deep-sleep-modes-for-battery-powered-projects">
+    <meta name="keywords" content="ESP32, deep sleep, battery-powered projects">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://blogs.rsmk.me/blogs/esp32-deep-sleep-modes-for-battery-powered-projects.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://blogs.rsmk.me/blogs/esp32-deep-sleep-modes-for-battery-powered-projects.html">
+    <meta property="og:title" content="ESP32 Deep Sleep Modes for Battery-Powered Projects | RSMK Blogs">
+    <meta property="og:description" content="Optimize ESP32 battery life with deep sleep modes">
+    <meta property="og:image" content="https://blogs.rsmk.me/assets/images/esp32-board.webp">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://blogs.rsmk.me/blogs/esp32-deep-sleep-modes-for-battery-powered-projects.html">
+    <meta property="twitter:title" content="ESP32 Deep Sleep Modes for Battery-Powered Projects | RSMK Blogs">
+    <meta property="twitter:description" content="Optimize ESP32 battery life with deep sleep modes">
+    <meta property="twitter:image" content="https://blogs.rsmk.me/assets/images/esp32-board.webp">
+
+    <title>ESP32 Deep Sleep Modes for Battery-Powered Projects | RSMK Blogs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="../assets/images/logo.png">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "ESP32 Deep Sleep Modes for Battery-Powered Projects",
+      "image": "https://blogs.rsmk.me/assets/images/esp32-board.webp",
+      "author": {
+        "@type": "Person",
+        "name": "RSMK"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "RSMK Blogs",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://blogs.rsmk.me/assets/images/logo.png"
+        }
+      },
+      "datePublished": "2026-03-22",
+      "description": "Optimize ESP32 battery life with deep sleep modes"
+    }
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <a href="../index.html" class="logo">RSMK<span>Blogs</span>.</a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">?</div>
+                        <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../index.html#articles">Articles</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <article>
+            <div class="blog-post-header">
+                <div class="container">
+                    <div class="blog-post-meta">
+                        <span>ESP32</span> &bull; <span>March 22, 2026</span>
+                    </div>
+                    <h1 class="blog-post-title">ESP32 Deep Sleep Modes for Battery-Powered Projects</h1>
+                </div>
+            </div>
+
+            <div class="container">
+                <img src="../assets/images/esp32-board.webp" alt="ESP32 Board" class="blog-featured-image">
+
+                <div class="blog-content">
+                    <h2>Introduction to ESP32 Deep Sleep Modes</h2>
+                    <p>The ESP32 is a popular microcontroller used in various IoT and embedded systems projects. One of the key challenges in designing battery-powered projects is minimizing power consumption to extend the battery life. The ESP32 provides several deep sleep modes that can help reduce power consumption and make your projects more energy-efficient.</p>
+                    <h3>Types of Deep Sleep Modes</h3>
+                    <p>The ESP32 offers three types of deep sleep modes: light sleep, modem sleep, and deep sleep. Each mode has its own advantages and disadvantages, and the choice of mode depends on the specific requirements of your project.</p>
+                    <ul>
+                        <li>Light Sleep: This mode is the least power-hungry and is suitable for applications that require quick wake-up times. In light sleep mode, the ESP32's CPU and peripherals are turned off, but the Wi-Fi and Bluetooth radios remain active.</li>
+                        <li>Modem Sleep: This mode is similar to light sleep, but the Wi-Fi and Bluetooth radios are also turned off. Modem sleep is suitable for applications that require low power consumption and can tolerate longer wake-up times.</li>
+                        <li>Deep Sleep: This mode is the most power-hungry and is suitable for applications that require extremely low power consumption. In deep sleep mode, the ESP32's CPU, peripherals, Wi-Fi, and Bluetooth radios are all turned off.</li>
+                    </ul>
+                    <h2>Configuring Deep Sleep Modes</h2>
+                    <p>To configure deep sleep modes on the ESP32, you can use the <code>esp_deep_sleep</code> functions provided by the ESP32 API. These functions allow you to set the deep sleep mode, configure the wake-up sources, and specify the sleep duration.</p>
+                    <p>For example, to configure the ESP32 to enter deep sleep mode for 10 seconds, you can use the following code:</p>
+                    <p>The <code>esp_deep_sleep</code> function takes two arguments: the sleep duration in microseconds and the wake-up source. The wake-up source can be one of the following: <code>ESP_DEEP_SLEEP_WAKEUP_EXT0</code>, <code>ESP_DEEP_SLEEP_WAKEUP_EXT1</code>, or <code>ESP_DEEP_SLEEP_WAKEUP_TIMER</code>.</p>
+                    <h3>Wake-Up Sources</h3>
+                    <p>The ESP32 provides several wake-up sources that can be used to wake up the device from deep sleep mode. These sources include:</p>
+                    <p>External wake-up: The ESP32 can be woken up from deep sleep mode using an external signal. This signal can be connected to a button, a sensor, or any other external device.</p>
+                    <p>Timer wake-up: The ESP32 can be woken up from deep sleep mode using a timer. This timer can be set to wake up the device at a specific interval.</p>
+                    <p>UART wake-up: The ESP32 can be woken up from deep sleep mode using a UART signal. This signal can be connected to a serial console or any other device that sends UART signals.</p>
+                    <h2>Conclusion</h2>
+                    <p>In conclusion, the ESP32 deep sleep modes provide a powerful way to reduce power consumption and extend the battery life of your projects. By choosing the right deep sleep mode and configuring the wake-up sources, you can create energy-efficient projects that meet your specific requirements.</p>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 RSMK Blogs. All rights reserved. <a href="https://rsmk.me" target="_blank"
+                        class="glow-text">BY RSMK</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.querySelector('.nav-links');
+            nav.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
