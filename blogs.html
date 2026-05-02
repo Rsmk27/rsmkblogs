@@ -18,58 +18,177 @@
     <link rel="icon" type="image/png" href="assets/images/logo.png">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        .filter-section {
-            padding: 40px 0 20px;
-            text-align: center;
+        .hero-blogs {
+            padding: 80px 0 60px;
+            background: radial-gradient(circle at top center, rgba(0, 242, 234, 0.05) 0%, transparent 70%);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 40px;
+            position: relative;
         }
 
-        .search-bar {
-            max-width: 500px;
-            margin: 0 auto 30px;
+        .hero-blogs h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            margin-bottom: 15px;
+            color: var(--text-main);
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .hero-blogs p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .filter-section {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-top: -80px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: 0.3s ease;
+        }
+
+        [data-theme="light"] .filter-section {
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            transition: color 0.3s;
         }
 
         .search-input {
             width: 100%;
-            padding: 15px 20px;
-            border-radius: 50px;
+            padding: 18px 20px 18px 55px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
-            background: var(--surface-color);
+            background: var(--bg-color);
             color: var(--text-main);
             font-family: var(--font-body);
-            font-size: 1rem;
+            font-size: 1.05rem;
             outline: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
         .search-input:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 15px rgba(0, 242, 234, 0.1);
+            box-shadow: 0 0 0 4px rgba(0, 242, 234, 0.1);
+        }
+
+        .search-input:focus + .search-icon {
+            color: var(--primary-color);
+        }
+
+        .filter-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
         }
 
         .categories {
             display: flex;
-            justify-content: center;
             flex-wrap: wrap;
             gap: 10px;
         }
 
         .category-btn {
-            background: var(--surface-color);
+            background: var(--bg-color);
             color: var(--text-muted);
             border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             font-size: 0.9rem;
+            font-weight: 500;
         }
 
-        .category-btn:hover,
+        .category-btn:hover {
+            color: var(--text-main);
+            border-color: var(--text-muted);
+        }
+
         .category-btn.active {
             background: var(--primary-color);
             color: #000;
             border-color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(0, 242, 234, 0.2);
+        }
+
+        .results-count {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: var(--bg-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        #no-results {
+            text-align: center;
+            padding: 80px 20px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            border: 1px dashed var(--border-color);
+        }
+
+        #no-results svg {
+            color: var(--border-color);
+            margin-bottom: 10px;
+        }
+        
+        #no-results h3 {
+            font-family: var(--font-heading);
+            color: var(--text-main);
+            font-size: 1.8rem;
+        }
+        
+        #no-results p {
+            color: var(--text-muted);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 768px) {
+            .filter-section {
+                margin-top: -30px;
+                padding: 15px;
+            }
+            .filter-controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .results-count {
+                align-self: flex-end;
+            }
         }
     </style>
 </head>
@@ -100,448 +219,43 @@
     </header>
 
     <main id="main-content">
-        <section class="section-padding" style="padding-bottom: 20px;">
-            <div class="container text-center">
-                <h1
-                    style="font-family: var(--font-heading); font-size: 3rem; margin-bottom: 10px; color: var(--text-main);">
-                    All Articles</h1>
-                <p style="color: var(--text-muted);">Insights on Innovation, Engineering, and Future Tech.</p>
+        <section class="hero-blogs text-center">
+            <div class="container">
+                <h1>Explore the Knowledge Base</h1>
+                <p>Deep dives, tutorials, and insights into Embedded Systems, IoT, Green Energy, and the Future of Technology.</p>
             </div>
         </section>
 
         <!-- Search & Filter -->
-        <section class="container filter-section">
-            <div class="search-bar">
-                <input type="text" class="search-input" id="search-input" placeholder="Search articles...">
+        <div class="container">
+            <div class="filter-section">
+                <div class="search-container">
+                    <input type="text" class="search-input" id="search-input" placeholder="Search by keyword, topic, or technology...">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <div class="filter-controls">
+                    <div class="categories" id="category-filters">
+                        <button class="category-btn active" data-category="all">All Articles</button>
+                        <button class="category-btn" data-category="Embedded Systems">Embedded Systems</button>
+                        <button class="category-btn" data-category="IoT">IoT</button>
+                        <button class="category-btn" data-category="Green Energy">Green Energy</button>
+                        <button class="category-btn" data-category="Future Tech">Future Tech</button>
+                        <button class="category-btn" data-category="Careers">Careers</button>
+                    </div>
+                    <div class="results-count" id="results-count">Showing all articles</div>
+                </div>
             </div>
-            <div class="categories" id="category-filters">
-                <button class="category-btn active" data-category="all">All</button>
-                <button class="category-btn" data-category="Embedded Systems">Embedded Systems</button>
-                <button class="category-btn" data-category="IoT">IoT</button>
-                <button class="category-btn" data-category="Green Energy">Green Energy</button>
-                <button class="category-btn" data-category="Future Tech">Future Tech</button>
-                <button class="category-btn" data-category="Careers">Careers</button>
-            </div>
-        </section>
+        </div>
 
         <!-- Blog Grid -->
         <section id="articles" class="section-padding">
             <div class="container">
+                <div id="no-results">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                    <h3>No articles found</h3>
+                    <p>We couldn't find anything matching your search criteria. Try different keywords or select "All Articles".</p>
+                </div>
                 <div class="blog-grid" id="blog-grid">
-                    <!-- Auto Article - productivity-systems-for-engineering-students-and-makers -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag">Embedded Systems</span>
-                            <img src="assets/images/hero-bg.webp" alt="Productivity Systems for Engineering Students and Makers" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 29, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/productivity-systems-for-engineering-students-and-makers.html">Productivity Systems for Engineering Students and Makers</a></h3>
-                            <p class="blog-excerpt">Boost productivity with systems for engineering students and makers</p>
-                            <a href="blogs/productivity-systems-for-engineering-students-and-makers.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - firebase-authentication-for-engineering-web-tools -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag">Embedded Systems</span>
-                            <img src="assets/images/hero-bg.webp" alt="Firebase Authentication for Engineering Web Tools" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 28, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/firebase-authentication-for-engineering-web-tools.html">Firebase Authentication for Engineering Web Tools</a></h3>
-                            <p class="blog-excerpt">Learn Firebase Authentication for web tools</p>
-                            <a href="blogs/firebase-authentication-for-engineering-web-tools.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - designing-home-energy-monitoring-with-iot-sensors -->
-                    <article class="blog-card" data-category="Green Energy">
-                        <div class="blog-card-img">
-                            <span class="category-tag" style="background: var(--secondary-color); color: #fff;">Green Energy</span>
-                            <img src="assets/images/hero-bg.webp" alt="Designing Home Energy Monitoring with IoT Sensors" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 27, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/designing-home-energy-monitoring-with-iot-sensors.html">Designing Home Energy Monitoring with IoT Sensors</a></h3>
-                            <p class="blog-excerpt">Designing Home Energy Monitoring with IoT Sensors</p>
-                            <a href="blogs/designing-home-energy-monitoring-with-iot-sensors.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - how-mppt-works-in-solar-charge-controllers -->
-                    <article class="blog-card" data-category="Green Energy">
-                        <div class="blog-card-img">
-                            <span class="category-tag" style="background: var(--secondary-color); color: #fff;">Green Energy</span>
-                            <img src="assets/images/hero-bg.webp" alt="How MPPT Works in Solar Charge Controllers" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 26, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/how-mppt-works-in-solar-charge-controllers.html">How MPPT Works in Solar Charge Controllers</a></h3>
-                            <p class="blog-excerpt">How MPPT works in solar charge controllers</p>
-                            <a href="blogs/how-mppt-works-in-solar-charge-controllers.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - web-performance-optimization-for-technical-blogs -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag">Embedded Systems</span>
-                            <img src="assets/images/hero-bg.webp" alt="Web Performance Optimization for Technical Blogs" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 25, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/web-performance-optimization-for-technical-blogs.html">Web Performance Optimization for Technical Blogs</a></h3>
-                            <p class="blog-excerpt">Optimize web performance for technical blogs</p>
-                            <a href="blogs/web-performance-optimization-for-technical-blogs.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - regenerative-braking-and-energy-recovery-in-evs -->
-                    <article class="blog-card" data-category="Green Energy">
-                        <div class="blog-card-img">
-                            <span class="category-tag" style="background: var(--secondary-color); color: #fff;">Green Energy</span>
-                            <img src="assets/images/hero-bg.webp" alt="Regenerative Braking and Energy Recovery in EVs" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 24, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/regenerative-braking-and-energy-recovery-in-evs.html">Regenerative Braking and Energy Recovery in EVs</a></h3>
-                            <p class="blog-excerpt">Regenerative braking in EVs</p>
-                            <a href="blogs/regenerative-braking-and-energy-recovery-in-evs.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - power-factor-correction-techniques-in-modern-electronics -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag">Embedded Systems</span>
-                            <img src="assets/images/hero-bg.webp" alt="Power Factor Correction Techniques in Modern Electronics" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 23, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/power-factor-correction-techniques-in-modern-electronics.html">Power Factor Correction Techniques in Modern Electronics</a></h3>
-                            <p class="blog-excerpt">Power factor correction techniques in modern electronics</p>
-                            <a href="blogs/power-factor-correction-techniques-in-modern-electronics.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - esp32-deep-sleep-modes-for-battery-powered-projects -->
-                    <article class="blog-card" data-category="IoT">
-                        <div class="blog-card-img">
-                            <span class="category-tag" style="background: var(--accent-color); color: #fff;">IoT</span>
-                            <img src="assets/images/hero-bg.webp" alt="ESP32 Deep Sleep Modes for Battery-Powered Projects" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 22, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/esp32-deep-sleep-modes-for-battery-powered-projects.html">ESP32 Deep Sleep Modes for Battery-Powered Projects</a></h3>
-                            <p class="blog-excerpt">Optimize ESP32 battery life with deep sleep modes</p>
-                            <a href="blogs/esp32-deep-sleep-modes-for-battery-powered-projects.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - how-vehicle-to-grid-v2g-can-support-renewable-integration -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag">Embedded Systems</span>
-                            <img src="assets/images/hero-bg.webp" alt="How Vehicle-to-Grid (V2G) Can Support Renewable Integration" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 21, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/how-vehicle-to-grid-v2g-can-support-renewable-integration.html">How Vehicle-to-Grid (V2G) Can Support Renewable Integration</a></h3>
-                            <p class="blog-excerpt">Vehicle-to-Grid technology supports renewable integration</p>
-                            <a href="blogs/how-vehicle-to-grid-v2g-can-support-renewable-integration.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - understanding-adc-resolution-accuracy-and-enob -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag">Embedded Systems</span>
-                            <img src="assets/images/hero-bg.webp" alt="Understanding ADC Resolution, Accuracy, and ENOB" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 20, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/understanding-adc-resolution-accuracy-and-enob.html">Understanding ADC Resolution, Accuracy, and ENOB</a></h3>
-                            <p class="blog-excerpt">Understanding ADC resolution, accuracy, and ENOB</p>
-                            <a href="blogs/understanding-adc-resolution-accuracy-and-enob.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - building-a-home-ev-charger-monitor-with-esp32-and-mqtt -->
-                    <article class="blog-card" data-category="Green Energy">
-                        <div class="blog-card-img">
-                            <span class="category-tag" style="background: var(--secondary-color); color: #fff;">Green Energy</span>
-                            <img src="assets/images/hero-bg.webp" alt="Building a Home EV Charger Monitor with ESP32 and MQTT" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 19, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/building-a-home-ev-charger-monitor-with-esp32-and-mqtt.html">Building a Home EV Charger Monitor with ESP32 and MQTT</a></h3>
-                            <p class="blog-excerpt">Building a Home EV Charger Monitor with ESP32 and MQTT</p>
-                            <a href="blogs/building-a-home-ev-charger-monitor-with-esp32-and-mqtt.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - embedded-logging-strategies-for-faster-root-cause-analysis -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag">Embedded Systems</span>
-                            <img src="assets/images/hero-bg.webp" alt="Embedded Logging Strategies for Faster Root-Cause Analysis" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 19, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/embedded-logging-strategies-for-faster-root-cause-analysis.html">Embedded Logging Strategies for Faster Root-Cause Analysis</a></h3>
-                            <p class="blog-excerpt">Improve root-cause analysis with embedded logging strategies</p>
-                            <a href="blogs/embedded-logging-strategies-for-faster-root-cause-analysis.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - a-practical-guide-to-emi-mitigation-in-pcb-design -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag">Embedded Systems</span>
-                            <img src="assets/images/blog-a-practical-guide-to-emi-mitigation-in-pcb-design.jpg" alt="A Practical Guide to EMI Mitigation in PCB Design" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 19, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/a-practical-guide-to-emi-mitigation-in-pcb-design.html">A Practical Guide to EMI Mitigation in PCB Design</a></h3>
-                            <p class="blog-excerpt">EMI mitigation in PCB design</p>
-                            <a href="blogs/a-practical-guide-to-emi-mitigation-in-pcb-design.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - lora-vs-nb-iot-for-long-range-sensor-networks -->
-                    <article class="blog-card" data-category="IoT">
-                        <div class="blog-card-img">
-                            <span class="category-tag" style="background: var(--accent-color); color: #fff;">IoT</span>
-                            <img src="assets/images/hero-bg.webp" alt="LoRa vs NB-IoT for Long-Range Sensor Networks" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 19, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/lora-vs-nb-iot-for-long-range-sensor-networks.html">LoRa vs NB-IoT for Long-Range Sensor Networks</a></h3>
-                            <p class="blog-excerpt">Compare LoRa and NB-IoT for long-range sensor networks</p>
-                            <a href="blogs/lora-vs-nb-iot-for-long-range-sensor-networks.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - building-robust-ota-update-pipelines-for-esp-devices -->
-                    <article class="blog-card" data-category="Green Energy">
-                        <div class="blog-card-img">
-                            <span class="category-tag" style="background: var(--secondary-color); color: #fff;">Green Energy</span>
-                            <img src="assets/images/hero-bg.webp" alt="Building Robust OTA Update Pipelines for ESP Devices" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 19, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/building-robust-ota-update-pipelines-for-esp-devices.html">Building Robust OTA Update Pipelines for ESP Devices</a></h3>
-                            <p class="blog-excerpt">Learn to build robust OTA update pipelines for ESP devices</p>
-                            <a href="blogs/building-robust-ota-update-pipelines-for-esp-devices.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - firmware-architecture-patterns-for-scalable-embedded-projects -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag">Embedded Systems</span>
-                            <img src="assets/images/hero-bg.webp" alt="Firmware Architecture Patterns for Scalable Embedded Projects" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 19, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/firmware-architecture-patterns-for-scalable-embedded-projects.html">Firmware Architecture Patterns for Scalable Embedded Projects</a></h3>
-                            <p class="blog-excerpt">Firmware architecture patterns for scalable embedded projects</p>
-                            <a href="blogs/firmware-architecture-patterns-for-scalable-embedded-projects.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - comparing-esp32-vs-esp8266-for-new-iot-designs -->
-                    <article class="blog-card" data-category="IoT">
-                        <div class="blog-card-img">
-                            <span class="category-tag" style="background: var(--accent-color); color: #fff;">IoT</span>
-                            <img src="assets/images/hero-bg.webp" alt="Comparing ESP32 vs ESP8266 for New IoT Designs" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 19, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/comparing-esp32-vs-esp8266-for-new-iot-designs.html">Comparing ESP32 vs ESP8266 for New IoT Designs</a></h3>
-                            <p class="blog-excerpt">Compare ESP32 and ESP8266 for IoT designs</p>
-                            <a href="blogs/comparing-esp32-vs-esp8266-for-new-iot-designs.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
-                    <!-- Auto Article - pcb-design-rule-checks-that-prevent-costly-revisions -->
-                    <article class="blog-card" data-category="Green Energy">
-                        <div class="blog-card-img">
-                            <span class="category-tag" style="background: var(--secondary-color); color: #fff;">Green Energy</span>
-                            <img src="assets/images/hero-bg.webp" alt="PCB Design Rule Checks That Prevent Costly Revisions" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Mar 19, 2026</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/pcb-design-rule-checks-that-prevent-costly-revisions.html">PCB Design Rule Checks That Prevent Costly Revisions</a></h3>
-                            <p class="blog-excerpt">Prevent costly PCB revisions with design rule checks</p>
-                            <a href="blogs/pcb-design-rule-checks-that-prevent-costly-revisions.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-
                     <!-- Article 1 - ESP8266 -->
                     <article class="blog-card" data-category="IoT">
                         <div class="blog-card-img">
@@ -994,10 +708,13 @@
         const searchInput = document.getElementById('search-input');
         const categoryBtns = document.querySelectorAll('.category-btn');
         const blogCards = document.querySelectorAll('.blog-card');
+        const noResults = document.getElementById('no-results');
+        const resultsCount = document.getElementById('results-count');
 
         function filterBlogs() {
             const searchTerm = searchInput.value.toLowerCase();
             const activeCategory = document.querySelector('.category-btn.active').getAttribute('data-category');
+            let visibleCount = 0;
 
             blogCards.forEach(card => {
                 const title = card.querySelector('.blog-title').textContent.toLowerCase();
@@ -1009,11 +726,32 @@
 
                 if (matchesSearch && matchesCategory) {
                     card.style.display = 'flex';
+                    // Apply a slight animation reset for smooth filtering
+                    card.style.animation = 'none';
+                    card.offsetHeight; /* trigger reflow */
+                    card.style.animation = 'fadeIn 0.5s ease forwards';
+                    visibleCount++;
                 } else {
                     card.style.display = 'none';
                 }
             });
+
+            // Update UI based on results
+            if (visibleCount === 0) {
+                noResults.style.display = 'flex';
+            } else {
+                noResults.style.display = 'none';
+            }
+            
+            if (activeCategory === 'all' && searchTerm === '') {
+                 resultsCount.textContent = `Showing all ${visibleCount} articles`;
+            } else {
+                 resultsCount.textContent = `Found ${visibleCount} article${visibleCount !== 1 ? 's' : ''}`;
+            }
         }
+
+        // Initial count setup
+        resultsCount.textContent = `Showing all ${blogCards.length} articles`;
 
         searchInput.addEventListener('input', filterBlogs);
 
