@@ -290,7 +290,7 @@ function sanitizeHtmlOutput(text) {
     .trim();
 }
 
-function ensureMetaSlug(html, slug) {
+export function ensureMetaSlug(html, slug) {
   if (/<meta\s+name="article-slug"\s+content="[^"]*"\s*>/i.test(html)) {
     return html.replace(
       /<meta\s+name="article-slug"\s+content="[^"]*"\s*>/i,
@@ -902,7 +902,9 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
