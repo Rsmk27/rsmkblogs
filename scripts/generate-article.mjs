@@ -442,40 +442,31 @@ async function findWikipediaTopicImage(topic) {
 }
 
 async function fetchAndSaveTopicImage(topic, slug) {
-  const candidateUrls = [];
-
-  try {
-    const commonsCandidate = await findRelevantCommonsImage(topic);
-    if (commonsCandidate) {
-      if (commonsCandidate.relevance >= 0.34) {
-        candidateUrls.push(commonsCandidate.url);
-        console.log(`Wikimedia image relevance score: ${commonsCandidate.relevance.toFixed(2)}`);
-      } else {
-        // Keep a low-score Wikimedia candidate as a fallback before synthetic generation.
-        candidateUrls.push(commonsCandidate.url);
-        console.log(`Wikimedia low relevance fallback score: ${commonsCandidate.relevance.toFixed(2)}`);
+  const imageStrategies = [
+    async () => {
+      const candidate = await findRelevantCommonsImage(topic);
+      if (candidate) {
+        if (candidate.relevance >= 0.34) {
+          console.log(`Wikimedia image relevance score: ${candidate.relevance.toFixed(2)}`);
+        } else {
+          console.log(`Wikimedia low relevance fallback score: ${candidate.relevance.toFixed(2)}`);
+        }
+        return candidate.url;
       }
-    }
-  } catch {
-    // Ignore Wikimedia lookup failures and continue with prompt-based fallback.
-  }
-
-  try {
-    const wikipediaImage = await findWikipediaTopicImage(topic);
-    if (wikipediaImage) {
-      candidateUrls.push(wikipediaImage);
-    }
-  } catch {
-    // Ignore Wikipedia lookup failures.
-  }
-
-  // Prompt-based fallback using exact topic tokens.
-  candidateUrls.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(`${topic} electronics technology photo realistic`)}`);
-  candidateUrls.push(`https://source.unsplash.com/1600x900/?${encodeURIComponent(buildImageQuery(topic))}&sig=${Date.now()}`);
+      return null;
+    },
+    async () => findWikipediaTopicImage(topic),
+    async () => `https://image.pollinations.ai/prompt/${encodeURIComponent(`${topic} electronics technology photo realistic`)}`,
+    async () => `https://source.unsplash.com/1600x900/?${encodeURIComponent(buildImageQuery(topic))}&sig=${Date.now()}`
+  ];
 
   let lastError = "";
-  for (const imageUrl of candidateUrls) {
+
+  for (const strategy of imageStrategies) {
     try {
+      const imageUrl = await strategy();
+      if (!imageUrl) continue;
+
       const response = await fetch(imageUrl, {
         headers: {
           "User-Agent": "rsmkblogs-article-generator/1.0"
