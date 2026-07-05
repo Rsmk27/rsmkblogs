@@ -136,74 +136,64 @@ async function chooseTopic() {
 }
 
 function buildArticleTemplate(html) {
-  let template = html;
+  const replacements = [
+    [
+      /<meta\s+name="description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      '<meta name="description" content="META_DESCRIPTION" />\n    <meta name="article-slug" content="ARTICLE_SLUG">'
+    ],
+    [
+      /<meta\s+name="keywords"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      '<meta name="keywords" content="TAG_1, TAG_2, TAG_3">'
+    ],
+    [
+      /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?\s*>/i,
+      '<link rel="canonical" href="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
+    ],
+    [
+      /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?\s*>/i,
+      '<meta property="og:url" content="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
+    ],
+    [
+      /<meta\s+property="og:title"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      '<meta property="og:title" content="ARTICLE_TITLE | RSMK Blogs">'
+    ],
+    [
+      /<meta\s+property="og:description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      '<meta property="og:description" content="META_DESCRIPTION">'
+    ],
+    [
+      /<meta\s+property="twitter:url"\s+content="[^"]*"\s*\/?\s*>/i,
+      '<meta property="twitter:url" content="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
+    ],
+    [
+      /<meta\s+property="twitter:title"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      '<meta property="twitter:title" content="ARTICLE_TITLE | RSMK Blogs">'
+    ],
+    [
+      /<meta\s+property="twitter:description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      '<meta property="twitter:description" content="META_DESCRIPTION">'
+    ],
+    [
+      /<title>[\s\S]*?<\/title>/i,
+      '<title>ARTICLE_TITLE | RSMK Blogs</title>'
+    ],
+    [
+      /<div class="blog-post-meta">[\s\S]*?<\/div>/i,
+      '<div class="blog-post-meta">\n                        <span>TAG_1</span> &bull; <span>ARTICLE_DATE</span>\n                    </div>'
+    ],
+    [
+      /<h1 class="blog-post-title">[\s\S]*?<\/h1>/i,
+      '<h1 class="blog-post-title">ARTICLE_TITLE</h1>'
+    ],
+    [
+      /<div class="blog-content">[\s\S]*?<\/div>\s*<\/div>\s*<\/article>/i,
+      '<div class="blog-content">\n                    ARTICLE_BODY\n                </div>\n            </div>\n        </article>'
+    ]
+  ];
 
-  template = template.replace(
-    /<meta\s+name="description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta name="description" content="META_DESCRIPTION" />\n    <meta name="article-slug" content="ARTICLE_SLUG">'
-  );
-
-  template = template.replace(
-    /<meta\s+name="keywords"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta name="keywords" content="TAG_1, TAG_2, TAG_3">'
-  );
-
-  template = template.replace(
-    /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?\s*>/i,
-    '<link rel="canonical" href="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="og:url" content="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="og:title"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="og:title" content="ARTICLE_TITLE | RSMK Blogs">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="og:description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="og:description" content="META_DESCRIPTION">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="twitter:url"\s+content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="twitter:url" content="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="twitter:title"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="twitter:title" content="ARTICLE_TITLE | RSMK Blogs">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="twitter:description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="twitter:description" content="META_DESCRIPTION">'
-  );
-
-  template = template.replace(
-    /<title>[\s\S]*?<\/title>/i,
-    '<title>ARTICLE_TITLE | RSMK Blogs</title>'
-  );
-
-  template = template.replace(
-    /<div class="blog-post-meta">[\s\S]*?<\/div>/i,
-    '<div class="blog-post-meta">\n                        <span>TAG_1</span> &bull; <span>ARTICLE_DATE</span>\n                    </div>'
-  );
-
-  template = template.replace(
-    /<h1 class="blog-post-title">[\s\S]*?<\/h1>/i,
-    '<h1 class="blog-post-title">ARTICLE_TITLE</h1>'
-  );
-
-  template = template.replace(
-    /<div class="blog-content">[\s\S]*?<\/div>\s*<\/div>\s*<\/article>/i,
-    '<div class="blog-content">\n                    ARTICLE_BODY\n                </div>\n            </div>\n        </article>'
-  );
-
-  return template;
+  return replacements.reduce((acc, [regex, replacement]) => {
+    return acc.replace(regex, replacement);
+  }, html);
 }
 
 async function buildPrompt(topic, articleTemplateHTML, todayFormatted) {
