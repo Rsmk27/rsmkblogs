@@ -625,7 +625,7 @@ function extractArticleTitle(html) {
   return "New Article";
 }
 
-function extractMetaDescription(html) {
+export function extractMetaDescription(html) {
   const match = html.match(/<meta\s+name="description"\s+content="([^"]*)"\s*\/?\s*>/i);
   if (match) {
     return match[1].trim();
@@ -902,7 +902,10 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+import { pathToFileURL } from 'node:url';
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
