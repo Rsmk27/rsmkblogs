@@ -39,7 +39,7 @@ function formatShortDate(date = new Date()) {
   }).format(date);
 }
 
-function topicToSlug(topic) {
+export function topicToSlug(topic) {
   return topic
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
@@ -902,7 +902,11 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
+
+const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+if (isMain) {
+  main().catch((error) => {
   console.error(error.message || error);
   process.exit(1);
-});
+  });
+}
