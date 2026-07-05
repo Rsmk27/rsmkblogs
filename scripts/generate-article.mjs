@@ -112,6 +112,25 @@ async function writeJson(filePath, data) {
   await fs.writeFile(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
 
+
+async function fetchChecked(url, options = {}, errorPrefix = "") {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    let errorText = "";
+    try {
+      errorText = (await response.text()).trim();
+    } catch {
+      // Ignore text fetch error
+    }
+
+    if (errorPrefix) {
+      throw new Error(`${errorPrefix} (${response.status})${errorText ? `: ${errorText}` : ""}`);
+    }
+    throw new Error(`HTTP ${response.status}${errorText ? `: ${errorText}` : ""}`);
+  }
+  return response;
+}
+
 async function chooseTopic() {
   const topics = await readJsonArray(topicsFile);
   if (!topics.length) {
@@ -371,15 +390,11 @@ function scoreTopicRelevance(topic, candidateText) {
 
 async function findRelevantCommonsImage(topic) {
   const commonsSearchUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrsearch=${encodeURIComponent(topic)}&gsrlimit=12&prop=pageimages|imageinfo|categories&pithumbsize=1600&iiprop=url|mime|extmetadata&cllimit=20`;
-  const commonsResponse = await fetch(commonsSearchUrl, {
+  const commonsResponse = await fetchChecked(commonsSearchUrl, {
     headers: {
       "User-Agent": "rsmkblogs-article-generator/1.0"
     }
-  });
-
-  if (!commonsResponse.ok) {
-    throw new Error(`Wikimedia search failed (${commonsResponse.status})`);
-  }
+  }, "Wikimedia search failed");
 
   const commonsJson = await commonsResponse.json();
   const pages = Object.values(commonsJson?.query?.pages || {});
@@ -422,13 +437,14 @@ async function findWikipediaTopicImage(topic) {
   }
 
   const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
-  const response = await fetch(summaryUrl, {
-    headers: {
-      "User-Agent": "rsmkblogs-article-generator/1.0"
-    }
-  });
-
-  if (!response.ok) {
+  let response;
+  try {
+    response = await fetchChecked(summaryUrl, {
+      headers: {
+        "User-Agent": "rsmkblogs-article-generator/1.0"
+      }
+    });
+  } catch {
     return null;
   }
 
@@ -476,15 +492,11 @@ async function fetchAndSaveTopicImage(topic, slug) {
   let lastError = "";
   for (const imageUrl of candidateUrls) {
     try {
-      const response = await fetch(imageUrl, {
+      const response = await fetchChecked(imageUrl, {
         headers: {
           "User-Agent": "rsmkblogs-article-generator/1.0"
         }
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
 
       const contentType = response.headers.get("content-type") || "";
       if (!contentType.toLowerCase().startsWith("image/")) {
@@ -772,7 +784,7 @@ async function generateArticleHtml(topic, todayFormatted, providerConfig) {
 
   let response;
   if (providerConfig.provider === "groq") {
-    response = await fetch(groqEndpoint, {
+    response = await fetchChecked(groqEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -789,9 +801,9 @@ async function generateArticleHtml(topic, todayFormatted, providerConfig) {
           }
         ]
       })
-    });
+    }, "Groq API call failed");
   } else {
-    response = await fetch(anthropicEndpoint, {
+    response = await fetchChecked(anthropicEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -808,13 +820,7 @@ async function generateArticleHtml(topic, todayFormatted, providerConfig) {
           }
         ]
       })
-    });
-  }
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    const label = providerConfig.provider === "groq" ? "Groq" : "Anthropic";
-    throw new Error(`${label} API call failed (${response.status}): ${errorText}`);
+    }, "Anthropic API call failed");
   }
 
   const responseJson = await response.json();
