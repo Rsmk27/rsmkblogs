@@ -336,12 +336,12 @@ function buildImageQuery(topic) {
   return ["electronics", ...words].join(",");
 }
 
-function tokenizeForRelevance(text) {
-  const stopWords = new Set([
-    "the", "and", "for", "with", "from", "that", "this", "your", "into", "about", "using", "guide",
-    "how", "what", "why", "new", "best", "more", "less", "over", "under", "versus", "vs", "practical"
-  ]);
+const stopWords = new Set([
+  "the", "and", "for", "with", "from", "that", "this", "your", "into", "about", "using", "guide",
+  "how", "what", "why", "new", "best", "more", "less", "over", "under", "versus", "vs", "practical"
+]);
 
+function tokenizeForRelevance(text) {
   return new Set(
     String(text || "")
       .toLowerCase()
