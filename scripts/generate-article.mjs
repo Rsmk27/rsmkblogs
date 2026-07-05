@@ -765,62 +765,76 @@ async function updateBlogIndex({ slug, title, excerpt, category, dateShort, read
   return indexFile;
 }
 
+async function fetchFromGroq(model, prompt) {
+  const response = await fetch(groqEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.GROQ_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: model,
+      temperature: 0.7,
+      max_tokens: 2500,
+      messages: [
+        {
+          role: "user",
+          content: prompt
+        }
+      ]
+    })
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Groq API call failed (${response.status}): ${errorText}`);
+  }
+
+  const responseJson = await response.json();
+  return extractGroqText(responseJson);
+}
+
+async function fetchFromAnthropic(model, prompt) {
+  const response = await fetch(anthropicEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": process.env.ANTHROPIC_API_KEY,
+      "anthropic-version": "2023-06-01"
+    },
+    body: JSON.stringify({
+      model: model,
+      max_tokens: 2000,
+      messages: [
+        {
+          role: "user",
+          content: prompt
+        }
+      ]
+    })
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Anthropic API call failed (${response.status}): ${errorText}`);
+  }
+
+  const responseJson = await response.json();
+  return extractAnthropicText(responseJson);
+}
+
 async function generateArticleHtml(topic, todayFormatted, providerConfig) {
   const sourceHtml = await fs.readFile(articleTemplateSourceFile, "utf8");
   const articleTemplateHTML = buildArticleTemplate(sourceHtml);
   const prompt = await buildPrompt(topic, articleTemplateHTML, todayFormatted);
 
-  let response;
+  let rawText;
   if (providerConfig.provider === "groq") {
-    response = await fetch(groqEndpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.GROQ_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: providerConfig.model,
-        temperature: 0.7,
-        max_tokens: 2500,
-        messages: [
-          {
-            role: "user",
-            content: prompt
-          }
-        ]
-      })
-    });
+    rawText = await fetchFromGroq(providerConfig.model, prompt);
   } else {
-    response = await fetch(anthropicEndpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01"
-      },
-      body: JSON.stringify({
-        model: providerConfig.model,
-        max_tokens: 2000,
-        messages: [
-          {
-            role: "user",
-            content: prompt
-          }
-        ]
-      })
-    });
+    rawText = await fetchFromAnthropic(providerConfig.model, prompt);
   }
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    const label = providerConfig.provider === "groq" ? "Groq" : "Anthropic";
-    throw new Error(`${label} API call failed (${response.status}): ${errorText}`);
-  }
-
-  const responseJson = await response.json();
-  const rawText = providerConfig.provider === "groq"
-    ? extractGroqText(responseJson)
-    : extractAnthropicText(responseJson);
   const html = sanitizeHtmlOutput(rawText);
 
   if (!html.toLowerCase().includes("<html")) {
