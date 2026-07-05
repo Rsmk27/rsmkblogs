@@ -611,7 +611,7 @@ function extractReturnedSlug(html) {
   return title ? topicToSlug(title) : "";
 }
 
-function extractArticleTitle(html) {
+export function extractArticleTitle(html) {
   const h1Match = html.match(/<h1[^>]*class="blog-post-title"[^>]*>([\s\S]*?)<\/h1>/i);
   if (h1Match) {
     return h1Match[1].replace(/<[^>]+>/g, "").trim();
@@ -902,7 +902,9 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
