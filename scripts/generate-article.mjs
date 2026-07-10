@@ -670,7 +670,7 @@ function inferCategory(topic, primaryTag) {
   return "Embedded Systems";
 }
 
-function estimateReadMinutes(html) {
+export function estimateReadMinutes(html) {
   const match = html.match(/<div class="blog-content">([\s\S]*?)<\/div>/i);
   const bodyHtml = match ? match[1] : html;
   const words = bodyHtml
@@ -902,7 +902,10 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+import process from "node:process";
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
