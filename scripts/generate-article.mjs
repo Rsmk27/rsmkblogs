@@ -538,13 +538,35 @@ async function backfillImagesForGeneratedArticles() {
   let indexChanged = false;
   let updatedArticles = 0;
 
-  for (const topic of usedTopics) {
+  const CONCURRENCY_LIMIT = 3;
+
+  async function mapWithConcurrency(items, limit, asyncFn) {
+    const results = [];
+    let i = 0;
+
+    async function worker() {
+      while (i < items.length) {
+        const index = i++;
+        results[index] = await asyncFn(items[index]);
+      }
+    }
+
+    const workers = [];
+    for (let w = 0; w < Math.min(limit, items.length); w++) {
+      workers.push(worker());
+    }
+
+    await Promise.all(workers);
+    return results;
+  }
+
+  const results = await mapWithConcurrency(usedTopics, CONCURRENCY_LIMIT, async (topic) => {
     const slug = topicToSlug(topic);
     try {
       const articleFilePath = path.join(blogsDir, `${slug}.html`);
       if (!(await exists(articleFilePath))) {
         console.log(`Skipping ${slug}: article file not found.`);
-        continue;
+        return null;
       }
 
       const originalHtml = await fs.readFile(articleFilePath, "utf8");
@@ -553,16 +575,28 @@ async function backfillImagesForGeneratedArticles() {
       const updatedArticleHtml = applyArticleImage(originalHtml, imagePaths, articleTitle);
       await fs.writeFile(articleFilePath, `${updatedArticleHtml.trim()}\n`, "utf8");
 
-      const replacement = replaceIndexCardImage(indexHtml, slug, imagePaths.siteRelativePath);
+      console.log(`Backfilled image for ${slug}: ${imagePaths.siteRelativePath}`);
+
+      // Delay slightly to prevent slamming external APIs all at exactly the same time,
+      // but without blocking the main event loop for long
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      return { slug, imagePaths };
+    } catch (error) {
+      console.log(`Backfill failed for ${slug}: ${error.message || error}`);
+      return null;
+    }
+  });
+
+  // Sequentially update the indexHtml using the results
+  for (const result of results) {
+    if (result) {
+      const replacement = replaceIndexCardImage(indexHtml, result.slug, result.imagePaths.siteRelativePath);
       if (replacement.changed) {
         indexHtml = replacement.updated;
         indexChanged = true;
       }
-
       updatedArticles += 1;
-      console.log(`Backfilled image for ${slug}: ${imagePaths.siteRelativePath}`);
-    } catch (error) {
-      console.log(`Backfill failed for ${slug}: ${error.message || error}`);
     }
   }
 
