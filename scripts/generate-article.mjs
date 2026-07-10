@@ -282,7 +282,7 @@ function resolveAiProviderConfig() {
   throw new Error("Invalid AI_PROVIDER. Use 'groq' or 'anthropic'.");
 }
 
-function sanitizeHtmlOutput(text) {
+export function sanitizeHtmlOutput(text) {
   return text
     .replace(/^```html\s*/i, "")
     .replace(/^```\s*/i, "")
@@ -902,7 +902,9 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
