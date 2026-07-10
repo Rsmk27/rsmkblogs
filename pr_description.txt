@@ -1,0 +1,12 @@
+🎯 **What:** Added tests for the `extractArticleTitle` regex parsing functionality within `scripts/generate-article.mjs`.
+
+📊 **Coverage:** The new tests cover:
+- Successful title extraction from `<h1 class="blog-post-title">...</h1>` elements.
+- Verification that HTML tags inside the title match are successfully stripped.
+- Fallback processing for when only a `<title>` tag exists.
+- Suffix stripping logic (e.g. ` | RSMK Blog`) on the `<title>` tag elements.
+- Case-insensitivity and whitespace management within `<title>` tags.
+- The `New Article` return value default behaviour.
+- Safe exporting and process execution guarding for the root script logic.
+
+✨ **Result:** Test suite passes locally using Node.js' native test runner (`node --test`), increasing coverage and preventing regression risks on article logic updates.
