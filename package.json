@@ -1,0 +1,9 @@
+{
+  "name": "rsmk-blogs",
+  "version": "1.0.0",
+  "description": "RSMK Blogs",
+  "type": "module",
+  "scripts": {
+    "test": "node --test scripts/*.test.mjs"
+  }
+}
