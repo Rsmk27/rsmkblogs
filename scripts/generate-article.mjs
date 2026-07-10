@@ -444,29 +444,25 @@ async function findWikipediaTopicImage(topic) {
 async function fetchAndSaveTopicImage(topic, slug) {
   const candidateUrls = [];
 
-  try {
-    const commonsCandidate = await findRelevantCommonsImage(topic);
-    if (commonsCandidate) {
-      if (commonsCandidate.relevance >= 0.34) {
-        candidateUrls.push(commonsCandidate.url);
-        console.log(`Wikimedia image relevance score: ${commonsCandidate.relevance.toFixed(2)}`);
-      } else {
-        // Keep a low-score Wikimedia candidate as a fallback before synthetic generation.
-        candidateUrls.push(commonsCandidate.url);
-        console.log(`Wikimedia low relevance fallback score: ${commonsCandidate.relevance.toFixed(2)}`);
-      }
+  const [commonsResult, wikipediaResult] = await Promise.allSettled([
+    findRelevantCommonsImage(topic),
+    findWikipediaTopicImage(topic)
+  ]);
+
+  if (commonsResult.status === "fulfilled" && commonsResult.value) {
+    const commonsCandidate = commonsResult.value;
+    if (commonsCandidate.relevance >= 0.34) {
+      candidateUrls.push(commonsCandidate.url);
+      console.log(`Wikimedia image relevance score: ${commonsCandidate.relevance.toFixed(2)}`);
+    } else {
+      // Keep a low-score Wikimedia candidate as a fallback before synthetic generation.
+      candidateUrls.push(commonsCandidate.url);
+      console.log(`Wikimedia low relevance fallback score: ${commonsCandidate.relevance.toFixed(2)}`);
     }
-  } catch {
-    // Ignore Wikimedia lookup failures and continue with prompt-based fallback.
   }
 
-  try {
-    const wikipediaImage = await findWikipediaTopicImage(topic);
-    if (wikipediaImage) {
-      candidateUrls.push(wikipediaImage);
-    }
-  } catch {
-    // Ignore Wikipedia lookup failures.
+  if (wikipediaResult.status === "fulfilled" && wikipediaResult.value) {
+    candidateUrls.push(wikipediaResult.value);
   }
 
   // Prompt-based fallback using exact topic tokens.
