@@ -138,70 +138,64 @@ async function chooseTopic() {
 function buildArticleTemplate(html) {
   let template = html;
 
-  template = template.replace(
-    /<meta\s+name="description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta name="description" content="META_DESCRIPTION" />\n    <meta name="article-slug" content="ARTICLE_SLUG">'
-  );
+  const replacements = [
+    {
+      regex: /<meta\s+name="description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      replacement: '<meta name="description" content="META_DESCRIPTION" />\n    <meta name="article-slug" content="ARTICLE_SLUG">'
+    },
+    {
+      regex: /<meta\s+name="keywords"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      replacement: '<meta name="keywords" content="TAG_1, TAG_2, TAG_3">'
+    },
+    {
+      regex: /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?\s*>/i,
+      replacement: '<link rel="canonical" href="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
+    },
+    {
+      regex: /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?\s*>/i,
+      replacement: '<meta property="og:url" content="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
+    },
+    {
+      regex: /<meta\s+property="og:title"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      replacement: '<meta property="og:title" content="ARTICLE_TITLE | RSMK Blogs">'
+    },
+    {
+      regex: /<meta\s+property="og:description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      replacement: '<meta property="og:description" content="META_DESCRIPTION">'
+    },
+    {
+      regex: /<meta\s+property="twitter:url"\s+content="[^"]*"\s*\/?\s*>/i,
+      replacement: '<meta property="twitter:url" content="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
+    },
+    {
+      regex: /<meta\s+property="twitter:title"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      replacement: '<meta property="twitter:title" content="ARTICLE_TITLE | RSMK Blogs">'
+    },
+    {
+      regex: /<meta\s+property="twitter:description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
+      replacement: '<meta property="twitter:description" content="META_DESCRIPTION">'
+    },
+    {
+      regex: /<title>[\s\S]*?<\/title>/i,
+      replacement: '<title>ARTICLE_TITLE | RSMK Blogs</title>'
+    },
+    {
+      regex: /<div class="blog-post-meta">[\s\S]*?<\/div>/i,
+      replacement: '<div class="blog-post-meta">\n                        <span>TAG_1</span> &bull; <span>ARTICLE_DATE</span>\n                    </div>'
+    },
+    {
+      regex: /<h1 class="blog-post-title">[\s\S]*?<\/h1>/i,
+      replacement: '<h1 class="blog-post-title">ARTICLE_TITLE</h1>'
+    },
+    {
+      regex: /<div class="blog-content">[\s\S]*?<\/div>\s*<\/div>\s*<\/article>/i,
+      replacement: '<div class="blog-content">\n                    ARTICLE_BODY\n                </div>\n            </div>\n        </article>'
+    }
+  ];
 
-  template = template.replace(
-    /<meta\s+name="keywords"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta name="keywords" content="TAG_1, TAG_2, TAG_3">'
-  );
-
-  template = template.replace(
-    /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?\s*>/i,
-    '<link rel="canonical" href="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="og:url" content="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="og:title"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="og:title" content="ARTICLE_TITLE | RSMK Blogs">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="og:description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="og:description" content="META_DESCRIPTION">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="twitter:url"\s+content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="twitter:url" content="https://blogs.rsmk.me/blogs/ARTICLE_SLUG.html">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="twitter:title"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="twitter:title" content="ARTICLE_TITLE | RSMK Blogs">'
-  );
-
-  template = template.replace(
-    /<meta\s+property="twitter:description"[\s\S]*?content="[^"]*"\s*\/?\s*>/i,
-    '<meta property="twitter:description" content="META_DESCRIPTION">'
-  );
-
-  template = template.replace(
-    /<title>[\s\S]*?<\/title>/i,
-    '<title>ARTICLE_TITLE | RSMK Blogs</title>'
-  );
-
-  template = template.replace(
-    /<div class="blog-post-meta">[\s\S]*?<\/div>/i,
-    '<div class="blog-post-meta">\n                        <span>TAG_1</span> &bull; <span>ARTICLE_DATE</span>\n                    </div>'
-  );
-
-  template = template.replace(
-    /<h1 class="blog-post-title">[\s\S]*?<\/h1>/i,
-    '<h1 class="blog-post-title">ARTICLE_TITLE</h1>'
-  );
-
-  template = template.replace(
-    /<div class="blog-content">[\s\S]*?<\/div>\s*<\/div>\s*<\/article>/i,
-    '<div class="blog-content">\n                    ARTICLE_BODY\n                </div>\n            </div>\n        </article>'
-  );
+  for (const { regex, replacement } of replacements) {
+    template = template.replace(regex, replacement);
+  }
 
   return template;
 }
