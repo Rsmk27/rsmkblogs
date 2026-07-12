@@ -23,6 +23,11 @@ const groqEndpoint = "https://api.groq.com/openai/v1/chat/completions";
 const groqDefaultModel = "llama-3.3-70b-versatile";
 const siteBaseUrl = "https://blogs.rsmk.me";
 
+const FALLBACK_IMAGE_PROVIDERS = [
+  (topic) => `https://image.pollinations.ai/prompt/${encodeURIComponent(`${topic} electronics technology photo realistic`)}`,
+  (topic) => `https://source.unsplash.com/1600x900/?${encodeURIComponent(buildImageQuery(topic))}&sig=${Date.now()}`
+];
+
 function formatLongDate(date = new Date()) {
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
@@ -469,9 +474,10 @@ async function fetchAndSaveTopicImage(topic, slug) {
     // Ignore Wikipedia lookup failures.
   }
 
-  // Prompt-based fallback using exact topic tokens.
-  candidateUrls.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(`${topic} electronics technology photo realistic`)}`);
-  candidateUrls.push(`https://source.unsplash.com/1600x900/?${encodeURIComponent(buildImageQuery(topic))}&sig=${Date.now()}`);
+  // Prompt-based fallback using configured providers.
+  for (const provider of FALLBACK_IMAGE_PROVIDERS) {
+    candidateUrls.push(provider(topic));
+  }
 
   let lastError = "";
   for (const imageUrl of candidateUrls) {
