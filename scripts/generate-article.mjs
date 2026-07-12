@@ -336,7 +336,7 @@ function buildImageQuery(topic) {
   return ["electronics", ...words].join(",");
 }
 
-function tokenizeForRelevance(text) {
+export function tokenizeForRelevance(text) {
   const stopWords = new Set([
     "the", "and", "for", "with", "from", "that", "this", "your", "into", "about", "using", "guide",
     "how", "what", "why", "new", "best", "more", "less", "over", "under", "versus", "vs", "practical"
@@ -902,7 +902,9 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
