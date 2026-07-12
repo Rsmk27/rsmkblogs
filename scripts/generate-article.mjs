@@ -538,32 +538,40 @@ async function backfillImagesForGeneratedArticles() {
   let indexChanged = false;
   let updatedArticles = 0;
 
-  for (const topic of usedTopics) {
-    const slug = topicToSlug(topic);
-    try {
-      const articleFilePath = path.join(blogsDir, `${slug}.html`);
-      if (!(await exists(articleFilePath))) {
-        console.log(`Skipping ${slug}: article file not found.`);
-        continue;
+  const results = await Promise.all(
+    usedTopics.map(async (topic) => {
+      const slug = topicToSlug(topic);
+      try {
+        const articleFilePath = path.join(blogsDir, `${slug}.html`);
+        if (!(await exists(articleFilePath))) {
+          console.log(`Skipping ${slug}: article file not found.`);
+          return null;
+        }
+
+        const originalHtml = await fs.readFile(articleFilePath, "utf8");
+        const articleTitle = extractArticleTitle(originalHtml);
+        const imagePaths = await fetchAndSaveTopicImage(topic, slug);
+        const updatedArticleHtml = applyArticleImage(originalHtml, imagePaths, articleTitle);
+        await fs.writeFile(articleFilePath, `${updatedArticleHtml.trim()}\n`, "utf8");
+
+        return { slug, imagePaths };
+      } catch (error) {
+        console.log(`Backfill failed for ${slug}: ${error.message || error}`);
+        return null;
       }
+    })
+  );
 
-      const originalHtml = await fs.readFile(articleFilePath, "utf8");
-      const articleTitle = extractArticleTitle(originalHtml);
-      const imagePaths = await fetchAndSaveTopicImage(topic, slug);
-      const updatedArticleHtml = applyArticleImage(originalHtml, imagePaths, articleTitle);
-      await fs.writeFile(articleFilePath, `${updatedArticleHtml.trim()}\n`, "utf8");
-
-      const replacement = replaceIndexCardImage(indexHtml, slug, imagePaths.siteRelativePath);
-      if (replacement.changed) {
-        indexHtml = replacement.updated;
-        indexChanged = true;
-      }
-
-      updatedArticles += 1;
-      console.log(`Backfilled image for ${slug}: ${imagePaths.siteRelativePath}`);
-    } catch (error) {
-      console.log(`Backfill failed for ${slug}: ${error.message || error}`);
+  for (const result of results) {
+    if (!result) continue;
+    const { slug, imagePaths } = result;
+    const replacement = replaceIndexCardImage(indexHtml, slug, imagePaths.siteRelativePath);
+    if (replacement.changed) {
+      indexHtml = replacement.updated;
+      indexChanged = true;
     }
+    updatedArticles += 1;
+    console.log(`Backfilled image for ${slug}: ${imagePaths.siteRelativePath}`);
   }
 
   if (indexChanged) {
