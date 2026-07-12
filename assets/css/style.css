@@ -469,6 +469,30 @@ header .container {
     text-transform: uppercase;
 }
 
+/* Category Tag Modifiers */
+.category-tag.category-iot,
+.category-tag.category-telecommunications {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.category-tag.category-green-energy,
+.category-tag.category-green-tech {
+    background: var(--secondary-color);
+    color: #fff;
+}
+
+.category-tag.category-future-tech {
+    background: #9c27b0;
+    color: #fff;
+}
+
+.category-tag.category-hardware {
+    background: #ffcc00;
+    color: #000;
+}
+
+
 .blog-card-content {
     padding: 25px;
     flex: 1;

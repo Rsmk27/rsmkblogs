@@ -710,16 +710,12 @@ async function findBlogIndexFile() {
 }
 
 function buildNewIndexCard({ slug, title, excerpt, category, dateShort, readTime, imagePath }) {
-  const categoryStyle = category === "Green Energy"
-    ? ' style="background: var(--secondary-color); color: #fff;"'
-    : category === "IoT"
-      ? ' style="background: var(--accent-color); color: #fff;"'
-      : "";
+  const categoryClass = category ? ` category-${category.toLowerCase().replace(/\s+/g, '-')}` : '';
 
   return `                    <!-- Auto Article - ${escapeHtml(slug)} -->
                     <article class="blog-card" data-category="${escapeHtml(category)}">
                         <div class="blog-card-img">
-                            <span class="category-tag"${categoryStyle}>${escapeHtml(category)}</span>
+                            <span class="category-tag${categoryClass}">${escapeHtml(category)}</span>
                             <img src="${escapeHtml(imagePath)}" alt="${escapeHtml(title)}" loading="lazy">
                         </div>
                         <div class="blog-card-content">
