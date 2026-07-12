@@ -511,17 +511,37 @@ async function fetchAndSaveTopicImage(topic, slug) {
 }
 
 function replaceIndexCardImage(indexHtml, slug, imagePath) {
-  const escapedSlug = slug.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const blockRegex = new RegExp(`(<!--\\s*Auto Article\\s*-\\s*${escapedSlug}\\s*-->[\\s\\S]*?<img\\s+src=")([^"]+)("[\\s\\S]*?<\\/article>)`, "i");
-  if (!blockRegex.test(indexHtml)) {
+  const escapedSlug = slug.replace(/[.*+?^\$\{\}()|[\]\\]/g, "\\$&");
+  const markerRegex = new RegExp(`<!--\\s*Auto Article\\s*-\\s*${escapedSlug}\\s*-->`, "i");
+  const match = indexHtml.match(markerRegex);
+
+  if (!match) {
     return {
       updated: indexHtml,
       changed: false
     };
   }
 
+  const startIndex = match.index;
+  const endArticleIndex = indexHtml.indexOf("</article>", startIndex);
+
+  if (endArticleIndex === -1) {
+    return { updated: indexHtml, changed: false };
+  }
+
+  const blockEnd = endArticleIndex + "</article>".length;
+  const block = indexHtml.substring(startIndex, blockEnd);
+
+  const imgRegex = /(<img\s+(?:[^>]*?\s+)?src=")([^"]+)(")/i;
+
+  if (!imgRegex.test(block)) {
+    return { updated: indexHtml, changed: false };
+  }
+
+  const newBlock = block.replace(imgRegex, `$1${imagePath}$3`);
+
   return {
-    updated: indexHtml.replace(blockRegex, `$1${imagePath}$3`),
+    updated: indexHtml.substring(0, startIndex) + newBlock + indexHtml.substring(blockEnd),
     changed: true
   };
 }
