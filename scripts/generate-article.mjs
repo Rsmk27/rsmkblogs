@@ -583,15 +583,11 @@ function applyArticleImage(html, imagePaths, title) {
     `<img src="${imagePaths.articleRelativePath}" alt="${safeTitle}" class="blog-featured-image">`
   );
 
-  updated = updated.replace(
-    /(<meta\s+property="og:image"\s+content=")([^"]+)("\s*\/?\s*>)/i,
-    `$1${imagePaths.absoluteUrl}$3`
-  );
-
-  updated = updated.replace(
-    /(<meta\s+property="twitter:image"\s+content=")([^"]+)("\s*\/?\s*>)/i,
-    `$1${imagePaths.absoluteUrl}$3`
-  );
+  const metaProperties = ["og:image", "twitter:image"];
+  for (const property of metaProperties) {
+    const regex = new RegExp(`(<meta\\s+property="${property}"\\s+content=")([^"]+)("\\s*\\/?\\s*>)`, "i");
+    updated = updated.replace(regex, `$1${imagePaths.absoluteUrl}$3`);
+  }
 
   updated = updated.replace(
     /("image"\s*:\s*")([^"]+)(")/i,
