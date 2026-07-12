@@ -647,7 +647,7 @@ function extractPrimaryTag(html) {
   return tags.length ? tags[0] : null;
 }
 
-function inferCategory(topic, primaryTag) {
+export function inferCategory(topic, primaryTag) {
   const tagCandidate = (primaryTag || "").toLowerCase();
   const topicLower = topic.toLowerCase();
 
@@ -902,7 +902,9 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
