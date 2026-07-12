@@ -1,0 +1,24 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "This repository includes a daily AI-powered blog automation pipeline for the static site.",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rsmk27/rsmkblogs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Rsmk27/rsmkblogs/issues"
+  },
+  "homepage": "https://github.com/Rsmk27/rsmkblogs#readme",
+  "devDependencies": {
+    "jest": "^30.4.2"
+  }
+}
