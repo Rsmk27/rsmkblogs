@@ -369,6 +369,58 @@ function scoreTopicRelevance(topic, candidateText) {
   return overlap / topicTokens.size;
 }
 
+
+const ALLOWED_IMAGE_HOSTS = new Set([
+  "upload.wikimedia.org",
+  "image.pollinations.ai",
+  "source.unsplash.com",
+  "images.unsplash.com",
+  "plus.unsplash.com"
+]);
+
+async function safeFetchImage(urlStr) {
+  let currentUrl = urlStr;
+  let redirects = 0;
+
+  while (redirects < 5) {
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(currentUrl);
+    } catch {
+      throw new Error(`Invalid URL: ${currentUrl}`);
+    }
+
+    if (parsedUrl.protocol !== "https:") {
+      throw new Error(`Invalid protocol: ${parsedUrl.protocol}. Only https is allowed.`);
+    }
+
+    if (!ALLOWED_IMAGE_HOSTS.has(parsedUrl.hostname)) {
+      throw new Error(`Host not allowed for image fetch: ${parsedUrl.hostname}`);
+    }
+
+    const response = await fetch(currentUrl, {
+      redirect: "manual",
+      headers: {
+        "User-Agent": "rsmkblogs-article-generator/1.0"
+      }
+    });
+
+    if (response.status >= 300 && response.status < 400) {
+      const location = response.headers.get("location");
+      if (!location) {
+        throw new Error("Redirect missing location header");
+      }
+      currentUrl = new URL(location, currentUrl).href;
+      redirects++;
+      continue;
+    }
+
+    return response;
+  }
+
+  throw new Error("Too many redirects");
+}
+
 async function findRelevantCommonsImage(topic) {
   const commonsSearchUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrsearch=${encodeURIComponent(topic)}&gsrlimit=12&prop=pageimages|imageinfo|categories&pithumbsize=1600&iiprop=url|mime|extmetadata&cllimit=20`;
   const commonsResponse = await fetch(commonsSearchUrl, {
@@ -476,11 +528,7 @@ async function fetchAndSaveTopicImage(topic, slug) {
   let lastError = "";
   for (const imageUrl of candidateUrls) {
     try {
-      const response = await fetch(imageUrl, {
-        headers: {
-          "User-Agent": "rsmkblogs-article-generator/1.0"
-        }
-      });
+      const response = await safeFetchImage(imageUrl);
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
