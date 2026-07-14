@@ -902,7 +902,11 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
+export { extractGroqText };
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
   console.error(error.message || error);
-  process.exit(1);
-});
+    process.exit(1);
+  });
+}
