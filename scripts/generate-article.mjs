@@ -902,7 +902,11 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
+
+export { scoreTopicRelevance, tokenizeForRelevance };
