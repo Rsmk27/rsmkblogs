@@ -647,15 +647,15 @@ function extractPrimaryTag(html) {
   return tags.length ? tags[0] : null;
 }
 
-function inferCategory(topic, primaryTag) {
+export function inferCategory(topic, primaryTag) {
   const tagCandidate = (primaryTag || "").toLowerCase();
   const topicLower = topic.toLowerCase();
 
-  if (tagCandidate.includes("green") || topicLower.includes("solar") || topicLower.includes("energy") || topicLower.includes("ev")) {
+  if (tagCandidate.includes("green") || topicLower.includes("solar") || topicLower.includes("energy") || /\bev\b/i.test(topicLower)) {
     return "Green Energy";
   }
 
-  if (tagCandidate.includes("iot") || topicLower.includes("iot") || topicLower.includes("esp32") || topicLower.includes("esp8266") || topicLower.includes("mqtt")) {
+  if (tagCandidate.includes("iot") || /\biot\b/i.test(topicLower) || topicLower.includes("esp32") || topicLower.includes("esp8266") || topicLower.includes("mqtt")) {
     return "IoT";
   }
 
@@ -663,7 +663,7 @@ function inferCategory(topic, primaryTag) {
     return "Careers";
   }
 
-  if (tagCandidate.includes("future") || topicLower.includes("quantum") || topicLower.includes("ai")) {
+  if (tagCandidate.includes("future") || topicLower.includes("quantum") || /\bai\b/i.test(topicLower)) {
     return "Future Tech";
   }
 
@@ -902,7 +902,9 @@ async function main() {
   console.log("Topic usage updated: scripts/used-topics.json");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
