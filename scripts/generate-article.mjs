@@ -352,8 +352,8 @@ function tokenizeForRelevance(text) {
   );
 }
 
-function scoreTopicRelevance(topic, candidateText) {
-  const topicTokens = tokenizeForRelevance(topic);
+function scoreTopicRelevance(topicTokens, candidateText) {
+
   const candidateTokens = tokenizeForRelevance(candidateText);
   if (!topicTokens.size || !candidateTokens.size) {
     return 0;
@@ -383,6 +383,7 @@ async function findRelevantCommonsImage(topic) {
 
   const commonsJson = await commonsResponse.json();
   const pages = Object.values(commonsJson?.query?.pages || {});
+  const topicTokens = tokenizeForRelevance(topic);
   let bestCandidate = null;
 
   for (const page of pages) {
@@ -392,7 +393,7 @@ async function findRelevantCommonsImage(topic) {
     const categories = (page?.categories || []).map((item) => item?.title || "").join(" ");
     const description = `${extMetadata?.ImageDescription?.value || ""} ${extMetadata?.ObjectName?.value || ""}`;
     const candidateText = `${title} ${categories} ${description}`;
-    const relevance = scoreTopicRelevance(topic, candidateText);
+    const relevance = scoreTopicRelevance(topicTokens, candidateText);
     const url = page?.thumbnail?.source || imageInfo?.url;
 
     if (!url || !/^https?:\/\//i.test(url)) {
