@@ -661,7 +661,7 @@ function extractPrimaryTag(html) {
   return tags.length ? tags[0] : null;
 }
 
-function inferCategory(topic, primaryTag) {
+export function inferCategory(topic, primaryTag) {
   const tagCandidate = (primaryTag || "").toLowerCase();
   const topicLower = topic.toLowerCase();
 
