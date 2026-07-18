@@ -23,6 +23,11 @@ const groqEndpoint = "https://api.groq.com/openai/v1/chat/completions";
 const groqDefaultModel = "llama-3.3-70b-versatile";
 const siteBaseUrl = "https://blogs.rsmk.me";
 
+const FALLBACK_IMAGE_PROVIDERS = [
+  (topic) => `https://image.pollinations.ai/prompt/${encodeURIComponent(`${topic} electronics technology photo realistic`)}`,
+  (topic) => `https://source.unsplash.com/1600x900/?${encodeURIComponent(buildImageQuery(topic))}&sig=${Date.now()}`
+];
+
 function formatLongDate(date = new Date()) {
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
@@ -352,8 +357,7 @@ function tokenizeForRelevance(text) {
   );
 }
 
-function scoreTopicRelevance(topic, candidateText) {
-  const topicTokens = tokenizeForRelevance(topic);
+function scoreTopicRelevance(topicTokens, candidateText) {
   const candidateTokens = tokenizeForRelevance(candidateText);
   if (!topicTokens.size || !candidateTokens.size) {
     return 0;
@@ -384,6 +388,7 @@ async function findRelevantCommonsImage(topic) {
   const commonsJson = await commonsResponse.json();
   const pages = Object.values(commonsJson?.query?.pages || {});
   let bestCandidate = null;
+  const topicTokens = tokenizeForRelevance(topic);
 
   for (const page of pages) {
     const imageInfo = page?.imageinfo?.[0] || {};
@@ -392,7 +397,7 @@ async function findRelevantCommonsImage(topic) {
     const categories = (page?.categories || []).map((item) => item?.title || "").join(" ");
     const description = `${extMetadata?.ImageDescription?.value || ""} ${extMetadata?.ObjectName?.value || ""}`;
     const candidateText = `${title} ${categories} ${description}`;
-    const relevance = scoreTopicRelevance(topic, candidateText);
+    const relevance = scoreTopicRelevance(topicTokens, candidateText);
     const url = page?.thumbnail?.source || imageInfo?.url;
 
     if (!url || !/^https?:\/\//i.test(url)) {
@@ -469,9 +474,10 @@ async function fetchAndSaveTopicImage(topic, slug) {
     // Ignore Wikipedia lookup failures.
   }
 
-  // Prompt-based fallback using exact topic tokens.
-  candidateUrls.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(`${topic} electronics technology photo realistic`)}`);
-  candidateUrls.push(`https://source.unsplash.com/1600x900/?${encodeURIComponent(buildImageQuery(topic))}&sig=${Date.now()}`);
+  // Prompt-based fallback using configured providers.
+  for (const provider of FALLBACK_IMAGE_PROVIDERS) {
+    candidateUrls.push(provider(topic));
+  }
 
   let lastError = "";
   for (const imageUrl of candidateUrls) {
@@ -538,32 +544,40 @@ async function backfillImagesForGeneratedArticles() {
   let indexChanged = false;
   let updatedArticles = 0;
 
-  for (const topic of usedTopics) {
-    const slug = topicToSlug(topic);
-    try {
-      const articleFilePath = path.join(blogsDir, `${slug}.html`);
-      if (!(await exists(articleFilePath))) {
-        console.log(`Skipping ${slug}: article file not found.`);
-        continue;
+  const results = await Promise.all(
+    usedTopics.map(async (topic) => {
+      const slug = topicToSlug(topic);
+      try {
+        const articleFilePath = path.join(blogsDir, `${slug}.html`);
+        if (!(await exists(articleFilePath))) {
+          console.log(`Skipping ${slug}: article file not found.`);
+          return null;
+        }
+
+        const originalHtml = await fs.readFile(articleFilePath, "utf8");
+        const articleTitle = extractArticleTitle(originalHtml);
+        const imagePaths = await fetchAndSaveTopicImage(topic, slug);
+        const updatedArticleHtml = applyArticleImage(originalHtml, imagePaths, articleTitle);
+        await fs.writeFile(articleFilePath, `${updatedArticleHtml.trim()}\n`, "utf8");
+
+        return { slug, imagePaths };
+      } catch (error) {
+        console.log(`Backfill failed for ${slug}: ${error.message || error}`);
+        return null;
       }
+    })
+  );
 
-      const originalHtml = await fs.readFile(articleFilePath, "utf8");
-      const articleTitle = extractArticleTitle(originalHtml);
-      const imagePaths = await fetchAndSaveTopicImage(topic, slug);
-      const updatedArticleHtml = applyArticleImage(originalHtml, imagePaths, articleTitle);
-      await fs.writeFile(articleFilePath, `${updatedArticleHtml.trim()}\n`, "utf8");
-
-      const replacement = replaceIndexCardImage(indexHtml, slug, imagePaths.siteRelativePath);
-      if (replacement.changed) {
-        indexHtml = replacement.updated;
-        indexChanged = true;
-      }
-
-      updatedArticles += 1;
-      console.log(`Backfilled image for ${slug}: ${imagePaths.siteRelativePath}`);
-    } catch (error) {
-      console.log(`Backfill failed for ${slug}: ${error.message || error}`);
+  for (const result of results) {
+    if (!result) continue;
+    const { slug, imagePaths } = result;
+    const replacement = replaceIndexCardImage(indexHtml, slug, imagePaths.siteRelativePath);
+    if (replacement.changed) {
+      indexHtml = replacement.updated;
+      indexChanged = true;
     }
+    updatedArticles += 1;
+    console.log(`Backfilled image for ${slug}: ${imagePaths.siteRelativePath}`);
   }
 
   if (indexChanged) {
@@ -710,16 +724,12 @@ async function findBlogIndexFile() {
 }
 
 function buildNewIndexCard({ slug, title, excerpt, category, dateShort, readTime, imagePath }) {
-  const categoryStyle = category === "Green Energy"
-    ? ' style="background: var(--secondary-color); color: #fff;"'
-    : category === "IoT"
-      ? ' style="background: var(--accent-color); color: #fff;"'
-      : "";
+  const categoryClass = category ? ` category-${category.toLowerCase().replace(/\s+/g, '-')}` : '';
 
   return `                    <!-- Auto Article - ${escapeHtml(slug)} -->
                     <article class="blog-card" data-category="${escapeHtml(category)}">
                         <div class="blog-card-img">
-                            <span class="category-tag"${categoryStyle}>${escapeHtml(category)}</span>
+                            <span class="category-tag${categoryClass}">${escapeHtml(category)}</span>
                             <img src="${escapeHtml(imagePath)}" alt="${escapeHtml(title)}" loading="lazy">
                         </div>
                         <div class="blog-card-content">
@@ -903,8 +913,8 @@ async function main() {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  main().catch((error) => {
-    console.error(error.message || error);
-    process.exit(1);
-  });
+main().catch((error) => {
+  console.error(error.message || error);
+  process.exit(1);
+});
 }
