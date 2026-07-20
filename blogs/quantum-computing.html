@@ -218,21 +218,6 @@
             nav.classList.toggle('active');
         }
 
-        // Theme Toggle Logic
-        const themeToggle = document.getElementById('theme-toggle');
-        const currentTheme = localStorage.getItem('theme');
-        if (currentTheme == 'light') { document.body.setAttribute('data-theme', 'light'); }
-
-        themeToggle.addEventListener('click', () => {
-            let theme = document.body.getAttribute('data-theme');
-            if (theme === 'light') {
-                document.body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.body.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-            }
-        });
 
         // Auto Generate Table of Contents
         document.addEventListener('DOMContentLoaded', function () {
@@ -257,6 +242,7 @@
             }
         });
     </script>
+    <script src="../assets/js/theme.js"></script>
 </body>
 
 </html>
