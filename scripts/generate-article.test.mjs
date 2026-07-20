@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory } from "./generate-article.mjs";
+import { inferCategory, escapeHtml } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -52,4 +52,27 @@ test("inferCategory - Embedded Systems (Default)", (t) => {
   assert.strictEqual(inferCategory("general electronics", "hardware"), "Embedded Systems");
   assert.strictEqual(inferCategory("random topic", null), "Embedded Systems");
   assert.strictEqual(inferCategory("RANDOM TOPIC", ""), "Embedded Systems");
+});
+
+test("escapeHtml", (t) => {
+  // Happy path
+  assert.strictEqual(escapeHtml("hello world"), "hello world");
+
+  // Special characters individually
+  assert.strictEqual(escapeHtml("apples & oranges"), "apples &amp; oranges");
+  assert.strictEqual(escapeHtml("5 < 10"), "5 &lt; 10");
+  assert.strictEqual(escapeHtml("10 > 5"), "10 &gt; 5");
+  assert.strictEqual(escapeHtml('say "hello"'), "say &quot;hello&quot;");
+  assert.strictEqual(escapeHtml("it's mine"), "it&#39;s mine");
+
+  // Multiple special characters
+  assert.strictEqual(
+    escapeHtml('<a href="test&id=1">It\'s</a>'),
+    "&lt;a href=&quot;test&amp;id=1&quot;&gt;It&#39;s&lt;/a&gt;"
+  );
+
+  // Non-string inputs
+  assert.strictEqual(escapeHtml(123), "123");
+  assert.strictEqual(escapeHtml(null), "null");
+  assert.strictEqual(escapeHtml(undefined), "undefined");
 });
