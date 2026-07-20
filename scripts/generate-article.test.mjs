@@ -52,4 +52,8 @@ test("inferCategory - Embedded Systems (Default)", (t) => {
   assert.strictEqual(inferCategory("general electronics", "hardware"), "Embedded Systems");
   assert.strictEqual(inferCategory("random topic", null), "Embedded Systems");
   assert.strictEqual(inferCategory("RANDOM TOPIC", ""), "Embedded Systems");
+
+  // Test null/undefined topic
+  assert.strictEqual(inferCategory(null, "misc"), "Embedded Systems");
+  assert.strictEqual(inferCategory(undefined, "green energy"), "Green Energy");
 });
