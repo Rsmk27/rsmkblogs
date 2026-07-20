@@ -663,7 +663,7 @@ function extractPrimaryTag(html) {
 
 export function inferCategory(topic, primaryTag) {
   const tagCandidate = (primaryTag || "").toLowerCase();
-  const topicLower = topic.toLowerCase();
+  const topicLower = (topic || "").toLowerCase();
 
   if (tagCandidate.includes("green") || topicLower.includes("solar") || topicLower.includes("energy") || topicLower.includes("ev")) {
     return "Green Energy";
