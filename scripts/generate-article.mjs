@@ -684,7 +684,7 @@ export function inferCategory(topic, primaryTag) {
   return "Embedded Systems";
 }
 
-function estimateReadMinutes(html) {
+export function estimateReadMinutes(html) {
   const match = html.match(/<div class="blog-content">([\s\S]*?)<\/div>/i);
   const bodyHtml = match ? match[1] : html;
   const words = bodyHtml
