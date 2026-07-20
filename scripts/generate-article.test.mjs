@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory } from "./generate-article.mjs";
+import { inferCategory, topicToSlug } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -52,4 +52,24 @@ test("inferCategory - Embedded Systems (Default)", (t) => {
   assert.strictEqual(inferCategory("general electronics", "hardware"), "Embedded Systems");
   assert.strictEqual(inferCategory("random topic", null), "Embedded Systems");
   assert.strictEqual(inferCategory("RANDOM TOPIC", ""), "Embedded Systems");
+});
+
+test("topicToSlug - spaces", (t) => {
+  assert.strictEqual(topicToSlug("Hello World"), "hello-world");
+  assert.strictEqual(topicToSlug("Multiple   Spaces  Here"), "multiple-spaces-here");
+});
+
+test("topicToSlug - special characters", (t) => {
+  assert.strictEqual(topicToSlug("Special && Characters!"), "special-characters");
+  assert.strictEqual(topicToSlug("100% Guaranteed @Home"), "100-guaranteed-home");
+});
+
+test("topicToSlug - trailing and leading dashes", (t) => {
+  assert.strictEqual(topicToSlug("  -hello- "), "hello");
+  assert.strictEqual(topicToSlug("---multiple---dashes---"), "multiple-dashes");
+});
+
+test("topicToSlug - numbers and mixed case", (t) => {
+  assert.strictEqual(topicToSlug("A1 B2!"), "a1-b2");
+  assert.strictEqual(topicToSlug("Top 10 IoT Devices of 2024"), "top-10-iot-devices-of-2024");
 });
