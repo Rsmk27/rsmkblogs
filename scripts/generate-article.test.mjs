@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory } from "./generate-article.mjs";
+import { inferCategory, sanitizeHtmlOutput } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -52,4 +52,43 @@ test("inferCategory - Embedded Systems (Default)", (t) => {
   assert.strictEqual(inferCategory("general electronics", "hardware"), "Embedded Systems");
   assert.strictEqual(inferCategory("random topic", null), "Embedded Systems");
   assert.strictEqual(inferCategory("RANDOM TOPIC", ""), "Embedded Systems");
+});
+
+
+test("sanitizeHtmlOutput", (t) => {
+  // Stripping ```html and closing ```
+  assert.strictEqual(
+    sanitizeHtmlOutput("```html\n<div>Hello</div>\n```"),
+    "<div>Hello</div>"
+  );
+
+  // Stripping generic ``` blocks
+  assert.strictEqual(
+    sanitizeHtmlOutput("```\n<p>Test</p>\n```"),
+    "<p>Test</p>"
+  );
+
+  // Case insensitivity
+  assert.strictEqual(
+    sanitizeHtmlOutput("```HTML\n<span>Span</span>\n```"),
+    "<span>Span</span>"
+  );
+
+  // Extra whitespaces and linebreaks
+  assert.strictEqual(
+    sanitizeHtmlOutput("   ```html  \n\n  <h1>Title</h1> \n\n  ```   "),
+    "<h1>Title</h1>"
+  );
+
+  // Plain text/HTML without markdown wrappers
+  assert.strictEqual(
+    sanitizeHtmlOutput("<h2>Subtitle</h2>"),
+    "<h2>Subtitle</h2>"
+  );
+
+  // Multiple lines of HTML
+  assert.strictEqual(
+    sanitizeHtmlOutput("```html\n<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n```"),
+    "<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>"
+  );
 });
