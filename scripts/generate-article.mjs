@@ -711,13 +711,25 @@ async function findUniqueSlug(baseSlug) {
 }
 
 async function findBlogIndexFile() {
-  for (const candidate of blogIndexCandidates) {
-    if (await exists(candidate)) {
-      const content = await fs.readFile(candidate, "utf8");
-      if (content.includes('id="blog-grid"')) {
-        return candidate;
+  const results = await Promise.all(
+    blogIndexCandidates.map(async (candidate) => {
+      try {
+        if (await exists(candidate)) {
+          const content = await fs.readFile(candidate, "utf8");
+          if (content.includes('id="blog-grid"')) {
+            return candidate;
+          }
+        }
+      } catch (err) {
+        // file doesn't exist or isn't readable
       }
-    }
+      return null;
+    })
+  );
+
+  const found = blogIndexCandidates.find((c) => results.includes(c));
+  if (found) {
+    return found;
   }
 
   throw new Error("Could not find a blogs index file with id=\"blog-grid\".");
