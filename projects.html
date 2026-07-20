@@ -311,12 +311,8 @@
         </div>
     </footer>
 
+    <script src="assets/js/main.js"></script>
     <script>
-        function toggleMenu() {
-            const nav = document.querySelector('.nav-links');
-            nav.classList.toggle('active');
-        }
-
         const themeToggle = document.getElementById('theme-toggle');
         const currentTheme = localStorage.getItem('theme');
         if (currentTheme == 'light') { document.body.setAttribute('data-theme', 'light'); }
