@@ -44,7 +44,7 @@ function formatShortDate(date = new Date()) {
   }).format(date);
 }
 
-function topicToSlug(topic) {
+export function topicToSlug(topic) {
   return topic
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
