@@ -687,12 +687,7 @@ export function inferCategory(topic, primaryTag) {
 function estimateReadMinutes(html) {
   const match = html.match(/<div class="blog-content">([\s\S]*?)<\/div>/i);
   const bodyHtml = match ? match[1] : html;
-  const words = bodyHtml
-    .replace(/<[^>]+>/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .split(" ")
-    .filter(Boolean).length;
+  const words = bodyHtml.replace(/<[^>]+>/g, " ").match(/\S+/g)?.length || 0;
 
   const minutes = Math.max(4, Math.ceil(words / 180));
   return `${minutes} min read`;
