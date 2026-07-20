@@ -702,7 +702,24 @@ async function findUniqueSlug(baseSlug) {
   let slug = baseSlug;
   let counter = 1;
 
-  while (await exists(path.join(blogsDir, `${slug}.html`))) {
+  if (!(await exists(path.join(blogsDir, `${slug}.html`)))) {
+    return slug;
+  }
+
+  let files;
+  try {
+    files = await fs.readdir(blogsDir);
+  } catch (err) {
+    // If readdir fails, fall back to sequential check
+    while (await exists(path.join(blogsDir, `${slug}.html`))) {
+      counter += 1;
+      slug = `${baseSlug}-${counter}`;
+    }
+    return slug;
+  }
+  const existingFiles = new Set(files);
+
+  while (existingFiles.has(`${slug}.html`)) {
     counter += 1;
     slug = `${baseSlug}-${counter}`;
   }
