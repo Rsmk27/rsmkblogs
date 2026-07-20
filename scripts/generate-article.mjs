@@ -76,7 +76,21 @@ async function loadEnvLocal() {
   }
 
   const envContent = await fs.readFile(envLocalPath, "utf8");
-  for (const rawLine of envContent.split(/\r?\n/)) {
+  let startIndex = 0;
+  while (startIndex < envContent.length) {
+    let endIndex = envContent.indexOf('\n', startIndex);
+    if (endIndex === -1) {
+      endIndex = envContent.length;
+    }
+
+    let lineEnd = endIndex;
+    if (lineEnd > startIndex && envContent[lineEnd - 1] === '\r') {
+      lineEnd--;
+    }
+
+    const rawLine = envContent.slice(startIndex, lineEnd);
+    startIndex = endIndex + 1;
+
     const line = rawLine.trim();
     if (!line || line.startsWith("#")) {
       continue;
