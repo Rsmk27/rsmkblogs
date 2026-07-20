@@ -1,3 +1,5 @@
+import createDOMPurify from "dompurify";
+import { JSDOM } from "jsdom";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -287,12 +289,17 @@ function resolveAiProviderConfig() {
   throw new Error("Invalid AI_PROVIDER. Use 'groq' or 'anthropic'.");
 }
 
-function sanitizeHtmlOutput(text) {
-  return text
+const window = new JSDOM("").window;
+const DOMPurify = createDOMPurify(window);
+
+export function sanitizeHtmlOutput(text) {
+  const strippedText = text
     .replace(/^```html\s*/i, "")
     .replace(/^```\s*/i, "")
     .replace(/\s*```\s*$/i, "")
     .trim();
+
+  return DOMPurify.sanitize(strippedText, { WHOLE_DOCUMENT: true });
 }
 
 function ensureMetaSlug(html, slug) {

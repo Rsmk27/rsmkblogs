@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory } from "./generate-article.mjs";
+import { inferCategory, sanitizeHtmlOutput } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -52,4 +52,16 @@ test("inferCategory - Embedded Systems (Default)", (t) => {
   assert.strictEqual(inferCategory("general electronics", "hardware"), "Embedded Systems");
   assert.strictEqual(inferCategory("random topic", null), "Embedded Systems");
   assert.strictEqual(inferCategory("RANDOM TOPIC", ""), "Embedded Systems");
+});
+
+test("sanitizeHtmlOutput - strips dangerous tags but keeps document structure", (t) => {
+  const dirtyHtml = "```html\n<html><head><title>Test</title></head><body><script>alert(1)</script><p>Hello</p></body></html>\n```";
+  const cleanHtml = sanitizeHtmlOutput(dirtyHtml);
+  assert.strictEqual(cleanHtml.includes("<script>"), false);
+  assert.strictEqual(cleanHtml.includes("alert(1)"), false);
+  assert.strictEqual(cleanHtml.includes("<html>"), true);
+  assert.strictEqual(cleanHtml.includes("<head>"), true);
+  assert.strictEqual(cleanHtml.includes("<title>Test</title>"), true);
+  assert.strictEqual(cleanHtml.includes("<body>"), true);
+  assert.strictEqual(cleanHtml.includes("<p>Hello</p>"), true);
 });
