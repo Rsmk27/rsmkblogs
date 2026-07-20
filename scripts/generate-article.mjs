@@ -51,7 +51,7 @@ function topicToSlug(topic) {
     .replace(/(^-|-$)/g, "");
 }
 
-function escapeHtml(value) {
+export function escapeHtml(value) {
   return String(value)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
