@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "dompurify": "^3.4.12",
+    "jsdom": "^29.1.1"
+  },
+  "name": "app",
+  "version": "1.0.0",
+  "description": "This repository includes a daily AI-powered blog automation pipeline for the static site.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rsmk27/rsmkblogs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Rsmk27/rsmkblogs/issues"
+  },
+  "homepage": "https://github.com/Rsmk27/rsmkblogs#readme"
+}
