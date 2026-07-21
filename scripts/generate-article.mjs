@@ -287,11 +287,12 @@ function resolveAiProviderConfig() {
   throw new Error("Invalid AI_PROVIDER. Use 'groq' or 'anthropic'.");
 }
 
-function sanitizeHtmlOutput(text) {
+export function sanitizeHtmlOutput(text) {
   return text
-    .replace(/^```html\s*/i, "")
-    .replace(/^```\s*/i, "")
-    .replace(/\s*```\s*$/i, "")
+    .trim()
+    .replace(/^\`\`\`html\s*/i, "")
+    .replace(/^\`\`\`\s*/i, "")
+    .replace(/\s*\`\`\`\s*$/i, "")
     .trim();
 }
 
