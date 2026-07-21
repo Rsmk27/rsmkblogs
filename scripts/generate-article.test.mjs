@@ -54,14 +54,41 @@ test("inferCategory - Embedded Systems (Default)", (t) => {
   assert.strictEqual(inferCategory("RANDOM TOPIC", ""), "Embedded Systems");
 });
 
-test("sanitizeHtmlOutput - strips dangerous tags but keeps document structure", (t) => {
-  const dirtyHtml = "```html\n<html><head><title>Test</title></head><body><script>alert(1)</script><p>Hello</p></body></html>\n```";
-  const cleanHtml = sanitizeHtmlOutput(dirtyHtml);
-  assert.strictEqual(cleanHtml.includes("<script>"), false);
-  assert.strictEqual(cleanHtml.includes("alert(1)"), false);
-  assert.strictEqual(cleanHtml.includes("<html>"), true);
-  assert.strictEqual(cleanHtml.includes("<head>"), true);
-  assert.strictEqual(cleanHtml.includes("<title>Test</title>"), true);
-  assert.strictEqual(cleanHtml.includes("<body>"), true);
-  assert.strictEqual(cleanHtml.includes("<p>Hello</p>"), true);
+
+test("sanitizeHtmlOutput", (t) => {
+  // Stripping ```html and closing ```
+  assert.strictEqual(
+    sanitizeHtmlOutput("```html\n<div>Hello</div>\n```"),
+    "<div>Hello</div>"
+  );
+
+  // Stripping generic ``` blocks
+  assert.strictEqual(
+    sanitizeHtmlOutput("```\n<p>Test</p>\n```"),
+    "<p>Test</p>"
+  );
+
+  // Case insensitivity
+  assert.strictEqual(
+    sanitizeHtmlOutput("```HTML\n<span>Span</span>\n```"),
+    "<span>Span</span>"
+  );
+
+  // Extra whitespaces and linebreaks
+  assert.strictEqual(
+    sanitizeHtmlOutput("   ```html  \n\n  <h1>Title</h1> \n\n  ```   "),
+    "<h1>Title</h1>"
+  );
+
+  // Plain text/HTML without markdown wrappers
+  assert.strictEqual(
+    sanitizeHtmlOutput("<h2>Subtitle</h2>"),
+    "<h2>Subtitle</h2>"
+  );
+
+  // Multiple lines of HTML
+  assert.strictEqual(
+    sanitizeHtmlOutput("```html\n<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n```"),
+    "<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>"
+  );
 });

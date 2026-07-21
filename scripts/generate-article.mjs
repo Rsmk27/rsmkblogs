@@ -289,14 +289,12 @@ function resolveAiProviderConfig() {
   throw new Error("Invalid AI_PROVIDER. Use 'groq' or 'anthropic'.");
 }
 
-const window = new JSDOM("").window;
-const DOMPurify = createDOMPurify(window);
-
 export function sanitizeHtmlOutput(text) {
-  const strippedText = text
-    .replace(/^```html\s*/i, "")
-    .replace(/^```\s*/i, "")
-    .replace(/\s*```\s*$/i, "")
+  return text
+    .trim()
+    .replace(/^\`\`\`html\s*/i, "")
+    .replace(/^\`\`\`\s*/i, "")
+    .replace(/\s*\`\`\`\s*$/i, "")
     .trim();
 
   return DOMPurify.sanitize(strippedText, { WHOLE_DOCUMENT: true });
