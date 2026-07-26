@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory, sanitizeHtmlOutput } from "./generate-article.mjs";
+import { inferCategory, sanitizeHtmlOutput, topicToSlug } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -91,4 +91,24 @@ test("sanitizeHtmlOutput", (t) => {
     sanitizeHtmlOutput("```html\n<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n```"),
     "<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>"
   );
+});
+
+test("topicToSlug", (t) => {
+  // Simple lowercase and uppercase conversions
+  assert.strictEqual(topicToSlug("hello"), "hello");
+  assert.strictEqual(topicToSlug("HELLO"), "hello");
+
+  // Spaces converting to hyphens
+  assert.strictEqual(topicToSlug("hello world"), "hello-world");
+
+  // Multiple consecutive spaces or special characters collapsing into a single hyphen
+  assert.strictEqual(topicToSlug("hello   world"), "hello-world");
+  assert.strictEqual(topicToSlug("hello@#$world"), "hello-world");
+  assert.strictEqual(topicToSlug("hello-world"), "hello-world");
+  assert.strictEqual(topicToSlug("hello--world"), "hello-world");
+
+  // Removing trailing and leading hyphens
+  assert.strictEqual(topicToSlug("  hello world  "), "hello-world");
+  assert.strictEqual(topicToSlug("!hello world!"), "hello-world");
+  assert.strictEqual(topicToSlug("-hello world-"), "hello-world");
 });
