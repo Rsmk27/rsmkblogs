@@ -8,6 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 
+const window = new JSDOM("").window;
+const DOMPurify = createDOMPurify(window);
+
 const topicsFile = path.join(__dirname, "topics.json");
 const usedTopicsFile = path.join(__dirname, "used-topics.json");
 const blogsDir = path.join(rootDir, "blogs");
@@ -290,14 +293,23 @@ function resolveAiProviderConfig() {
 }
 
 export function sanitizeHtmlOutput(text) {
-  return text
+  const strippedText = text
     .trim()
     .replace(/^\`\`\`html\s*/i, "")
     .replace(/^\`\`\`\s*/i, "")
     .replace(/\s*\`\`\`\s*$/i, "")
     .trim();
 
-  return DOMPurify.sanitize(strippedText, { WHOLE_DOCUMENT: true });
+  const hasHtmlTag = /<html/i.test(strippedText);
+  const hasBodyTag = /<body/i.test(strippedText);
+
+  const sanitized = DOMPurify.sanitize(strippedText, { WHOLE_DOCUMENT: true });
+
+  if (!hasHtmlTag && !hasBodyTag) {
+    return sanitized.replace(/^<html><head><\/head><body>/i, "").replace(/<\/body><\/html>$/i, "");
+  }
+
+  return sanitized;
 }
 
 function ensureMetaSlug(html, slug) {
