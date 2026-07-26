@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initWikiTermPopovers();
     initCodeCopyButtons();
     initReadingTools();
+    initManiAIChatbot();
 });
 
 /* --- Theme Toggle --- */
@@ -172,7 +173,6 @@ function initTableOfContents() {
         tocContainer.appendChild(link);
     });
 
-    // ScrollSpy for Active Section
     window.addEventListener("scroll", () => {
         let currentId = "";
         headings.forEach(heading => {
@@ -303,4 +303,196 @@ function initReadingTools() {
             document.body.classList.toggle("distraction-free");
         });
     }
+}
+
+/* --- Mani AI Chatbot Widget with Fast Typing Animation --- */
+function initManiAIChatbot() {
+    let trigger = document.getElementById("mani-ai-trigger");
+    let windowEl = document.getElementById("mani-ai-window");
+
+    if (!trigger) {
+        trigger = document.createElement("button");
+        trigger.id = "mani-ai-trigger";
+        trigger.innerHTML = `
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path><rect x="4" y="8" width="16" height="12" rx="2"></rect><circle cx="9" cy="13" r="1"></circle><circle cx="15" cy="13" r="1"></circle><path d="M9 17h6"></path></svg>
+            <span>Mani AI</span>
+        `;
+        document.body.appendChild(trigger);
+    }
+
+    if (!windowEl) {
+        windowEl = document.createElement("div");
+        windowEl.id = "mani-ai-window";
+        windowEl.innerHTML = `
+            <div class="mani-header">
+                <div class="mani-header-title">
+                    <div class="mani-status-dot"></div>
+                    <span>Mani AI Core</span>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button id="mani-clear-btn" style="background:transparent; border:none; color:var(--text-subtle); cursor:pointer; font-size:0.75rem;">Clear</button>
+                    <button id="mani-close-btn" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:1.1rem; line-height:1;">✕</button>
+                </div>
+            </div>
+            <div class="mani-messages-container" id="mani-messages">
+                <div class="mani-msg mani-msg-ai">
+                    <p>Hi! I'm <strong>Mani AI</strong> 🧠, your engineering knowledge assistant. How can I help you with embedded hardware, PLCs, SCADA, or RSMK documentation today?</p>
+                </div>
+            </div>
+            <div class="mani-input-container">
+                <input type="text" id="mani-user-input" placeholder="Ask Mani AI anything..." autocomplete="off">
+                <button class="mani-send-btn" id="mani-send-btn">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </div>
+        `;
+        document.body.appendChild(windowEl);
+    }
+
+    const messagesEl = windowEl.querySelector("#mani-messages");
+    const inputEl = windowEl.querySelector("#mani-user-input");
+    const sendBtn = windowEl.querySelector("#mani-send-btn");
+    const closeBtn = windowEl.querySelector("#mani-close-btn");
+    const clearBtn = windowEl.querySelector("#mani-clear-btn");
+
+    let history = JSON.parse(sessionStorage.getItem("mani_chat_history") || "[]");
+
+    function renderMarkdown(text) {
+        if (!text) return "";
+        let html = text
+            .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+            .replace(/```([\s\S]*?)```/g, function(match, code) {
+                return `<pre><code>${code.trim()}</code></pre>`;
+            })
+            .replace(/`([^`]+)`/g, "<code>$1</code>")
+            .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+            .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--primary-color);">$1</a>')
+            .replace(/^\s*-\s+(.*)$/gm, "• $1<br>")
+            .replace(/\n\n/g, "</p><p>")
+            .replace(/\n/g, "<br>");
+            
+        return `<p>${html}</p>`;
+    }
+
+    // Fast Typing Animation Function
+    function typeResponseAnimation(element, fullText, onComplete) {
+        let currentIndex = 0;
+        const chunkSize = 3; // Type 3 characters at a time for fast, fluid feel
+        const interval = 12; // 12ms delay per frame
+
+        const timer = setInterval(() => {
+            currentIndex += chunkSize;
+            if (currentIndex >= fullText.length) {
+                currentIndex = fullText.length;
+                clearInterval(timer);
+                element.innerHTML = renderMarkdown(fullText);
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+                if (onComplete) onComplete();
+            } else {
+                const textChunk = fullText.substring(0, currentIndex);
+                element.innerHTML = renderMarkdown(textChunk);
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+            }
+        }, interval);
+    }
+
+    history.forEach(msg => {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = `mani-msg ${msg.role === "user" ? "mani-msg-user" : "mani-msg-ai"}`;
+        msgDiv.innerHTML = msg.role === "user" ? msg.content : renderMarkdown(msg.content);
+        messagesEl.appendChild(msgDiv);
+    });
+
+    trigger.addEventListener("click", () => {
+        windowEl.classList.toggle("active");
+        if (windowEl.classList.contains("active")) {
+            inputEl.focus();
+        }
+    });
+
+    closeBtn.addEventListener("click", () => {
+        windowEl.classList.remove("active");
+    });
+
+    clearBtn.addEventListener("click", () => {
+        history = [];
+        sessionStorage.removeItem("mani_chat_history");
+        messagesEl.innerHTML = `
+            <div class="mani-msg mani-msg-ai">
+                <p>Hi! I'm <strong>Mani AI</strong> 🧠, your engineering knowledge assistant. How can I help you today?</p>
+            </div>
+        `;
+    });
+
+    async function sendMessage() {
+        const query = inputEl.value.trim();
+        if (!query) return;
+
+        const userMsgDiv = document.createElement("div");
+        userMsgDiv.className = "mani-msg mani-msg-user";
+        userMsgDiv.textContent = query;
+        messagesEl.appendChild(userMsgDiv);
+        inputEl.value = "";
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+
+        const loadingDiv = document.createElement("div");
+        loadingDiv.className = "mani-msg mani-msg-ai";
+        loadingDiv.innerHTML = `<p><em>Mani Core is thinking... 🧠</em></p>`;
+        messagesEl.appendChild(loadingDiv);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+
+        const siteContext = `User is currently viewing page: ${document.title} (URL: ${window.location.href})`;
+
+        try {
+            const res = await fetch("https://project-mani-c0t3.onrender.com/api/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    query: query,
+                    siteContext: siteContext,
+                    history: history
+                })
+            });
+
+            const data = await res.json();
+            messagesEl.removeChild(loadingDiv);
+
+            if (data && data.success && data.response) {
+                const aiResponse = data.response;
+                const aiMsgDiv = document.createElement("div");
+                aiMsgDiv.className = "mani-msg mani-msg-ai";
+                messagesEl.appendChild(aiMsgDiv);
+
+                typeResponseAnimation(aiMsgDiv, aiResponse, () => {
+                    history.push({ role: "user", content: query });
+                    history.push({ role: "assistant", content: aiResponse });
+                    sessionStorage.setItem("mani_chat_history", JSON.stringify(history));
+                });
+            } else {
+                const errorDiv = document.createElement("div");
+                errorDiv.className = "mani-msg mani-msg-ai";
+                errorDiv.innerHTML = `<p>Sorry, I encountered an issue fetching response from Mani Core.</p>`;
+                messagesEl.appendChild(errorDiv);
+            }
+        } catch (err) {
+            messagesEl.removeChild(loadingDiv);
+            const errorDiv = document.createElement("div");
+            errorDiv.className = "mani-msg mani-msg-ai";
+            errorDiv.innerHTML = `<p>Mani Core service is spinning up or offline. Please try again in a few seconds.</p>`;
+            messagesEl.appendChild(errorDiv);
+        }
+
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    inputEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
 }

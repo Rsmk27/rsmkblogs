@@ -966,3 +966,194 @@ footer {
     .grid-4 { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr; }
 }
+
+/* --- Mani AI Chatbot Widget --- */
+#mani-ai-trigger {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    height: 52px;
+    padding: 0 20px;
+    background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.925rem;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+    z-index: 1500;
+    transition: all 0.25s ease;
+}
+
+#mani-ai-trigger:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(59, 130, 246, 0.55);
+}
+
+#mani-ai-window {
+    position: fixed;
+    bottom: 88px;
+    right: 24px;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    height: 540px;
+    max-height: calc(100vh - 120px);
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.25s ease;
+}
+
+#mani-ai-window.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.mani-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.mani-header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.mani-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-success);
+    box-shadow: 0 0 8px var(--color-success);
+}
+
+.mani-messages-container {
+    flex-grow: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.mani-msg {
+    max-width: 88%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.mani-msg-user {
+    align-self: flex-end;
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    border-bottom-right-radius: 4px;
+}
+
+.mani-msg-ai {
+    align-self: flex-start;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    border-bottom-left-radius: 4px;
+}
+
+.mani-msg-ai p {
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+.mani-msg-ai p:last-child { margin-bottom: 0; }
+
+.mani-msg-ai code {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--font-code);
+    font-size: 0.8rem;
+    color: #38BDF8;
+}
+
+.mani-msg-ai pre {
+    background-color: #0D1117;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px;
+    overflow-x: auto;
+    margin: 8px 0;
+    font-family: var(--font-code);
+    font-size: 0.8rem;
+    color: #E6EDF3;
+}
+
+.mani-msg-ai ul, .mani-msg-ai ol {
+    margin-left: 16px;
+    margin-bottom: 8px;
+    list-style: disc;
+}
+
+.mani-input-container {
+    padding: 12px 16px;
+    background-color: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 10px;
+}
+
+.mani-input-container input {
+    flex-grow: 1;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-full);
+    padding: 10px 16px;
+    color: var(--text-main);
+    font-size: 0.875rem;
+    font-family: var(--font-body);
+    outline: none;
+}
+
+.mani-input-container input:focus {
+    border-color: var(--primary-color);
+}
+
+.mani-send-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.mani-send-btn:hover {
+    background-color: var(--primary-hover);
+}
+
