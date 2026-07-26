@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory, sanitizeHtmlOutput } from "./generate-article.mjs";
+import { inferCategory, sanitizeHtmlOutput, contentTypeToExtension } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -91,4 +91,23 @@ test("sanitizeHtmlOutput", (t) => {
     sanitizeHtmlOutput("```html\n<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n```"),
     "<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>"
   );
+});
+
+test("contentTypeToExtension", (t) => {
+  // Expected image MIME types
+  assert.strictEqual(contentTypeToExtension("image/jpeg"), "jpg");
+  assert.strictEqual(contentTypeToExtension("image/jpg"), "jpg");
+  assert.strictEqual(contentTypeToExtension("image/png"), "png");
+  assert.strictEqual(contentTypeToExtension("image/webp"), "webp");
+
+  // Mixed-case variations
+  assert.strictEqual(contentTypeToExtension("IMAGE/PNG"), "png");
+  assert.strictEqual(contentTypeToExtension("Image/Jpeg"), "jpg");
+
+  // Default/fallback cases
+  assert.strictEqual(contentTypeToExtension("image/gif"), "jpg");
+  assert.strictEqual(contentTypeToExtension("application/pdf"), "jpg");
+  assert.strictEqual(contentTypeToExtension(""), "jpg");
+  assert.strictEqual(contentTypeToExtension(null), "jpg");
+  assert.strictEqual(contentTypeToExtension(undefined), "jpg");
 });

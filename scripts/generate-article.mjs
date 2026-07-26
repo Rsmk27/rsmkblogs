@@ -322,7 +322,7 @@ function normalizeSlugUrls(html, slug) {
     .replace(/(property="twitter:url"\s+content=")([^"]+)(")/i, `$1https://blogs.rsmk.me/blogs/${slug}.html$3`);
 }
 
-function contentTypeToExtension(contentType) {
+export function contentTypeToExtension(contentType) {
   const normalized = String(contentType || "").toLowerCase();
   if (normalized.includes("image/jpeg") || normalized.includes("image/jpg")) {
     return "jpg";
