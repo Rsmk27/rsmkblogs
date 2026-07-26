@@ -644,7 +644,7 @@ function extractArticleTitle(html) {
   return "New Article";
 }
 
-function extractMetaDescription(html) {
+export function extractMetaDescription(html) {
   const match = html.match(/<meta\s+name="description"\s+content="([^"]*)"\s*\/?\s*>/i);
   if (match) {
     return match[1].trim();

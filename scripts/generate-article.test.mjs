@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory, sanitizeHtmlOutput } from "./generate-article.mjs";
+import { inferCategory, sanitizeHtmlOutput, extractMetaDescription } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -90,5 +90,45 @@ test("sanitizeHtmlOutput", (t) => {
   assert.strictEqual(
     sanitizeHtmlOutput("```html\n<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n```"),
     "<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>"
+  );
+});
+
+test("extractMetaDescription", (t) => {
+  // Test basic extraction
+  assert.strictEqual(
+    extractMetaDescription('<meta name="description" content="This is a test description.">'),
+    "This is a test description."
+  );
+
+  // Test extraction with single quotes around content? Wait, regex only handles double quotes: content="([^"]*)"
+
+  // Test extraction with self-closing slash
+  assert.strictEqual(
+    extractMetaDescription('<meta name="description" content="Another description" />'),
+    "Another description"
+  );
+
+  // Test whitespace trimming
+  assert.strictEqual(
+    extractMetaDescription('<meta name="description" content="  Trimmed description  ">'),
+    "Trimmed description"
+  );
+
+  // Test fallback if meta description is missing
+  assert.strictEqual(
+    extractMetaDescription('<html><head><title>Test</title></head></html>'),
+    "A new article from RSMK on engineering, embedded systems, and future technologies."
+  );
+
+  // Test fallback if meta description has no content attribute (or wrong format)
+  assert.strictEqual(
+    extractMetaDescription('<meta name="description" />'),
+    "A new article from RSMK on engineering, embedded systems, and future technologies."
+  );
+
+  // Case insensitivity of meta and name
+  assert.strictEqual(
+    extractMetaDescription('<META NAME="description" CONTENT="Uppercase test">'),
+    "Uppercase test"
   );
 });
