@@ -524,16 +524,11 @@ async function fetchAndSaveTopicImage(topic, slug) {
 function replaceIndexCardImage(indexHtml, slug, imagePath) {
   const escapedSlug = slug.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const blockRegex = new RegExp(`(<!--\\s*Auto Article\\s*-\\s*${escapedSlug}\\s*-->[\\s\\S]*?<img\\s+src=")([^"]+)("[\\s\\S]*?<\\/article>)`, "i");
-  if (!blockRegex.test(indexHtml)) {
-    return {
-      updated: indexHtml,
-      changed: false
-    };
-  }
+  const updated = indexHtml.replace(blockRegex, `$1${imagePath}$3`);
 
   return {
-    updated: indexHtml.replace(blockRegex, `$1${imagePath}$3`),
-    changed: true
+    updated,
+    changed: updated.length !== indexHtml.length || updated !== indexHtml
   };
 }
 
