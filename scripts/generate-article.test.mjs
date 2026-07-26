@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory, sanitizeHtmlOutput } from "./generate-article.mjs";
+import { inferCategory, sanitizeHtmlOutput, formatShortDate } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -91,4 +91,22 @@ test("sanitizeHtmlOutput", (t) => {
     sanitizeHtmlOutput("```html\n<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n```"),
     "<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>"
   );
+});
+
+test("formatShortDate", (t) => {
+  // Test with a specific date
+  const testDate = new Date(2023, 9, 15); // October 15, 2023
+  assert.strictEqual(formatShortDate(testDate), "Oct 15, 2023");
+
+  // Test with single digit day
+  const testDateSingleDigitDay = new Date(2024, 0, 5); // January 5, 2024
+  assert.strictEqual(formatShortDate(testDateSingleDigitDay), "Jan 05, 2024");
+
+  // Test with leap year date
+  const leapYearDate = new Date(2024, 1, 29); // February 29, 2024
+  assert.strictEqual(formatShortDate(leapYearDate), "Feb 29, 2024");
+
+  // Verify it works with no arguments (uses current date), format should match pattern
+  const todayShort = formatShortDate();
+  assert.match(todayShort, /^[A-Z][a-z]{2} \d{2}, \d{4}$/);
 });

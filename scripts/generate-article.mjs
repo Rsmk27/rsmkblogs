@@ -38,7 +38,7 @@ function formatLongDate(date = new Date()) {
   }).format(date);
 }
 
-function formatShortDate(date = new Date()) {
+export function formatShortDate(date = new Date()) {
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "2-digit",
