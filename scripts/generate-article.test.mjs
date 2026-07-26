@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory, sanitizeHtmlOutput } from "./generate-article.mjs";
+import { inferCategory, sanitizeHtmlOutput, escapeHtml } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -91,4 +91,33 @@ test("sanitizeHtmlOutput", (t) => {
     sanitizeHtmlOutput("```html\n<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n```"),
     "<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>"
   );
+});
+
+test("escapeHtml", (t) => {
+  // Happy path: strings with individual special characters
+  assert.strictEqual(escapeHtml("&"), "&amp;");
+  assert.strictEqual(escapeHtml("<"), "&lt;");
+  assert.strictEqual(escapeHtml(">"), "&gt;");
+  assert.strictEqual(escapeHtml("\""), "&quot;");
+  assert.strictEqual(escapeHtml("'"), "&#39;");
+
+  // Complex strings
+  assert.strictEqual(
+    escapeHtml("<script>alert('xss & more');</script>"),
+    "&lt;script&gt;alert(&#39;xss &amp; more&#39;);&lt;/script&gt;"
+  );
+  assert.strictEqual(
+    escapeHtml("A string with \"quotes\" and 'single quotes' & <tags>"),
+    "A string with &quot;quotes&quot; and &#39;single quotes&#39; &amp; &lt;tags&gt;"
+  );
+
+  // Strings with no special characters
+  assert.strictEqual(escapeHtml("Hello World! 123"), "Hello World! 123");
+  assert.strictEqual(escapeHtml(""), "");
+
+  // Non-string inputs
+  assert.strictEqual(escapeHtml(123), "123");
+  assert.strictEqual(escapeHtml(null), "null");
+  assert.strictEqual(escapeHtml(undefined), "undefined");
+  assert.strictEqual(escapeHtml(true), "true");
 });
