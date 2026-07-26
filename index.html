@@ -5,36 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="RSMK - Electrical & Electronics Engineer, Innovator, and Tech Creator building future technologies in Smart Energy and Embedded Systems.">
+        content="RSMK Engineering Knowledge Base — Documentation-first platform for embedded systems, industrial automation, SCADA, PLCs, power electronics, and IoT.">
     <meta name="keywords"
-        content="RSMK, Electrical Engineer, Electronics, Innovation, Smart Energy, Embedded Systems, Personal Portfolio, Blog">
+        content="RSMK, Engineering Knowledge Base, Embedded Systems, PLC, SCADA, ESP32, Arduino, Microcontrollers, Industrial Automation, Power Electronics">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://blogs.rsmk.me/index.html">
-    <meta name="google-adsense-account" content="ca-pub-5458337028479481">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://blogs.rsmk.me/index.html">
-    <meta property="og:title" content="RSMK | Electrical & Electronics Engineer">
+    <meta property="og:title" content="RSMK Blogs | Engineering Knowledge Base">
     <meta property="og:description"
-        content="Innovator & Engineer building future technologies. Specialized in Smart Energy and Embedded Systems.">
-    <meta property="og:image" content="https://blogs.rsmk.me/assets/images/hero-bg.webp">
+        content="Documentation-first platform for embedded systems, industrial automation, SCADA, PLCs, and power electronics.">
+    <meta property="og:image" content="assets/images/hero-bg.webp">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://blogs.rsmk.me/index.html">
-    <meta property="twitter:title" content="RSMK | Electrical & Electronics Engineer">
-    <meta property="twitter:description"
-        content="Innovator & Engineer building future technologies. Specialized in Smart Energy and Embedded Systems.">
-    <meta property="twitter:image" content="https://blogs.rsmk.me/assets/images/hero-bg.webp">
-
-    <title>RSMK Blogs</title>
+    <title>RSMK Blogs | Engineering Knowledge Base</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/images/logo.png">
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -42,418 +31,405 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "RSMK",
-      "jobTitle": "Electrical & Electronics Engineer",
+      "@type": "WebSite",
+      "name": "RSMK Blogs",
       "url": "https://blogs.rsmk.me",
-      "sameAs": [
-        "https://www.linkedin.com/in/rsmk",
-        "https://github.com/rsmk"
-      ],
-      "knowsAbout": ["Electrical Engineering", "Smart Energy", "Embedded Systems", "Innovation"]
+      "description": "Professional engineering documentation & technical knowledge base."
     }
     </script>
 </head>
 
 <body>
 
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" style="position:absolute; left:-9999px;">Skip to main content</a>
 
+    <!-- Sticky Top Header -->
     <header>
         <div class="container">
-            <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="RSMK Logo"
-                    class="nav-logo">RSMK<span>.</span></a>
-            <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="RSMK Logo">RSMK<span>.</span>
+            </a>
+            
             <nav class="nav-links">
                 <a href="index.html" class="active">Home</a>
-                <a href="blogs.html">Blogs</a>
-                <a href="about.html">About</a>
+                <a href="blogs.html">Articles</a>
+                <a href="topics.html">Topics</a>
+                <a href="companies.html">Companies</a>
+                <a href="roadmaps.html">Roadmaps</a>
                 <a href="projects.html">Projects</a>
-                <a href="#contact">Contact</a>
+                <a href="resources.html">Resources</a>
+                <a href="about.html">About</a>
+            </nav>
+
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="search-trigger-btn" aria-label="Open Global Search">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+                    <span>Search documentation...</span>
+                    <kbd>Ctrl K</kbd>
+                </button>
+
                 <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
                 </button>
-            </nav>
+            </div>
         </div>
     </header>
 
     <main id="main-content">
         <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-bg-graphic"></div>
-            <div class="container hero-content">
-                <span class="hero-tagline">Building Future Technologies</span>
-                <h1>Hello, I'm <span class="text-gradient">RSMK</span></h1>
-                <p>Electrical & Electronics Engineer | Innovator | Smart Energy Enthusiast.<br>
-                    Turning complex problems into elegant engineering solutions.</p>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <a href="projects.html" class="btn btn-primary">View Projects</a>
-                    <a href="blogs.html" class="btn btn-outline">Read Blogs</a>
+        <section class="section-padding" style="background: radial-gradient(circle at top center, rgba(59, 130, 246, 0.12) 0%, transparent 60%); border-bottom: 1px solid var(--border-color);">
+            <div class="container text-center" style="max-width: 860px;">
+                <span class="badge badge-beginner" style="margin-bottom: 16px; background: var(--surface-color); color: var(--primary-color); border-color: var(--primary-color);">
+                    Engineering Knowledge Base v2.0
+                </span>
+                <h1 style="font-size: 3.2rem; margin-bottom: 20px; line-height: 1.15;">
+                    Learn Engineering. Build Projects. <br><span class="text-gradient">Share Knowledge.</span> Continue Learning.
+                </h1>
+                <p style="font-size: 1.15rem; color: var(--text-muted); margin-bottom: 32px; max-width: 720px; margin-left: auto; margin-right: auto;">
+                    A documentation-first platform for embedded firmware, industrial PLC automation, SCADA systems, power electronics, and IoT infrastructure. Built for engineers, students, and system architects.
+                </p>
+
+                <!-- Search Bar Trigger Card -->
+                <div class="search-trigger-btn" style="max-width: 600px; margin: 0 auto; padding: 14px 20px; background: var(--card-bg); font-size: 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+                    <span style="flex-grow:1; text-align:left;">Search documentation, chips, protocols, companies...</span>
+                    <kbd style="font-size:0.85rem; padding:4px 8px;">Ctrl + K</kbd>
+                </div>
+
+                <!-- Quick Tech Pills -->
+                <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 24px;">
+                    <span style="font-size: 0.825rem; color: var(--text-subtle); align-self: center;">Popular topics:</span>
+                    <a href="technology.html?id=esp32" class="tech-pill">ESP32</a>
+                    <a href="technology.html?id=plc" class="tech-pill">PLC Automation</a>
+                    <a href="technology.html?id=scada" class="tech-pill">SCADA</a>
+                    <a href="technology.html?id=modbus" class="tech-pill">Modbus RS-485</a>
+                    <a href="technology.html?id=freertos" class="tech-pill">FreeRTOS</a>
                 </div>
             </div>
         </section>
 
-        <!-- About Preview -->
-        <section class="section-padding reveal" style="background: var(--surface-color);">
+        <!-- Featured Article Hero Banner -->
+        <section class="section-padding" style="border-bottom: 1px solid var(--border-color);">
             <div class="container">
-                <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                    <h2
-                        style="font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 20px; color: var(--text-main);">
-                        About Me</h2>
-                    <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px;">
-                        I am an Electrical & Electronics Engineer with a passion for innovation. My work focuses on
-                        bridging the gap between hardware and software, creating smart energy solutions, and exploring
-                        the frontiers of embedded systems. I document my journey and learnings to help others build the
-                        future.
-                    </p>
-                    <a href="about.html" class="read-more-link" style="font-size: 1rem;">More About Me <svg width="18"
-                            height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg></a>
+                <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">Featured Documentation</div>
+                <div class="entity-card grid-2" style="padding: 0; overflow: hidden; align-items: center; border-color: var(--border-color);">
+                    <div style="padding: 40px;">
+                        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+                            <span class="badge badge-intermediate">Intermediate</span>
+                            <span class="tech-pill">Microcontrollers</span>
+                            <span class="tech-pill">IoT</span>
+                        </div>
+                        <h2 style="font-size: 2rem; margin-bottom: 14px;">
+                            <a href="blogs/esp8266.html">ESP8266 & ESP32 IoT Hardware & Firmware Engineering</a>
+                        </h2>
+                        <p style="color: var(--text-muted); margin-bottom: 24px;">
+                            Complete technical architectural guide covering Wi-Fi stack operations, hardware timer interrupts, FreeRTOS tasks, MQTT telemetry, and industrial DIN-rail gateway design.
+                        </p>
+                        <div style="display: flex; align-items: center; gap: 20px; font-size: 0.85rem; color: var(--text-subtle);">
+                            <span>By RSMK</span>
+                            <span>•</span>
+                            <span>15 min read</span>
+                            <span>•</span>
+                            <span>Version 2.1</span>
+                        </div>
+                    </div>
+                    <div style="height: 100%; min-height: 320px; background: url('assets/images/smart-home.webp') center/cover no-repeat;"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Make It Real / What I'm Building -->
-        <section class="section-padding reveal">
+        <!-- Visual Learning Roadmaps Preview -->
+        <section class="section-padding" style="background: var(--surface-color); border-bottom: 1px solid var(--border-color);">
             <div class="container">
-                <div class="featured-header">
-                    <h2>What I'm Building Now</h2>
-                    <p>Current projects pushing the boundaries of what's possible in tech and energy.</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 36px;">
+                    <div>
+                        <h2 style="margin-bottom: 8px;">Learning Roadmaps</h2>
+                        <p style="margin: 0; color: var(--text-muted);">Structured, step-by-step pathways to master complex engineering domains.</p>
+                    </div>
+                    <a href="roadmaps.html" class="btn btn-outline btn-sm">View All Roadmaps →</a>
                 </div>
-                <div class="blog-grid">
-                    <!-- Project 1 -->
-                    <div class="project-card">
-                        <div class="project-content">
-                            <h3>Firefighter Monitoring Device</h3>
-                            <div class="project-tags">
-                                <span>IoT</span>
-                                <span>Embedded C</span>
-                                <span>Safety Tech</span>
-                            </div>
-                            <p>A wearable device for real-time health and environmental monitoring for firefighters,
-                                ensuring safety in hazardous zones.</p>
-                            <a href="#" class="read-more-link">View Project <svg width="16" height="16"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
+
+                <div class="grid-2">
+                    <!-- Roadmap Card 1 -->
+                    <div class="entity-card">
+                        <div class="card-icon-header">
+                            <div class="card-icon">⚡</div>
+                            <span class="badge badge-beginner">Step-by-Step</span>
+                        </div>
+                        <h3 style="margin-bottom: 8px;"><a href="roadmaps.html#plc-roadmap">Industrial PLC & Automation Engineer Roadmap</a></h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">
+                            Master industrial relay logic, IEC 61131-3 programming languages, Modbus RS-485 communication, HMI panels, and Ignition SCADA integration.
+                        </p>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto;">
+                            <span class="tech-pill">Ladder Logic</span>
+                            <span class="tech-pill">Micro850</span>
+                            <span class="tech-pill">Modbus</span>
+                            <span class="tech-pill">SCADA</span>
                         </div>
                     </div>
-                    <!-- Project 2 -->
-                    <div class="project-card">
-                        <div class="project-content">
-                            <h3>Smart Grid / GridForge</h3>
-                            <div class="project-tags">
-                                <span>Smart Energy</span>
-                                <span>Simulation</span>
-                                <span>Power Systems</span>
-                            </div>
-                            <p>Developing next-gen simulation tools for smart grid management and renewable energy
-                                integration.</p>
-                            <a href="#" class="read-more-link">View Project <svg width="16" height="16"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
+
+                    <!-- Roadmap Card 2 -->
+                    <div class="entity-card">
+                        <div class="card-icon-header">
+                            <div class="card-icon">🧠</div>
+                            <span class="badge badge-intermediate">Step-by-Step</span>
                         </div>
-                    </div>
-                    <!-- Project 3 -->
-                    <div class="project-card">
-                        <div class="project-content">
-                            <h3>AI & Web Tools</h3>
-                            <div class="project-tags">
-                                <span>Web Dev</span>
-                                <span>AI Integration</span>
-                                <span>Automation</span>
-                            </div>
-                            <p>Building accessible web platforms and tools that leverage AI to solve everyday
-                                engineering problems.</p>
-                            <a href="#" class="read-more-link">View Project <svg width="16" height="16"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
+                        <h3 style="margin-bottom: 8px;"><a href="roadmaps.html#embedded-roadmap">Embedded Systems & Firmware Engineering</a></h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">
+                            From 8-bit ATmega328P register manipulation to 32-bit ARM Cortex-M peripherals, I2C/SPI drivers, and FreeRTOS task scheduling.
+                        </p>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto;">
+                            <span class="tech-pill">C / C++</span>
+                            <span class="tech-pill">AVR</span>
+                            <span class="tech-pill">ARM Cortex</span>
+                            <span class="tech-pill">FreeRTOS</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Focus Areas -->
-        <section class="section-padding reveal" style="background: var(--surface-color);">
+        <!-- Engineering Documentation Hub Categories -->
+        <section class="section-padding" style="border-bottom: 1px solid var(--border-color);">
             <div class="container">
-                <div class="featured-header">
-                    <h2>Focus Areas</h2>
-                    <p>The core domains where I apply my engineering skills.</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 36px;">
+                    <div>
+                        <h2 style="margin-bottom: 8px;">Documentation Categories</h2>
+                        <p style="margin: 0; color: var(--text-muted);">Explore articles, datasheets, and code by specialized engineering domain.</p>
+                    </div>
+                    <a href="categories.html" class="btn btn-outline btn-sm">Explore All Categories →</a>
                 </div>
-                <div class="focus-grid">
-                    <div class="focus-card">
-                        <div class="focus-icon">⚡</div>
-                        <h3>Smart Energy</h3>
-                        <p>Optimizing power systems for a sustainable future through smart grids and renewable
-                            integration.</p>
+
+                <div class="grid-4">
+                    <div class="entity-card">
+                        <div class="card-icon">🔌</div>
+                        <h4 style="margin: 16px 0 6px;"><a href="categories.html#embedded">Embedded Systems</a></h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">Microcontrollers, C/C++ firmware, bare-metal drivers, AVR, and ARM.</p>
+                        <span style="font-size: 0.775rem; color: var(--primary-color); font-weight: 600;">8 Articles • 3 Projects</span>
                     </div>
-                    <div class="focus-card">
-                        <div class="focus-icon">💡</div>
-                        <h3>Innovation Projects</h3>
-                        <p>Turning novel ideas into tangible prototypes and functional products.</p>
+
+                    <div class="entity-card">
+                        <div class="card-icon">🏭</div>
+                        <h4 style="margin: 16px 0 6px;"><a href="categories.html#automation">Industrial Automation</a></h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">PLCs, SCADA, Modbus, HMIs, VFDs, and factory automation networks.</p>
+                        <span style="font-size: 0.775rem; color: var(--primary-color); font-weight: 600;">6 Articles • 2 Projects</span>
                     </div>
-                    <div class="focus-card">
-                        <div class="focus-icon">🧠</div>
-                        <h3>AI & Web Tools</h3>
-                        <p>Leveraging artificial intelligence to enhance engineering workflows and web applications.</p>
+
+                    <div class="entity-card">
+                        <div class="card-icon">🔋</div>
+                        <h4 style="margin: 16px 0 6px;"><a href="categories.html#power">Power Electronics</a></h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">Inverters, EV chargers, switching regulators, PWM motor control.</p>
+                        <span style="font-size: 0.775rem; color: var(--primary-color); font-weight: 600;">4 Articles • 1 Project</span>
                     </div>
-                    <div class="focus-card">
-                        <div class="focus-icon">🔌</div>
-                        <h3>Electrical Engineering</h3>
-                        <p>Deep diving into circuit design, embedded systems, and hardware architecture.</p>
+
+                    <div class="entity-card">
+                        <div class="card-icon">🌐</div>
+                        <h4 style="margin: 16px 0 6px;"><a href="categories.html#iot">IoT & Networking</a></h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">Wireless sensor nodes, MQTT telemetry, ESP32 gateways, Wi-Fi/BLE.</p>
+                        <span style="font-size: 0.775rem; color: var(--primary-color); font-weight: 600;">5 Articles • 2 Projects</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Featured Blogs (Subset of existing) -->
-        <section class="section-padding reveal" id="featured-blogs">
+        <!-- Featured Hardware & Software Companies -->
+        <section class="section-padding" style="background: var(--surface-color); border-bottom: 1px solid var(--border-color);">
             <div class="container">
-                <div class="featured-header">
-                    <h2>Featured Insights</h2>
-                    <p>Selected writings on technology and engineering.</p>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 36px;">
+                    <div>
+                        <h2 style="margin-bottom: 8px;">Featured Engineering Companies</h2>
+                        <p style="margin: 0; color: var(--text-muted);">Explore dedicated wiki portals for leading hardware and software manufacturers.</p>
+                    </div>
+                    <a href="companies.html" class="btn btn-outline btn-sm">Company Directory →</a>
                 </div>
 
-                <div class="blog-grid">
-                    <!-- Article 1 -->
-                    <article class="blog-card">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-green-energy">Green Energy</span>
-                            <img src="assets/images/renewable-energy.webp" alt="Renewable Energy Storage"
-                                loading="lazy">
+                <div class="grid-3">
+                    <div class="entity-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h4><a href="company.html?id=espressif">Espressif Systems</a></h4>
+                            <span class="badge badge-beginner" style="background:var(--card-bg); border-color:var(--border-color); color:var(--text-subtle);">Shanghai</span>
                         </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 07, 2025</span>
-                                <span>6 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/renewable-energy.html">Innovative Renewable Energy
-                                    Solutions</a></h3>
-                            <p class="blog-excerpt">Unlock a stable, 100% renewable grid with innovative storage
-                                solutions.</p>
-                            <a href="blogs/renewable-energy.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+                            Pioneers of ultra-low-cost Wi-Fi & Bluetooth SoCs including the ESP8266 and ESP32 microcontroller series.
+                        </p>
+                        <div style="display: flex; gap: 8px; font-size: 0.775rem; color: var(--primary-color); font-weight: 600;">
+                            <span>ESP32</span> • <span>ESP8266</span> • <span>ESP-IDF</span>
                         </div>
-                    </article>
+                    </div>
 
-                    <!-- Article 2 -->
-                    <article class="blog-card">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-embedded-systems">Embedded Systems</span>
-                            <img src="assets/images/arduino_mega.webp" alt="Arduino MEGA 2560 Board" loading="lazy">
+                    <div class="entity-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h4><a href="company.html?id=arduino">Arduino S.r.l.</a></h4>
+                            <span class="badge badge-beginner" style="background:var(--card-bg); border-color:var(--border-color); color:var(--text-subtle);">Italy</span>
                         </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Jan 12, 2026</span>
-                                <span>11 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/arduino-mega.html">Arduino MEGA: From Projects to
-                                    Products</a></h3>
-                            <p class="blog-excerpt">How to architect systems and think like a product engineer.</p>
-                            <a href="blogs/arduino-mega.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+                            Global open-source hardware and software ecosystem empowering rapid prototyping and industrial IoT.
+                        </p>
+                        <div style="display: flex; gap: 8px; font-size: 0.775rem; color: var(--primary-color); font-weight: 600;">
+                            <span>UNO R4</span> • <span>Nano</span> • <span>MEGA 2560</span>
                         </div>
-                    </article>
+                    </div>
 
-                    <!-- Article 3 -->
-                    <article class="blog-card">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-future-tech">Future Tech</span>
-                            <img src="assets/images/quantum-computing.webp" alt="Quantum Processor Chip" loading="lazy">
+                    <div class="entity-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h4><a href="company.html?id=rockwell">Rockwell Automation</a></h4>
+                            <span class="badge badge-beginner" style="background:var(--card-bg); border-color:var(--border-color); color:var(--text-subtle);">USA</span>
                         </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 08, 2025</span>
-                                <span>8 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/quantum-computing.html">Quantum Computing: The Next
-                                    Frontier</a></h3>
-                            <p class="blog-excerpt">Soloving problems impossible for classical machines with qubits.</p>
-                            <a href="blogs/quantum-computing.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+                            Industrial automation powerhouse behind Allen-Bradley ControlLogix, Micro850 PLCs, and Studio 5000 software.
+                        </p>
+                        <div style="display: flex; gap: 8px; font-size: 0.775rem; color: var(--primary-color); font-weight: 600;">
+                            <span>Allen-Bradley</span> • <span>Micro850</span> • <span>FactoryTalk</span>
                         </div>
-                    </article>
-                </div>
-                <div style="text-align: center; margin-top: 40px;">
-                    <a href="blogs.html" class="btn btn-secondary">View All Blogs</a>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Articles Catalog Grid Preview -->
+        <section class="section-padding" style="border-bottom: 1px solid var(--border-color);">
+            <div class="container">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 36px;">
+                    <div>
+                        <h2 style="margin-bottom: 8px;">Latest Technical Articles</h2>
+                        <p style="margin: 0; color: var(--text-muted);">Peer-reviewed engineering documentation and architecture breakdowns.</p>
+                    </div>
+                    <a href="blogs.html" class="btn btn-primary btn-sm">Browse All Articles →</a>
+                </div>
+
+                <div class="grid-3">
+                    <!-- Article Card 1 -->
+                    <div class="entity-card">
+                        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                            <span class="badge badge-intermediate">Intermediate</span>
+                            <span class="tech-pill">AVR</span>
+                        </div>
+                        <h3 style="font-size: 1.15rem; margin-bottom: 10px;">
+                            <a href="blogs/arduino-nano.html">Arduino Nano Microcontroller Engineering & Hardware Guide</a>
+                        </h3>
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                            In-depth analysis of ATmega328P architecture, pinout maps, hardware timers, PWM generation, and sensor interfacing.
+                        </p>
+                        <div style="font-size: 0.8rem; color: var(--text-subtle);">12 min read • Dec 04, 2025</div>
+                    </div>
+
+                    <!-- Article Card 2 -->
+                    <div class="entity-card">
+                        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                            <span class="badge badge-advanced">Advanced</span>
+                            <span class="tech-pill">PLC</span>
+                        </div>
+                        <h3 style="font-size: 1.15rem; margin-bottom: 10px;">
+                            <a href="blogs/arduino-mega.html">Arduino MEGA 2560 in Industrial Control & PLC Systems</a>
+                        </h3>
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                            Evaluating ATmega2560 54 GPIO lines, multi-UART interfaces, Modbus RS-485 integration, and industrial PLC comparative benchmarks.
+                        </p>
+                        <div style="font-size: 0.8rem; color: var(--text-subtle);">18 min read • Dec 04, 2025</div>
+                    </div>
+
+                    <!-- Article Card 3 -->
+                    <div class="entity-card">
+                        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                            <span class="badge badge-beginner">Beginner</span>
+                            <span class="tech-pill">ARM</span>
+                        </div>
+                        <h3 style="font-size: 1.15rem; margin-bottom: 10px;">
+                            <a href="blogs/arduino-uno.html">Arduino UNO R4 Minima & Wi-Fi Architectural Overview</a>
+                        </h3>
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                            Exploring 32-bit Renesas RA4M1 ARM Cortex-M4 microprocessor, 12-bit DAC, CAN Bus controller, and LED Matrix display.
+                        </p>
+                        <div style="font-size: 0.8rem; color: var(--text-subtle);">10 min read • Dec 04, 2025</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter & Contact -->
+        <section class="section-padding" style="background: radial-gradient(circle at bottom center, rgba(59, 130, 246, 0.1) 0%, transparent 60%);">
+            <div class="container text-center" style="max-width: 640px;">
+                <h2 style="margin-bottom: 12px;">Engineering Digest Newsletter</h2>
+                <p style="color: var(--text-muted); margin-bottom: 24px;">
+                    Receive deep technical teardowns, circuit schematics, and PLC programming insights directly in your inbox. No spam.
+                </p>
+                <form style="display: flex; gap: 10px;" onsubmit="event.preventDefault(); alert('Subscribed to Engineering Digest!');">
+                    <input type="email" placeholder="enter.your.email@engineering.com" required style="flex-grow:1; padding: 12px 16px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-md); color: var(--text-main); font-family: var(--font-body);">
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </section>
     </main>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
-    </button>
-
-    <footer id="contact">
+    <!-- Footer -->
+    <footer>
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo" style="font-size: 1.5rem;">RSMK<span>.</span></a>
-                    <p>Building Future Technologies</p>
-                    <div class="footer-socials">
-                        <a href="https://rsmk.me" class="footer-social-link" title="Portfolio" target="_blank" rel="noopener noreferrer" aria-label="Portfolio"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="2" y1="12" x2="22" y2="12"></line>
-                                <path
-                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                                </path>
-                            </svg></a>
-                        <a href="https://www.linkedin.com/in/rsmk27/" class="footer-social-link" title="LinkedIn"
-                            target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
-                                </path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg></a>
-                        <a href="https://github.com/Rsmk27" class="footer-social-link" title="GitHub"
-                            target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 1.19 6.44 1.54a3.37 3.37 0 0 0-.94 2.61V19c0 .51.5.86 1 .94a10 10 0 0 0 18 0z">
-                                </path>
-                            </svg></a>
-                        <a href="https://www.instagram.com/rsmk_27/" class="footer-social-link" title="Instagram"
-                            target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                            </svg></a>
-                        <a href="https://x.com/SrinivasManik20" class="footer-social-link" title="X (Twitter)"
-                            target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                fill="currentColor" viewBox="0 0 16 16">
-                                <path
-                                    d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z" />
-                            </svg></a>
-                        <a href="https://t.me/RSMK_27" class="footer-social-link" title="Telegram" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg></a>
-                    </div>
-                    <div class="newsletter">
-                        <p style="margin-top: 25px; color: var(--text-main); font-weight: 600;">Subscribe to Newsletter</p>
-                        <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
-                            <input type="email" placeholder="Enter your email" required aria-label="Email address">
-                            <button type="submit">Subscribe</button>
-                        </form>
-                    </div>
+                <div>
+                    <a href="index.html" class="logo" style="margin-bottom: 16px; display: inline-flex;">RSMK<span>.</span></a>
+                    <p style="font-size: 0.875rem; color: var(--text-muted); max-width: 320px;">
+                        Engineering Knowledge Base dedicated to embedded hardware, industrial automation, SCADA, microcontrollers, and smart energy solutions.
+                    </p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Documentation</h4>
+                    <ul>
+                        <li><a href="blogs.html">All Articles</a></li>
+                        <li><a href="topics.html">Tech Glossary</a></li>
+                        <li><a href="companies.html">Company Directory</a></li>
+                        <li><a href="roadmaps.html">Visual Roadmaps</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="categories.html#embedded">Embedded Systems</a></li>
+                        <li><a href="categories.html#automation">Industrial Automation</a></li>
+                        <li><a href="categories.html#power">Power Electronics</a></li>
+                        <li><a href="categories.html#iot">IoT & Wireless</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="resources.html">Datasheets</a></li>
+                        <li><a href="resources.html">Cheat Sheets</a></li>
+                        <li><a href="resources.html">Simulation Tools</a></li>
+                        <li><a href="projects.html">Projects Showcase</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Author & Connect</h4>
+                    <ul>
+                        <li><a href="https://rsmk.me" target="_blank" rel="noopener">Portfolio (rsmk.me) ↗</a></li>
+                        <li><a href="https://github.com/Rsmk27" target="_blank" rel="noopener">GitHub (@Rsmk27) ↗</a></li>
+                        <li><a href="https://www.linkedin.com/in/srinivasamanikanta/" target="_blank" rel="noopener">LinkedIn Profile ↗</a></li>
+                        <li><a href="about.html">About Platform</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 RSMK – Building Future Technologies</p>
+
+                                    <div class="footer-bottom">
+                <div>© 2026 RSMK Blogs. Engineered & Maintained by <a href="https://rsmk.me" target="_blank" rel="noopener" style="color: var(--primary-color); font-weight: 600;">Srinivasa Manikanta (RSMK)</a>.</div>
+                <div style="display: flex; gap: 16px;">
+                    <a href="https://rsmk.me" target="_blank" rel="noopener">Portfolio (rsmk.me)</a>
+                    <a href="https://github.com/Rsmk27" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://www.linkedin.com/in/srinivasamanikanta/" target="_blank" rel="noopener">LinkedIn</a>
+                </div>
             </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/search-index.js"></script>
     <script src="assets/js/main.js"></script>
-    <script>
-        // Theme Toggle Logic
-        const themeToggle = document.getElementById('theme-toggle');
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-
-        // Load saved theme or default
-        const currentTheme = localStorage.getItem('theme');
-        if (currentTheme == 'light') {
-            document.body.setAttribute('data-theme', 'light');
-        } else {
-            if (!currentTheme && !prefersDarkScheme.matches) {
-            }
-        }
-
-        themeToggle.addEventListener('click', () => {
-            let theme = document.body.getAttribute('data-theme');
-            if (theme === 'light') {
-                document.body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.body.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-            }
-        });
-
-        // Back to Top Button
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
-        });
-
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // Reveal Animations on Scroll
-        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-        
-        const revealOnScroll = () => {
-            const windowHeight = window.innerHeight;
-            revealElements.forEach(el => {
-                const elementTop = el.getBoundingClientRect().top;
-                const elementVisible = 100;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    el.classList.add('active');
-                }
-            });
-        };
-
-        window.addEventListener('scroll', revealOnScroll);
-        window.addEventListener('load', revealOnScroll);
-
-        // Newsletter Form Handler
-        function handleNewsletterSubmit(event) {
-            event.preventDefault();
-            const email = event.target.querySelector('input[type="email"]').value;
-            alert('Thank you for subscribing! We\'ll send updates to: ' + email);
-            event.target.reset();
-        }
-    </script>
 </body>
 
 </html>

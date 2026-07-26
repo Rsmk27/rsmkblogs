@@ -4,757 +4,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Read the latest articles on electronics, innovation, embedded systems, and smart energy technology by RSMK.">
-    <link rel="canonical" href="https://blogs.rsmk.me/blogs.html">
-
-    <title>All Blogs | RSMK</title>
+    <meta name="description" content="RSMK Knowledge Base Catalog — Comprehensive documentation articles on embedded microcontrollers, PLCs, SCADA, IoT, and power systems.">
+    <title>Articles & Documentation Catalog | RSMK Blogs</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/images/logo.png">
     <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        .hero-blogs {
-            padding: 80px 0 60px;
-            background: radial-gradient(circle at top center, rgba(0, 242, 234, 0.05) 0%, transparent 70%);
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .hero-blogs h1 {
-            font-family: var(--font-heading);
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            margin-bottom: 15px;
-            color: var(--text-main);
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .hero-blogs p {
-            color: var(--text-muted);
-            font-size: 1.15rem;
-            max-width: 600px;
-            margin: 0 auto;
-            font-weight: 300;
-        }
-
-        .filter-section {
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-top: -80px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            transition: 0.3s ease;
-        }
-
-        [data-theme="light"] .filter-section {
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-        }
-
-        .search-container {
-            position: relative;
-            width: 100%;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            transition: color 0.3s;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 18px 20px 18px 55px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-body);
-            font-size: 1.05rem;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(0, 242, 234, 0.1);
-        }
-
-        .search-input:focus + .search-icon {
-            color: var(--primary-color);
-        }
-
-        .filter-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-
-        .categories {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .category-btn {
-            background: var(--bg-color);
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            padding: 8px 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .category-btn:hover {
-            color: var(--text-main);
-            border-color: var(--text-muted);
-        }
-
-        .category-btn.active {
-            background: var(--primary-color);
-            color: #000;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 15px rgba(0, 242, 234, 0.2);
-        }
-
-        .results-count {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            font-weight: 500;
-            background: var(--bg-color);
-            padding: 6px 14px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        #no-results {
-            text-align: center;
-            padding: 80px 20px;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            background: var(--surface-color);
-            border-radius: var(--radius-lg);
-            border: 1px dashed var(--border-color);
-        }
-
-        #no-results svg {
-            color: var(--border-color);
-            margin-bottom: 10px;
-        }
-        
-        #no-results h3 {
-            font-family: var(--font-heading);
-            color: var(--text-main);
-            font-size: 1.8rem;
-        }
-        
-        #no-results p {
-            color: var(--text-muted);
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
-        @media (max-width: 768px) {
-            .filter-section {
-                margin-top: -30px;
-                padding: 15px;
-            }
-            .filter-controls {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .results-count {
-                align-self: flex-end;
-            }
-        }
-    </style>
 </head>
 
 <body>
-
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
     <header>
         <div class="container">
-            <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="RSMK Logo"
-                    class="nav-logo">RSMK<span>.</span></a>
-            <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="RSMK Logo">RSMK<span>.</span>
+            </a>
+            
             <nav class="nav-links">
                 <a href="index.html">Home</a>
-                <a href="blogs.html" class="active">Blogs</a>
-                <a href="about.html">About</a>
+                <a href="blogs.html" class="active">Articles</a>
+                <a href="topics.html">Topics</a>
+                <a href="companies.html">Companies</a>
+                <a href="roadmaps.html">Roadmaps</a>
                 <a href="projects.html">Projects</a>
-                <a href="#contact">Contact</a>
-                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
+                <a href="resources.html">Resources</a>
+                <a href="about.html">About</a>
             </nav>
+
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="search-trigger-btn" aria-label="Open Global Search">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+                    <span>Search documentation...</span>
+                    <kbd>Ctrl K</kbd>
+                </button>
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+            </div>
         </div>
     </header>
 
-    <main id="main-content">
-        <section class="hero-blogs text-center">
-            <div class="container">
-                <h1>Explore the Knowledge Base</h1>
-                <p>Deep dives, tutorials, and insights into Embedded Systems, IoT, Green Energy, and the Future of Technology.</p>
-            </div>
-        </section>
-
-        <!-- Search & Filter -->
+    <main id="main-content" class="section-padding">
         <div class="container">
-            <div class="filter-section">
-                <div class="search-container">
-                    <input type="text" class="search-input" id="search-input" placeholder="Search by keyword, topic, or technology...">
-                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <!-- Page Header -->
+            <div style="margin-bottom: 40px;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 12px;">Engineering Documentation Catalog</h1>
+                <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 720px;">
+                    Explore technical articles, teardowns, register programming guides, and system architecture manuals across 5 engineering domains.
+                </p>
+            </div>
+
+            <!-- Filter & Controls Toolbar -->
+            <div style="background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 18px 24px; margin-bottom: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;">
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="catalog-category-filters">
+                    <button class="btn btn-primary btn-sm" onclick="filterArticles('all')">All Domains</button>
+                    <button class="btn btn-outline btn-sm" onclick="filterArticles('Embedded Systems')">Embedded Systems</button>
+                    <button class="btn btn-outline btn-sm" onclick="filterArticles('Industrial Automation')">Industrial Automation</button>
+                    <button class="btn btn-outline btn-sm" onclick="filterArticles('Power Electronics')">Power Electronics</button>
+                    <button class="btn btn-outline btn-sm" onclick="filterArticles('IoT')">IoT & Wireless</button>
                 </div>
-                <div class="filter-controls">
-                    <div class="categories" id="category-filters">
-                        <button class="category-btn active" data-category="all">All Articles</button>
-                        <button class="category-btn" data-category="Embedded Systems">Embedded Systems</button>
-                        <button class="category-btn" data-category="IoT">IoT</button>
-                        <button class="category-btn" data-category="Green Energy">Green Energy</button>
-                        <button class="category-btn" data-category="Future Tech">Future Tech</button>
-                        <button class="category-btn" data-category="Careers">Careers</button>
+
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <input type="text" id="catalog-search-input" placeholder="Filter articles..." onkeyup="filterArticlesBySearch()" style="padding: 8px 14px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); color: var(--text-main); font-size: 0.875rem; width: 220px;">
+                </div>
+            </div>
+
+            <!-- Articles Grid -->
+            <div class="grid-3" id="articles-catalog-grid">
+                <!-- Article Card 1 -->
+                <div class="entity-card article-card-item" data-category="Embedded Systems" data-title="esp8266 & esp32 iot engineering">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span class="badge badge-intermediate">Intermediate</span>
+                        <span class="tech-pill">ESP32</span>
                     </div>
-                    <div class="results-count" id="results-count">Showing all articles</div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">
+                        <a href="blogs/esp8266.html">ESP8266 & ESP32 IoT Hardware & Firmware Engineering</a>
+                    </h3>
+                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                        Wi-Fi stack operations, hardware timers, FreeRTOS tasks, MQTT telemetry, and DIN-rail smart gateway design.
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-subtle); margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                        <span>15 min read</span>
+                        <span>Dec 04, 2025</span>
+                    </div>
+                </div>
+
+                <!-- Article Card 2 -->
+                <div class="entity-card article-card-item" data-category="Embedded Systems" data-title="arduino nano architecture">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span class="badge badge-intermediate">Intermediate</span>
+                        <span class="tech-pill">ATmega328P</span>
+                    </div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">
+                        <a href="blogs/arduino-nano.html">Arduino Nano Microcontroller Engineering & Hardware Guide</a>
+                    </h3>
+                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                        ATmega328P architecture, register-level GPIO manipulation, hardware timers, PWM generation, and sensor interfacing.
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-subtle); margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                        <span>12 min read</span>
+                        <span>Dec 04, 2025</span>
+                    </div>
+                </div>
+
+                <!-- Article Card 3 -->
+                <div class="entity-card article-card-item" data-category="Industrial Automation" data-title="arduino mega 2560 plc">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span class="badge badge-advanced">Advanced</span>
+                        <span class="tech-pill">Modbus RS-485</span>
+                    </div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">
+                        <a href="blogs/arduino-mega.html">Arduino MEGA 2560 in Industrial Control & PLC Systems</a>
+                    </h3>
+                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                        ATmega2560 54 GPIO lines, multi-UART interfaces, Modbus RS-485 communication, and industrial PLC benchmarks.
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-subtle); margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                        <span>18 min read</span>
+                        <span>Dec 04, 2025</span>
+                    </div>
+                </div>
+
+                <!-- Article Card 4 -->
+                <div class="entity-card article-card-item" data-category="Embedded Systems" data-title="arduino uno r4 renesas">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span class="badge badge-beginner">Beginner</span>
+                        <span class="tech-pill">ARM Cortex-M4</span>
+                    </div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">
+                        <a href="blogs/arduino-uno.html">Arduino UNO R4 Minima & Wi-Fi Architectural Overview</a>
+                    </h3>
+                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                        32-bit Renesas RA4M1 microprocessor, 12-bit DAC, CAN Bus controller, and 12x8 LED Matrix programming.
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-subtle); margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                        <span>10 min read</span>
+                        <span>Dec 04, 2025</span>
+                    </div>
+                </div>
+
+                <!-- Article Card 5 -->
+                <div class="entity-card article-card-item" data-category="Power Electronics" data-title="ev electric vehicle charging">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span class="badge badge-advanced">Advanced</span>
+                        <span class="tech-pill">Power Systems</span>
+                    </div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">
+                        <a href="blogs/ev-charging.html">Electric Vehicle (EV) Charging Station Architecture</a>
+                    </h3>
+                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                        Level 2 AC & Level 3 DC Fast Charger topologies, OCPP 2.0 communication protocols, power factor correction, and grid interfaces.
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-subtle); margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                        <span>14 min read</span>
+                        <span>Dec 04, 2025</span>
+                    </div>
+                </div>
+
+                <!-- Article Card 6 -->
+                <div class="entity-card article-card-item" data-category="IoT" data-title="smart home automation zigbee">
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span class="badge badge-intermediate">Intermediate</span>
+                        <span class="tech-pill">Smart Home</span>
+                    </div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">
+                        <a href="blogs/smart-home.html">Smart Home Automation Systems & Local Hub Architecture</a>
+                    </h3>
+                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                        Designing resilient local smart home ecosystems using Home Assistant, Zigbee mesh networking, and ESP32 relays.
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-subtle); margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                        <span>11 min read</span>
+                        <span>Dec 04, 2025</span>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- Blog Grid -->
-        <section id="articles" class="section-padding">
-            <div class="container">
-                <div id="no-results">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                    <h3>No articles found</h3>
-                    <p>We couldn't find anything matching your search criteria. Try different keywords or select "All Articles".</p>
-                </div>
-                <div class="blog-grid" id="blog-grid">
-                    <!-- Article 1 - ESP8266 -->
-                    <article class="blog-card" data-category="IoT">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-iot">IoT</span>
-                            <img src="assets/images/esp8266.webp" alt="ESP8266 Dev Board" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Jan 12, 2026</span>
-                                <span>8 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/esp8266.html">ESP8266: The Board That Turns Hardware
-                                    Into a Networked System</a></h3>
-                            <p class="blog-excerpt">The ESP8266 is an engineering gateway — from isolated hardware to
-                                connected intelligence.</p>
-                            <a href="blogs/esp8266.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 2 - Arduino MEGA -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-embedded-systems">Embedded Systems</span>
-                            <img src="assets/images/arduino_mega.webp" alt="Arduino MEGA 2560 Board" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Jan 12, 2026</span>
-                                <span>11 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/arduino-mega.html">Arduino MEGA: Where Engineering
-                                    Moves From Projects to Products</a></h3>
-                            <p class="blog-excerpt">The Arduino MEGA is about architecting systems. When your designs
-                                grow into multi-module platforms.</p>
-                            <a href="blogs/arduino-mega.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 3 - Arduino UNO -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-embedded-systems">Embedded Systems</span>
-                            <img src="assets/images/arduino_uno.webp" alt="Arduino UNO R3 Board" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Jan 12, 2026</span>
-                                <span>10 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/arduino-uno.html">Arduino UNO: Where Engineers Learn
-                                    Systems Thinking</a></h3>
-                            <p class="blog-excerpt">The Arduino UNO forces you to think in systems — power domains,
-                                signal integrity, and debugging.</p>
-                            <a href="blogs/arduino-uno.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 4 - Arduino Nano -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-embedded-systems">Embedded Systems</span>
-                            <img src="assets/images/arduino_nano.webp" alt="Arduino Nano Board" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Jan 11, 2026</span>
-                                <span>12 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/arduino-nano.html">Arduino Nano: The Small Board That
-                                    Builds Real Engineers</a></h3>
-                            <p class="blog-excerpt">A comprehensive guide to how Arduino Nano builds genuine engineering
-                                competence.</p>
-                            <a href="blogs/arduino-nano.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 12 - 5G to 6G -->
-                    <article class="blog-card" data-category="Future Tech">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-telecommunications">Telecommunications</span>
-                            <img src="assets/images/6g-network.webp" alt="6G Network Concept" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 09, 2025</span>
-                                <span>7 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/5g-6g-tech.html">From 5G to 6G: What to Expect</a>
-                            </h3>
-                            <p class="blog-excerpt">6G promises speeds of 1 Tbps and microsecond latency, enabling
-                                holographic communication.</p>
-                            <a href="blogs/5g-6g-tech.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 11 - Quantum Computing -->
-                    <article class="blog-card" data-category="Future Tech">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-future-tech">Future Tech</span>
-                            <img src="assets/images/quantum-computing.webp" alt="Quantum Processor Chip" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 08, 2025</span>
-                                <span>8 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/quantum-computing.html">Quantum Computing: The Next
-                                    Frontier</a></h3>
-                            <p class="blog-excerpt">Quantum computers utilize qubits, allowing them to solve problems
-                                impossible for classical machines.</p>
-                            <a href="blogs/quantum-computing.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 10 - Renewable Energy -->
-                    <article class="blog-card" data-category="Green Energy">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-green-energy">Green Energy</span>
-                            <img src="assets/images/renewable-energy.webp" alt="Renewable Energy Storage"
-                                loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 07, 2025</span>
-                                <span>6 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/renewable-energy.html">Innovative Renewable Energy
-                                    Storage Solutions</a></h3>
-                            <p class="blog-excerpt">Innovative energy storage solutions are the key to unlocking a
-                                stable, 100% renewable grid.</p>
-                            <a href="blogs/renewable-energy.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 4b - Arduino Guide -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-robotics">Robotics</span>
-                            <img src="assets/images/arduino.webp" alt="Arduino Project Kit" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 06, 2025</span>
-                                <span>5 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/arduino-guide.html">Mastering Arduino: A Beginner's
-                                    Guide</a></h3>
-                            <p class="blog-excerpt">Start your journey into embedded systems with this comprehensive
-                                guide to setting up your first Arduino project.</p>
-                            <a href="blogs/arduino-guide.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 5 - EV Charging -->
-                    <article class="blog-card" data-category="Green Energy">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-green-tech">Green Tech</span>
-                            <img src="assets/images/ev-charging.webp" alt="Electric Vehicle Charging Station"
-                                loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 05, 2025</span>
-                                <span>8 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/ev-charging.html">The EV Revolution: Charging
-                                    Infrastructure</a></h3>
-                            <p class="blog-excerpt">An in-depth look at how fast-charging networks are evolving to meet
-                                the demands of tomorrow's EVs.</p>
-                            <a href="blogs/ev-charging.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 6 - Smart Home -->
-                    <article class="blog-card" data-category="IoT">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-iot">IoT</span>
-                            <img src="assets/images/smart-home.webp" alt="Smart Home Automation" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 04, 2025</span>
-                                <span>6 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/smart-home.html">Building a Smart Home Ecosystem</a>
-                            </h3>
-                            <p class="blog-excerpt">How to integrate disparate IoT devices into a seamless, automated
-                                home environment.</p>
-                            <a href="blogs/smart-home.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 7 - AI Drones -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-uavs">UAVs</span>
-                            <img src="assets/images/drone.webp" alt="AI Powered Drone" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 03, 2025</span>
-                                <span>7 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/ai-drones.html">Next-Gen Drones: AI in Flight</a></h3>
-                            <p class="blog-excerpt">Exploring how artificial intelligence is enabling drones to navigate
-                                complex environments autonomously.</p>
-                            <a href="blogs/ai-drones.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 8 - Semiconductors -->
-                    <article class="blog-card" data-category="Embedded Systems">
-                        <div class="blog-card-img">
-                            <span class="category-tag category-hardware">Hardware</span>
-                            <img src="assets/images/microchip.webp" alt="Semiconductor Microchip" loading="lazy">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 02, 2025</span>
-                                <span>10 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/semiconductors.html">Semiconductors Explained</a></h3>
-                            <p class="blog-excerpt">The brains behind the operation. We break down how microchips work
-                                and the physics behind the silicon.</p>
-                            <a href="blogs/semiconductors.html" class="read-more-link">Read Article <svg width="18"
-                                    height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-
-                    <!-- Article 9 - Careers -->
-                    <article class="blog-card" data-category="Careers">
-                        <div class="blog-card-img">
-                            <div
-                                style="width:100%; height:100%; background: linear-gradient(45deg, #222, #444); display:flex; align-items:center; justify-content:center; color:#555;">
-                                <img src="assets/images/hero-bg.webp" style="opacity:0.5" alt="Circuit">
-                            </div>
-                            <span class="category-tag category-careers">Careers</span>
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-meta">
-                                <span>Dec 01, 2025</span>
-                                <span>4 min read</span>
-                            </div>
-                            <h3 class="blog-title"><a href="blogs/careers.html">Top 5 Career Paths in EEE</a></h3>
-                            <p class="blog-excerpt">Not sure where to take your degree? Here are the most lucrative and
-                                exciting career paths for electrical engineers.</p>
-                            <a href="blogs/careers.html" class="read-more-link">Read Article <svg width="18" height="18"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></a>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
     </main>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
-    </button>
-
-    <footer id="contact">
+    <footer>
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo" style="font-size: 1.5rem;">RSMK<span>.</span></a>
-                    <p>Building Future Technologies</p>
-                    <div class="footer-socials">
-                        <a href="https://rsmk.me" class="footer-social-link" title="Portfolio" target="_blank" rel="noopener noreferrer" aria-label="Portfolio"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="2" y1="12" x2="22" y2="12"></line>
-                                <path
-                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                                </path>
-                            </svg></a>
-                        <a href="https://www.linkedin.com/in/rsmk27/" class="footer-social-link" title="LinkedIn"
-                            target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
-                                </path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg></a>
-                        <a href="https://github.com/Rsmk27" class="footer-social-link" title="GitHub"
-                            target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 1.19 6.44 1.54a3.37 3.37 0 0 0-.94 2.61V19c0 .51.5.86 1 .94a10 10 0 0 0 18 0z">
-                                </path>
-                            </svg></a>
-                        <a href="https://www.instagram.com/rsmk_27/" class="footer-social-link" title="Instagram"
-                            target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                            </svg></a>
-                        <a href="https://x.com/SrinivasManik20" class="footer-social-link" title="X (Twitter)"
-                            target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                fill="currentColor" viewBox="0 0 16 16">
-                                <path
-                                    d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z" />
-                            </svg></a>
-                        <a href="https://t.me/RSMK_27" class="footer-social-link" title="Telegram" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg></a>
-                    </div>
-                    <div class="newsletter">
-                        <p style="margin-top: 25px; color: var(--text-main); font-weight: 600;">Subscribe to Newsletter</p>
-                        <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
-                            <input type="email" placeholder="Enter your email" required aria-label="Email address">
-                            <button type="submit">Subscribe</button>
-                        </form>
-                    </div>
+                                    <div class="footer-bottom">
+                <div>© 2026 RSMK Blogs. Engineered & Maintained by <a href="https://rsmk.me" target="_blank" rel="noopener" style="color: var(--primary-color); font-weight: 600;">Srinivasa Manikanta (RSMK)</a>.</div>
+                <div style="display: flex; gap: 16px;">
+                    <a href="https://rsmk.me" target="_blank" rel="noopener">Portfolio (rsmk.me)</a>
+                    <a href="https://github.com/Rsmk27" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://www.linkedin.com/in/srinivasamanikanta/" target="_blank" rel="noopener">LinkedIn</a>
                 </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 RSMK – Building Future Technologies</p>
             </div>
         </div>
     </footer>
 
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/search-index.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
-        // Theme Toggle Logic
-        const themeToggle = document.getElementById('theme-toggle');
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-        const currentTheme = localStorage.getItem('theme');
-        if (currentTheme == 'light') {
-            document.body.setAttribute('data-theme', 'light');
-        }
-
-        themeToggle.addEventListener('click', () => {
-            let theme = document.body.getAttribute('data-theme');
-            if (theme === 'light') {
-                document.body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.body.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-            }
-        });
-
-        // Back to Top Button
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
-        });
-
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // Newsletter Form Handler
-        function handleNewsletterSubmit(event) {
-            event.preventDefault();
-            const email = event.target.querySelector('input[type="email"]').value;
-            alert('Thank you for subscribing! We\'ll send updates to: ' + email);
-            event.target.reset();
-        }
-
-        // Search & Filter Logic
-        const searchInput = document.getElementById('search-input');
-        const categoryBtns = document.querySelectorAll('.category-btn');
-        const blogCards = document.querySelectorAll('.blog-card');
-        const noResults = document.getElementById('no-results');
-        const resultsCount = document.getElementById('results-count');
-
-        function filterBlogs() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const activeCategory = document.querySelector('.category-btn.active').getAttribute('data-category');
-            let visibleCount = 0;
-
-            blogCards.forEach(card => {
-                const title = card.querySelector('.blog-title').textContent.toLowerCase();
-                const excerpt = card.querySelector('.blog-excerpt').textContent.toLowerCase();
-                const category = card.getAttribute('data-category');
-
-                const matchesSearch = title.includes(searchTerm) || excerpt.includes(searchTerm);
-                const matchesCategory = activeCategory === 'all' || category === activeCategory;
-
-                if (matchesSearch && matchesCategory) {
-                    card.style.display = 'flex';
-                    // Apply a slight animation reset for smooth filtering
-                    card.style.animation = 'none';
-                    card.offsetHeight; /* trigger reflow */
-                    card.style.animation = 'fadeIn 0.5s ease forwards';
-                    visibleCount++;
+        function filterArticles(category) {
+            const cards = document.querySelectorAll(".article-card-item");
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute("data-category") === category) {
+                    card.style.display = "flex";
                 } else {
-                    card.style.display = 'none';
+                    card.style.display = "none";
                 }
             });
-
-            // Update UI based on results
-            if (visibleCount === 0) {
-                noResults.style.display = 'flex';
-            } else {
-                noResults.style.display = 'none';
-            }
-            
-            if (activeCategory === 'all' && searchTerm === '') {
-                 resultsCount.textContent = `Showing all ${visibleCount} articles`;
-            } else {
-                 resultsCount.textContent = `Found ${visibleCount} article${visibleCount !== 1 ? 's' : ''}`;
-            }
         }
 
-        // Initial count setup
-        resultsCount.textContent = `Showing all ${blogCards.length} articles`;
-
-        searchInput.addEventListener('input', filterBlogs);
-
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                categoryBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                filterBlogs();
+        function filterArticlesBySearch() {
+            const query = document.getElementById("catalog-search-input").value.toLowerCase().trim();
+            const cards = document.querySelectorAll(".article-card-item");
+            cards.forEach(card => {
+                const title = card.getAttribute("data-title");
+                if (title.includes(query)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
             });
-        });
+        }
     </script>
 </body>
 

@@ -1,13 +1,10 @@
 {
-  "dependencies": {
-    "dompurify": "^3.4.12",
-    "jsdom": "^29.1.1"
-  },
   "name": "app",
   "version": "1.0.0",
-  "description": "This repository includes a daily AI-powered blog automation pipeline for the static site.",
+  "description": "Static blog website.",
   "main": "index.js",
   "scripts": {
+    "dev": "python -m http.server 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

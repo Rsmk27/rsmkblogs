@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="64" fill="#0A0D12"/>
+  <g transform="translate(10, 0)">
+    <!-- Electric Blue 'R' -->
+    <path d="M 140 160 L 235 160 C 275 160 300 180 300 215 C 300 245 275 265 235 270 L 295 340 L 250 340 L 195 272 L 180 272 L 180 340 L 140 340 Z M 180 192 L 180 240 L 225 240 C 248 240 260 230 260 216 C 260 202 248 192 225 192 Z" fill="#007EFE"/>
+    
+    <!-- White 'B' Top Book Loop -->
+    <path d="M 275 160 L 335 160 C 370 160 392 178 392 205 C 392 232 370 250 335 250 L 275 250 Z M 310 186 C 335 186 354 194 354 205 C 354 216 335 224 310 224 Z" fill="#FFFFFF"/>
+    <rect x="312" y="196" width="34" height="5" rx="2.5" fill="#0A0D12"/>
+    <rect x="312" y="208" width="34" height="5" rx="2.5" fill="#0A0D12"/>
+    
+    <!-- White 'B' Bottom Book Loop -->
+    <path d="M 260 250 L 340 250 C 378 250 398 270 398 295 C 398 320 378 340 340 340 L 260 340 Z M 295 276 C 338 276 360 285 360 295 C 360 305 338 314 295 314 Z" fill="#FFFFFF"/>
+    <rect x="302" y="286" width="45" height="5" rx="2.5" fill="#0A0D12"/>
+    <rect x="302" y="298" width="45" height="5" rx="2.5" fill="#0A0D12"/>
+  </g>
+</svg>

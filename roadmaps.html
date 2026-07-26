@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RSMK Visual Engineering Roadmaps — Step-by-step learning pathways for Industrial PLC Automation, Embedded Systems, IoT, and Power Electronics.">
+    <title>Visual Learning Roadmaps | RSMK Blogs</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="RSMK Logo">RSMK<span>.</span>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="blogs.html">Articles</a>
+                <a href="topics.html">Topics</a>
+                <a href="companies.html">Companies</a>
+                <a href="roadmaps.html" class="active">Roadmaps</a>
+                <a href="projects.html">Projects</a>
+                <a href="resources.html">Resources</a>
+                <a href="about.html">About</a>
+            </nav>
+
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="search-trigger-btn" aria-label="Open Global Search">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+                    <span>Search documentation...</span>
+                    <kbd>Ctrl K</kbd>
+                </button>
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="section-padding">
+        <div class="container">
+            <div style="margin-bottom: 40px;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 12px;">Visual Engineering Learning Roadmaps</h1>
+                <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 720px;">
+                    Structured step-by-step pathways to guide you from foundational concepts to production-grade engineering mastery.
+                </p>
+            </div>
+
+            <!-- Roadmap 1: PLC Automation -->
+            <div id="plc-roadmap" class="roadmap-level" style="margin-bottom: 48px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color);">
+                    <div>
+                        <span class="badge badge-beginner" style="margin-bottom: 6px;">Industrial Domain</span>
+                        <h2 style="font-size: 1.8rem; margin: 4px 0;">Industrial PLC & Automation Engineer Roadmap</h2>
+                        <p style="color: var(--text-muted); margin: 0; font-size: 0.95rem;">Master relay logic, IEC 61131-3 programming, Modbus communication, HMIs, and SCADA telemetry.</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-container">
+                    <!-- Level 1 -->
+                    <div>
+                        <div class="roadmap-level-title">
+                            <span class="badge badge-beginner">Level 1</span>
+                            <span>Logic & Hardware Wiring Basics</span>
+                        </div>
+                        <div class="roadmap-nodes-grid">
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--primary-color); font-weight: 600; margin-bottom: 4px;">STEP 01</div>
+                                <div style="font-weight: 700; color: var(--text-main);">Digital Logic & Relays</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Normally Open/Closed contacts, timers, interlocks.</div>
+                            </div>
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--primary-color); font-weight: 600; margin-bottom: 4px;">STEP 02</div>
+                                <div style="font-weight: 700; color: var(--text-main);">IEC 61131-3 Languages</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Ladder Logic (LD), Function Block (FBD), Structured Text.</div>
+                            </div>
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--primary-color); font-weight: 600; margin-bottom: 4px;">STEP 03</div>
+                                <div style="font-weight: 700; color: var(--text-main);">Micro850 & CCW Environment</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Allen-Bradley Connected Components Workbench tools.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 2 -->
+                    <div>
+                        <div class="roadmap-level-title">
+                            <span class="badge badge-intermediate">Level 2</span>
+                            <span>Industrial Communications & HMIs</span>
+                        </div>
+                        <div class="roadmap-nodes-grid">
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--color-warning); font-weight: 600; margin-bottom: 4px;">STEP 04</div>
+                                <div style="font-weight: 700; color: var(--text-main);">Modbus RTU / TCP</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">RS-485 differential signals, registers, master-slave.</div>
+                            </div>
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--color-warning); font-weight: 600; margin-bottom: 4px;">STEP 05</div>
+                                <div style="font-weight: 700; color: var(--text-main);">HMI Panel Programming</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">PanelView touchscreens, alarm banners, pushbuttons.</div>
+                            </div>
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--color-warning); font-weight: 600; margin-bottom: 4px;">STEP 06</div>
+                                <div style="font-weight: 700; color: var(--text-main);">VFD Motor Drives</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Speed control, acceleration ramps, PowerFlex VFDs.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 3 -->
+                    <div>
+                        <div class="roadmap-level-title">
+                            <span class="badge badge-advanced">Level 3</span>
+                            <span>SCADA & Enterprise Industry 4.0</span>
+                        </div>
+                        <div class="roadmap-nodes-grid">
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--color-error); font-weight: 600; margin-bottom: 4px;">STEP 07</div>
+                                <div style="font-weight: 700; color: var(--text-main);">Ignition SCADA Tag Engine</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">OPC UA servers, tag history logging, Web HMIs.</div>
+                            </div>
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--color-error); font-weight: 600; margin-bottom: 4px;">STEP 08</div>
+                                <div style="font-weight: 700; color: var(--text-main);">FactoryTalk Studio 5000</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">ControlLogix/CompactLogix enterprise PAC programming.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Roadmap 2: Embedded Systems -->
+            <div id="embedded-roadmap" class="roadmap-level">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color);">
+                    <div>
+                        <span class="badge badge-beginner" style="margin-bottom: 6px;">Firmware Domain</span>
+                        <h2 style="font-size: 1.8rem; margin: 4px 0;">Embedded Systems & Firmware Engineering</h2>
+                        <p style="color: var(--text-muted); margin: 0; font-size: 0.95rem;">From 8-bit ATmega328P register manipulation to 32-bit ARM Cortex-M peripherals and FreeRTOS.</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-container">
+                    <!-- Level 1 -->
+                    <div>
+                        <div class="roadmap-level-title">
+                            <span class="badge badge-beginner">Level 1</span>
+                            <span>C Memory & Bare-Metal Registers</span>
+                        </div>
+                        <div class="roadmap-nodes-grid">
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--primary-color); font-weight: 600; margin-bottom: 4px;">STEP 01</div>
+                                <div style="font-weight: 700; color: var(--text-main);">C Pointers & Bit Manipulation</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Volatile keyword, register masks, memory-mapped I/O.</div>
+                            </div>
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--primary-color); font-weight: 600; margin-bottom: 4px;">STEP 02</div>
+                                <div style="font-weight: 700; color: var(--text-main);">AVR Peripherals (Timers/ADC)</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">TCCR1A, TIMSK1 interrupt routines, prescalers.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 2 -->
+                    <div>
+                        <div class="roadmap-level-title">
+                            <span class="badge badge-intermediate">Level 2</span>
+                            <span>32-Bit ARM Cortex & Protocols</span>
+                        </div>
+                        <div class="roadmap-nodes-grid">
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--color-warning); font-weight: 600; margin-bottom: 4px;">STEP 03</div>
+                                <div style="font-weight: 700; color: var(--text-main);">ARM Cortex-M Architecture</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">NVIC vector table, SysTick timer, memory protection.</div>
+                            </div>
+                            <div class="roadmap-node">
+                                <div style="font-size: 0.75rem; color: var(--color-warning); font-weight: 600; margin-bottom: 4px;">STEP 04</div>
+                                <div style="font-weight: 700; color: var(--text-main);">FreeRTOS Real-Time Kernel</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Preemptive scheduling, task queues, mutexes, semaphores.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+                                    <div class="footer-bottom">
+                <div>© 2026 RSMK Blogs. Engineered & Maintained by <a href="https://rsmk.me" target="_blank" rel="noopener" style="color: var(--primary-color); font-weight: 600;">Srinivasa Manikanta (RSMK)</a>.</div>
+                <div style="display: flex; gap: 16px;">
+                    <a href="https://rsmk.me" target="_blank" rel="noopener">Portfolio (rsmk.me)</a>
+                    <a href="https://github.com/Rsmk27" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://www.linkedin.com/in/srinivasamanikanta/" target="_blank" rel="noopener">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/search-index.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

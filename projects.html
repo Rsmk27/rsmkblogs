@@ -4,352 +4,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects | RSMK</title>
-    <meta name="description"
-        content="Explore engineering projects by RSMK, including Firefighter Monitoring System, Smart Grid Simulator, and Autonomous Robots.">
-    <link rel="canonical" href="https://blogs.rsmk.me/projects.html">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://blogs.rsmk.me/projects.html">
-    <meta property="og:title" content="Projects | RSMK">
-    <meta property="og:description"
-        content="Showcase of engineering projects in IoT, Embedded Systems, and Smart Energy.">
-    <meta property="og:image" content="https://blogs.rsmk.me/assets/images/hero-bg.webp">
+    <meta name="description" content="RSMK Engineering Projects Showcase — Complete hardware Bill of Materials, schematics, source code, and teardowns.">
+    <title>Engineering Projects Showcase | RSMK Blogs</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/images/logo.png">
     <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        .projects-hero {
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .project-item {
-            background: var(--surface-color);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: 0.3s;
-        }
-
-        .project-item:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .project-img {
-            height: 200px;
-            background: var(--surface-hover);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 3rem;
-            position: relative;
-        }
-
-        .project-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .project-content {
-            padding: 25px;
-        }
-
-        .project-content h3 {
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-            font-family: var(--font-heading);
-            color: var(--text-main);
-        }
-
-        .project-content p {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .project-tags span {
-            display: inline-block;
-            background: var(--bg-color);
-            color: var(--primary-color);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .project-link {
-            font-size: 0.9rem;
-            color: var(--text-main);
-            text-decoration: underline;
-            font-weight: 600;
-        }
-
-        .project-link:hover {
-            color: var(--primary-color);
-        }
-    </style>
 </head>
 
 <body>
-
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-
     <header>
         <div class="container">
-            <a href="index.html" class="logo"><img src="assets/images/logo.png" alt="RSMK Logo"
-                    class="nav-logo">RSMK<span>.</span></a>
-            <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="RSMK Logo">RSMK<span>.</span>
+            </a>
+            
             <nav class="nav-links">
                 <a href="index.html">Home</a>
-                <a href="blogs.html">Blogs</a>
-                <a href="about.html">About</a>
+                <a href="blogs.html">Articles</a>
+                <a href="topics.html">Topics</a>
+                <a href="companies.html">Companies</a>
+                <a href="roadmaps.html">Roadmaps</a>
                 <a href="projects.html" class="active">Projects</a>
-                <a href="#contact">Contact</a>
-                <button class="theme-toggle-btn" id="theme-toggle">🌙</button>
+                <a href="resources.html">Resources</a>
+                <a href="about.html">About</a>
             </nav>
+
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="search-trigger-btn" aria-label="Open Global Search">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+                    <span>Search documentation...</span>
+                    <kbd>Ctrl K</kbd>
+                </button>
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+            </div>
         </div>
     </header>
 
-    <main id="main-content">
-        <section class="projects-hero">
-            <div class="container">
-                <h1
-                    style="font-family: var(--font-heading); font-size: 3rem; margin-bottom: 20px; color: var(--text-main);">
-                    My Projects</h1>
-                <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">
-                    A showcase of my engineering projects, from embedded system prototypes to smart energy simulations.
+    <main id="main-content" class="section-padding">
+        <div class="container">
+            <div style="margin-bottom: 40px;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 12px;">Engineering Projects Showcase</h1>
+                <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 720px;">
+                    Full end-to-end hardware designs, schematics, firmware source code, component BOMs, and testing logs.
                 </p>
+            </div>
 
-                <div class="projects-grid">
-                    <!-- Project 1 -->
-                    <div class="project-item">
-                        <div class="project-img">
-                            <span>🔥</span> <!-- Placeholder Icon/Image -->
+            <!-- Projects Grid -->
+            <div class="grid-2">
+                <!-- Project 1 -->
+                <div class="entity-card" style="padding:0; overflow:hidden;">
+                    <div style="height:200px; background:url('assets/images/smart-home.webp') center/cover no-repeat;"></div>
+                    <div style="padding:24px;">
+                        <div style="display:flex; gap:8px; margin-bottom:12px;">
+                            <span class="badge badge-intermediate">Intermediate</span>
+                            <span class="tech-pill">ESP32</span>
+                            <span class="tech-pill">Modbus RS-485</span>
                         </div>
-                        <div class="project-content">
-                            <h3>Firefighter Monitoring System</h3>
-                            <div class="project-tags">
-                                <span>IoT</span>
-                                <span>Arduino</span>
-                                <span>Sensors</span>
-                            </div>
-                            <p>A real-time health and environmental monitoring system designed to keep firefighters safe
-                                in hazardous zones.</p>
-                            <div class="project-links">
-                                <a href="#" class="project-link">View Details</a>
-                                <a href="#" class="project-link">GitHub</a>
-                            </div>
-                        </div>
+                        <h3 style="font-size: 1.35rem; margin-bottom: 10px;">
+                            <a href="project-detail.html?id=smart-home-hub">ESP32 Industrial IoT Gateway & Smart Home Hub</a>
+                        </h3>
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 20px;">
+                            DIN-rail mountable hardware gateway featuring galvanically isolated RS-485 Modbus, MQTT telemetry client, and local responsive Web Dashboard.
+                        </p>
+                        <a href="project-detail.html?id=smart-home-hub" class="btn btn-primary btn-sm">View Full Project Build →</a>
                     </div>
+                </div>
 
-                    <!-- Project 2 -->
-                    <div class="project-item">
-                        <div class="project-img">
-                            <span>⚡</span>
+                <!-- Project 2 -->
+                <div class="entity-card" style="padding:0; overflow:hidden;">
+                    <div style="height:200px; background:url('assets/images/hero-bg.webp') center/cover no-repeat;"></div>
+                    <div style="padding:24px;">
+                        <div style="display:flex; gap:8px; margin-bottom:12px;">
+                            <span class="badge badge-advanced">Advanced</span>
+                            <span class="tech-pill">PLC</span>
+                            <span class="tech-pill">PowerFlex VFD</span>
                         </div>
-                        <div class="project-content">
-                            <h3>Smart Grid Simulator / GridForge</h3>
-                            <div class="project-tags">
-                                <span>Power Systems</span>
-                                <span>Python</span>
-                                <span>Simulation</span>
-                            </div>
-                            <p>An interactive simulation tool for modeling renewable energy integration into traditional
-                                power grids.</p>
-                            <div class="project-links">
-                                <a href="#" class="project-link">View Details</a>
-                                <a href="#" class="project-link">GitHub</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 3 -->
-                    <div class="project-item">
-                        <div class="project-img">
-                            <span>🤖</span>
-                        </div>
-                        <div class="project-content">
-                            <h3>Autonomous Line Follower</h3>
-                            <div class="project-tags">
-                                <span>Robotics</span>
-                                <span>Embedded C</span>
-                                <span>PID Control</span>
-                            </div>
-                            <p>A high-speed autonomous robot implementing PID control algorithms for precise line
-                                following.</p>
-                            <div class="project-links">
-                                <a href="#" class="project-link">View Details</a>
-                                <a href="#" class="project-link">GitHub</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 4 -->
-                    <div class="project-item">
-                        <div class="project-img">
-                            <span>🌐</span>
-                        </div>
-                        <div class="project-content">
-                            <h3>RSMK Personal Site</h3>
-                            <div class="project-tags">
-                                <span>Web Dev</span>
-                                <span>HTML/CSS</span>
-                                <span>Design</span>
-                            </div>
-                            <p>This personal portfolio and blog site built to showcase my work and share knowledge.</p>
-                            <div class="project-links">
-                                <a href="#" class="project-link">View Source</a>
-                            </div>
-                        </div>
+                        <h3 style="font-size: 1.35rem; margin-bottom: 10px;">
+                            <a href="project-detail.html?id=micro850-plc-panel">Micro850 PLC Motor Control & Industrial Safety Panel</a>
+                        </h3>
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 20px;">
+                            Wired NEMA enclosure incorporating Allen-Bradley Micro850 PLC, PanelView 800 HMI, VFD speed controller, and dual-channel safety relays.
+                        </p>
+                        <a href="project-detail.html?id=micro850-plc-panel" class="btn btn-primary btn-sm">View Full Project Build →</a>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
-    </button>
-
-    <footer id="contact">
+    <footer>
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo" style="font-size: 1.5rem;">RSMK<span>.</span></a>
-                    <p>Building Future Technologies</p>
-                    <div class="footer-socials">
-                        <a href="https://rsmk.me" class="footer-social-link" title="Portfolio" target="_blank" rel="noopener noreferrer" aria-label="Portfolio"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="2" y1="12" x2="22" y2="12"></line>
-                                <path
-                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                                </path>
-                            </svg></a>
-                        <a href="https://www.linkedin.com/in/rsmk27/" class="footer-social-link" title="LinkedIn"
-                            target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
-                                </path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg></a>
-                        <a href="https://github.com/Rsmk27" class="footer-social-link" title="GitHub"
-                            target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 1.19 6.44 1.54a3.37 3.37 0 0 0-.94 2.61V19c0 .51.5.86 1 .94a10 10 0 0 0 18 0z">
-                                </path>
-                            </svg></a>
-                        <a href="https://www.instagram.com/rsmk_27/" class="footer-social-link" title="Instagram"
-                            target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                            </svg></a>
-                        <a href="https://x.com/SrinivasManik20" class="footer-social-link" title="X (Twitter)"
-                            target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                fill="currentColor" viewBox="0 0 16 16">
-                                <path
-                                    d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z" />
-                            </svg></a>
-                        <a href="https://t.me/RSMK_27" class="footer-social-link" title="Telegram" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg></a>
-                    </div>
-                    <div class="newsletter">
-                        <p style="margin-top: 25px; color: var(--text-main); font-weight: 600;">Subscribe to Newsletter</p>
-                        <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
-                            <input type="email" placeholder="Enter your email" required aria-label="Email address">
-                            <button type="submit">Subscribe</button>
-                        </form>
-                    </div>
+                                    <div class="footer-bottom">
+                <div>© 2026 RSMK Blogs. Engineered & Maintained by <a href="https://rsmk.me" target="_blank" rel="noopener" style="color: var(--primary-color); font-weight: 600;">Srinivasa Manikanta (RSMK)</a>.</div>
+                <div style="display: flex; gap: 16px;">
+                    <a href="https://rsmk.me" target="_blank" rel="noopener">Portfolio (rsmk.me)</a>
+                    <a href="https://github.com/Rsmk27" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://www.linkedin.com/in/srinivasamanikanta/" target="_blank" rel="noopener">LinkedIn</a>
                 </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 RSMK. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/search-index.js"></script>
     <script src="assets/js/main.js"></script>
-    <script>
-        const themeToggle = document.getElementById('theme-toggle');
-        const currentTheme = localStorage.getItem('theme');
-        if (currentTheme == 'light') { document.body.setAttribute('data-theme', 'light'); }
-
-        themeToggle.addEventListener('click', () => {
-            let theme = document.body.getAttribute('data-theme');
-            if (theme === 'light') {
-                document.body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.body.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-            }
-        });
-
-        // Back to Top Button
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
-        });
-
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // Newsletter Form Handler
-        function handleNewsletterSubmit(event) {
-            event.preventDefault();
-            const email = event.target.querySelector('input[type="email"]').value;
-            alert('Thank you for subscribing! We\'ll send updates to: ' + email);
-            event.target.reset();
-        }
-    </script>
 </body>
 
 </html>
