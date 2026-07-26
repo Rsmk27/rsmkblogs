@@ -1,5 +1,3 @@
-import createDOMPurify from "dompurify";
-import { JSDOM } from "jsdom";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -296,8 +294,6 @@ export function sanitizeHtmlOutput(text) {
     .replace(/^\`\`\`\s*/i, "")
     .replace(/\s*\`\`\`\s*$/i, "")
     .trim();
-
-  return DOMPurify.sanitize(strippedText, { WHOLE_DOCUMENT: true });
 }
 
 function ensureMetaSlug(html, slug) {
