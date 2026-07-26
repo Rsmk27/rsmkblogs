@@ -30,7 +30,7 @@ const FALLBACK_IMAGE_PROVIDERS = [
   (topic) => `https://source.unsplash.com/1600x900/?${encodeURIComponent(buildImageQuery(topic))}&sig=${Date.now()}`
 ];
 
-function formatLongDate(date = new Date()) {
+export function formatLongDate(date = new Date()) {
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
     day: "2-digit",

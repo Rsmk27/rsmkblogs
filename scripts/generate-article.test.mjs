@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory, sanitizeHtmlOutput } from "./generate-article.mjs";
+import { inferCategory, sanitizeHtmlOutput, formatLongDate } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -54,6 +54,14 @@ test("inferCategory - Embedded Systems (Default)", (t) => {
   assert.strictEqual(inferCategory("RANDOM TOPIC", ""), "Embedded Systems");
 });
 
+
+test("formatLongDate", (t) => {
+  const date1 = new Date("2024-01-05T12:00:00Z");
+  assert.strictEqual(formatLongDate(date1), "January 05, 2024");
+
+  const date2 = new Date("2023-11-25T12:00:00Z");
+  assert.strictEqual(formatLongDate(date2), "November 25, 2023");
+});
 
 test("sanitizeHtmlOutput", (t) => {
   // Stripping ```html and closing ```
