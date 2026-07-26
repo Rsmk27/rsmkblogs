@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory, sanitizeHtmlOutput } from "./generate-article.mjs";
+import { inferCategory, sanitizeHtmlOutput, extractArticleTitle } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -90,5 +90,47 @@ test("sanitizeHtmlOutput", (t) => {
   assert.strictEqual(
     sanitizeHtmlOutput("```html\n<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n```"),
     "<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>"
+  );
+});
+
+test("extractArticleTitle", (t) => {
+  // Test Case 1: Title extracted from <h1 class="blog-post-title"> successfully
+  assert.strictEqual(
+    extractArticleTitle('<html><body><h1 class="blog-post-title">My Awesome Article</h1></body></html>'),
+    "My Awesome Article"
+  );
+
+  // Test Case 2: Title extracted from <h1> with nested tags, ensuring tags are stripped
+  assert.strictEqual(
+    extractArticleTitle('<h1 class="blog-post-title"><span>New</span> Tech <strong>Trends</strong></h1>'),
+    "New Tech Trends"
+  );
+
+  // Test Case 3: Title extracted from <title> when no <h1> matches, ensuring "| RSMK Blog" suffix is removed
+  assert.strictEqual(
+    extractArticleTitle('<title>My Fallback Title | RSMK Blogs</title>'),
+    "My Fallback Title"
+  );
+  assert.strictEqual(
+    extractArticleTitle('<title>Another Title | RSMK Blog</title>'),
+    "Another Title"
+  );
+
+  // Test Case 4: Title extracted from <title> without any suffix
+  assert.strictEqual(
+    extractArticleTitle('<title>Just A Title</title>'),
+    "Just A Title"
+  );
+
+  // Test Case 5: Fallback to "New Article" when neither <h1 class="blog-post-title"> nor <title> is present
+  assert.strictEqual(
+    extractArticleTitle('<div><p>No title here</p></div>'),
+    "New Article"
+  );
+
+  // Test Case 6: Multi-line title string extraction from <h1>
+  assert.strictEqual(
+    extractArticleTitle('<h1 class="blog-post-title">\n  Multi-line \n  Title\n</h1>'),
+    "Multi-line \n  Title"
   );
 });
