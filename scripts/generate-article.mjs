@@ -315,7 +315,7 @@ function ensureMetaSlug(html, slug) {
   return html;
 }
 
-function normalizeSlugUrls(html, slug) {
+export function normalizeSlugUrls(html, slug) {
   return html
     .replace(/(rel="canonical"\s+href=")([^"]+)(")/i, `$1https://blogs.rsmk.me/blogs/${slug}.html$3`)
     .replace(/(property="og:url"\s+content=")([^"]+)(")/i, `$1https://blogs.rsmk.me/blogs/${slug}.html$3`)

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { inferCategory, sanitizeHtmlOutput } from "./generate-article.mjs";
+import { inferCategory, sanitizeHtmlOutput, normalizeSlugUrls } from "./generate-article.mjs";
 
 test("inferCategory - Green Energy", (t) => {
   // Test primaryTag
@@ -91,4 +91,45 @@ test("sanitizeHtmlOutput", (t) => {
     sanitizeHtmlOutput("```html\n<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n```"),
     "<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>"
   );
+});
+
+test("normalizeSlugUrls", (t) => {
+  const slug = "test-slug";
+
+  // Test rel="canonical"
+  const canonicalHtml = '<link rel="canonical" href="https://example.com/old.html">';
+  const expectedCanonicalHtml = '<link rel="canonical" href="https://blogs.rsmk.me/blogs/test-slug.html">';
+  assert.strictEqual(normalizeSlugUrls(canonicalHtml, slug), expectedCanonicalHtml);
+
+  // Test property="og:url"
+  const ogHtml = '<meta property="og:url" content="https://example.com/old.html">';
+  const expectedOgHtml = '<meta property="og:url" content="https://blogs.rsmk.me/blogs/test-slug.html">';
+  assert.strictEqual(normalizeSlugUrls(ogHtml, slug), expectedOgHtml);
+
+  // Test property="twitter:url"
+  const twitterHtml = '<meta property="twitter:url" content="https://example.com/old.html">';
+  const expectedTwitterHtml = '<meta property="twitter:url" content="https://blogs.rsmk.me/blogs/test-slug.html">';
+  assert.strictEqual(normalizeSlugUrls(twitterHtml, slug), expectedTwitterHtml);
+
+  // Test all three in one snippet
+  const combinedHtml = `
+    <link rel="canonical" href="old-url">
+    <meta property="og:url" content="old-url">
+    <meta property="twitter:url" content="old-url">
+  `;
+  const expectedCombinedHtml = `
+    <link rel="canonical" href="https://blogs.rsmk.me/blogs/test-slug.html">
+    <meta property="og:url" content="https://blogs.rsmk.me/blogs/test-slug.html">
+    <meta property="twitter:url" content="https://blogs.rsmk.me/blogs/test-slug.html">
+  `;
+  assert.strictEqual(normalizeSlugUrls(combinedHtml, slug), expectedCombinedHtml);
+
+  // Test case insensitivity
+  const mixedCaseHtml = '<link REL="canonical" HReF="old-url">';
+  const expectedMixedCaseHtml = '<link REL="canonical" HReF="https://blogs.rsmk.me/blogs/test-slug.html">';
+  assert.strictEqual(normalizeSlugUrls(mixedCaseHtml, slug), expectedMixedCaseHtml);
+
+  // Test unmodified HTML
+  const unmodifiedHtml = '<div>No links here</div>';
+  assert.strictEqual(normalizeSlugUrls(unmodifiedHtml, slug), unmodifiedHtml);
 });
