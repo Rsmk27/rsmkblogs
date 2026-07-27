@@ -148,15 +148,15 @@ function initGlobalSearchModal() {
     }
 }
 
-/* --- Auto Table of Contents --- */
+/* --- Auto Table of Contents with Active Section Highlighting --- */
 function initTableOfContents() {
-    const tocContainer = document.getElementById("auto-toc-list");
-    const articleBody = document.querySelector(".article-main");
+    const tocContainer = document.getElementById("auto-toc-list") || document.querySelector(".toc-list");
+    const articleBody = document.querySelector(".article-main-center") || document.querySelector(".article-main");
     if (!tocContainer || !articleBody) return;
 
     const headings = articleBody.querySelectorAll("h2, h3");
     if (headings.length === 0) {
-        const sidebar = document.querySelector(".toc-sidebar");
+        const sidebar = document.querySelector(".article-sidebar-left, .toc-sidebar");
         if (sidebar) sidebar.style.display = "none";
         return;
     }
@@ -170,14 +170,26 @@ function initTableOfContents() {
         link.href = `#${heading.id}`;
         link.className = `toc-link ${heading.tagName.toLowerCase() === "h3" ? "indent" : ""}`;
         link.textContent = heading.textContent.replace(/^#\s*/, "");
+
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const targetEl = document.getElementById(heading.id);
+            if (targetEl) {
+                const yOffset = -90; // Offset for fixed header
+                const y = targetEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({ top: y, behavior: "smooth" });
+                history.pushState(null, null, `#${heading.id}`);
+            }
+        });
+
         tocContainer.appendChild(link);
     });
 
-    window.addEventListener("scroll", () => {
+    function updateActiveHeading() {
         let currentId = "";
         headings.forEach(heading => {
             const top = heading.getBoundingClientRect().top;
-            if (top <= 120) {
+            if (top <= 140) {
                 currentId = heading.id;
             }
         });
@@ -189,7 +201,10 @@ function initTableOfContents() {
                 link.classList.add("active");
             }
         });
-    });
+    }
+
+    window.addEventListener("scroll", updateActiveHeading);
+    updateActiveHeading();
 }
 
 /* --- Wiki Term Tooltips & Popovers --- */
@@ -274,11 +289,15 @@ function initCodeCopyButtons() {
     });
 }
 
-/* --- Reading Tools (Font Resizer, Distraction-Free) --- */
+/* --- Reading Tools (Font Resizer, Dynamic Progress, Share Link) --- */
 function initReadingTools() {
     const fontIncrease = document.getElementById("font-increase");
     const fontDecrease = document.getElementById("font-decrease");
-    const dfToggle = document.getElementById("df-mode-toggle");
+    const shareLinkBtn = document.getElementById("share-link-btn");
+    const timeLeftEl = document.getElementById("reading-time-left");
+    const percentTextEl = document.getElementById("reading-percent-text");
+    const progressCircle = document.getElementById("reading-progress-circle-bar");
+
     let scale = parseFloat(localStorage.getItem("rsmk_font_scale") || 1);
 
     function applyScale() {
@@ -298,12 +317,55 @@ function initReadingTools() {
         });
     }
 
-    if (dfToggle) {
-        dfToggle.addEventListener("click", () => {
-            document.body.classList.toggle("distraction-free");
+    if (shareLinkBtn) {
+        shareLinkBtn.addEventListener("click", () => {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const origText = shareLinkBtn.innerText;
+                shareLinkBtn.innerText = "✓ Copied!";
+                shareLinkBtn.style.borderColor = "var(--color-success)";
+                setTimeout(() => {
+                    shareLinkBtn.innerText = origText;
+                    shareLinkBtn.style.borderColor = "";
+                }, 2000);
+            });
         });
     }
+
+    // Dynamic Reading Progress Calculation
+    window.addEventListener("scroll", () => {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (totalHeight > 0) {
+            const scrollRatio = Math.min(1, Math.max(0, window.scrollY / totalHeight));
+            const percent = Math.round(scrollRatio * 100);
+
+            if (percentTextEl) percentTextEl.textContent = `${percent}% read`;
+
+            // Initial estimate of 12 mins total
+            const initialMinutes = 12;
+            const remainingMinutes = Math.max(1, Math.ceil(initialMinutes * (1 - scrollRatio)));
+            if (timeLeftEl) timeLeftEl.textContent = `${remainingMinutes} min left`;
+
+            if (progressCircle) {
+                const circumference = 125.6; // 2 * PI * 20
+                const offset = circumference - (scrollRatio * circumference);
+                progressCircle.style.strokeDashoffset = offset;
+            }
+        }
+    });
 }
+
+// Global Helper for Right Sidebar Mani AI Chips
+window.askManiPrompt = function(promptText) {
+    const windowEl = document.getElementById("mani-ai-window");
+    const inputEl = document.getElementById("mani-user-input");
+    const sendBtn = document.getElementById("mani-send-btn");
+
+    if (windowEl && inputEl && sendBtn) {
+        windowEl.classList.add("active");
+        inputEl.value = promptText;
+        sendBtn.click();
+    }
+};
 
 /* --- Mani AI Chatbot Widget with Fast Typing Animation --- */
 function initManiAIChatbot() {
@@ -357,29 +419,93 @@ function initManiAIChatbot() {
 
     let history = JSON.parse(sessionStorage.getItem("mani_chat_history") || "[]");
 
+    // Robust Markdown Rendering Engine
     function renderMarkdown(text) {
         if (!text) return "";
-        let html = text
-            .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-            .replace(/```([\s\S]*?)```/g, function(match, code) {
-                return `<pre><code>${code.trim()}</code></pre>`;
-            })
-            .replace(/`([^`]+)`/g, "<code>$1</code>")
-            .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-            .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--primary-color);">$1</a>')
-            .replace(/^\s*-\s+(.*)$/gm, "• $1<br>")
-            .replace(/\n\n/g, "</p><p>")
-            .replace(/\n/g, "<br>");
-            
-        return `<p>${html}</p>`;
+
+        let src = String(text).trim();
+
+        // 1. Extract and preserve code blocks (```lang ... ```)
+        const codeBlocks = [];
+        src = src.replace(/```([a-zA-Z0-9_-]*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+            const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+            const escapedCode = code
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+            const langName = (lang || 'CODE').toUpperCase();
+            codeBlocks.push(
+                `<div class="code-block-wrapper" style="margin: 10px 0;">` +
+                `<div class="code-header"><span>${langName}</span></div>` +
+                `<pre style="padding: 10px; margin: 0; overflow-x: auto;"><code>${escapedCode.trim()}</code></pre>` +
+                `</div>`
+            );
+            return placeholder;
+        });
+
+        // 2. Escape HTML special characters for raw text
+        src = src.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        // 3. Extract and preserve inline code (`code`)
+        const inlineCodes = [];
+        src = src.replace(/`([^`]+)`/g, (match, code) => {
+            const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+            inlineCodes.push(`<code>${code}</code>`);
+            return placeholder;
+        });
+
+        // 4. Headings
+        src = src.replace(/^####\s+(.*$)/gim, '<h4 style="margin: 12px 0 6px; font-size: 0.95rem; color: var(--text-main); font-weight: 700;">$1</h4>');
+        src = src.replace(/^###\s+(.*$)/gim, '<h3 style="margin: 14px 0 6px; font-size: 1.05rem; color: var(--text-main); font-weight: 700;">$1</h3>');
+        src = src.replace(/^##\s+(.*$)/gim, '<h2 style="margin: 16px 0 8px; font-size: 1.15rem; color: var(--primary-color); font-weight: 700;">$1</h2>');
+        src = src.replace(/^#\s+(.*$)/gim, '<h1 style="margin: 18px 0 10px; font-size: 1.25rem; color: var(--primary-color); font-weight: 800;">$1</h1>');
+
+        // 5. Bold & Italics
+        src = src.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        src = src.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+        src = src.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+        src = src.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+        // 6. Links [text](url)
+        src = src.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color: var(--primary-color); text-decoration: underline;">$1</a>');
+
+        // 7. Blockquotes (> quote)
+        src = src.replace(/^&gt;\s+(.*$)/gim, '<blockquote style="border-left: 3px solid var(--primary-color); padding-left: 10px; margin: 8px 0; color: var(--text-muted); font-style: italic;">$1</blockquote>');
+
+        // 8. Lists (Unordered & Ordered)
+        src = src.replace(/^[\s]*[-\*]\s+(.*$)/gim, '<li style="margin-bottom: 3px;">$1</li>');
+        src = src.replace(/(<li style="margin-bottom: 3px;">.*<\/li>\n?)+/g, '<ul style="margin: 6px 0 10px 18px; padding-left: 0; list-style-type: disc; color: var(--text-main);">$&</ul>');
+
+        src = src.replace(/^[\s]*\d+\.\s+(.*$)/gim, '<li class="oli" style="margin-bottom: 3px;">$1</li>');
+        src = src.replace(/(<li class="oli" style="margin-bottom: 3px;">.*<\/li>\n?)+/g, '<ol style="margin: 6px 0 10px 18px; padding-left: 0; list-style-type: decimal; color: var(--text-main);">$&</ol>');
+
+        // 9. Paragraphs
+        const blocks = src.split(/\n{2,}/);
+        src = blocks.map(block => {
+            const b = block.trim();
+            if (!b) return '';
+            if (b.startsWith('<h') || b.startsWith('<ul') || b.startsWith('<ol') || b.startsWith('<blockquote') || b.startsWith('__CODE_BLOCK_')) {
+                return b;
+            }
+            return `<p style="margin-bottom: 8px; line-height: 1.55;">${b.replace(/\n/g, '<br>')}</p>`;
+        }).join('\n');
+
+        // 10. Restore code blocks & inline code
+        codeBlocks.forEach((block, idx) => {
+            src = src.replace(`__CODE_BLOCK_${idx}__`, block);
+        });
+        inlineCodes.forEach((code, idx) => {
+            src = src.replace(`__INLINE_CODE_${idx}__`, code);
+        });
+
+        return src;
     }
 
     // Fast Typing Animation Function
     function typeResponseAnimation(element, fullText, onComplete) {
         let currentIndex = 0;
-        const chunkSize = 3; // Type 3 characters at a time for fast, fluid feel
-        const interval = 12; // 12ms delay per frame
+        const chunkSize = 4; // Type 4 characters at a time
+        const interval = 10; // 10ms delay per frame
 
         const timer = setInterval(() => {
             currentIndex += chunkSize;
@@ -387,6 +513,7 @@ function initManiAIChatbot() {
                 currentIndex = fullText.length;
                 clearInterval(timer);
                 element.innerHTML = renderMarkdown(fullText);
+                initCodeCopyButtons();
                 messagesEl.scrollTop = messagesEl.scrollHeight;
                 if (onComplete) onComplete();
             } else {

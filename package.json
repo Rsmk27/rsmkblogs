@@ -1,22 +1,39 @@
 {
-  "name": "app",
-  "version": "1.0.0",
-  "description": "Static blog website.",
-  "main": "index.js",
+  "name": "rsmk-blogs",
+  "version": "2.0.0",
+  "description": "RSMK Blogs — Ultra-fast Engineering Documentation Platform built with Astro, React & MDX.",
+  "type": "module",
   "scripts": {
-    "dev": "python -m http.server 3000",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/react": "^4.0.0",
+    "astro": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Rsmk27/rsmkblogs.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/Rsmk27/rsmkblogs/issues"
-  },
-  "homepage": "https://github.com/Rsmk27/rsmkblogs#readme"
+  "keywords": [
+    "astro",
+    "react",
+    "mdx",
+    "blog",
+    "engineering",
+    "documentation"
+  ],
+  "author": "Srinivasa Manikanta (RSMK)",
+  "license": "ISC"
 }

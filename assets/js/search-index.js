@@ -16,6 +16,7 @@ const SEARCH_INDEX = [
     { title: "AI-Powered Autonomous Drones & Flight Controllers", type: "Article", category: "Robotics", url: "blogs/ai-drones.html", tags: ["Drones", "Robotics", "Flight Controller", "PX4", "Computer Vision"] },
     { title: "Electric Vehicle (EV) Charging Architecture", type: "Article", category: "Power Electronics", url: "blogs/ev-charging.html", tags: ["EV", "Power Electronics", "Inverters", "Battery", "OCPP"] },
     { title: "Renewable Energy & Microgrid Control Systems", type: "Article", category: "Smart Energy", url: "blogs/renewable-energy.html", tags: ["Solar", "Wind", "Inverters", "Grid", "Microgrid"] },
+    { title: "Mastering MATLAB: Numerical Computing & Simulink", type: "Article", category: "Engineering Software", url: "blogs/matlab-guide.html", tags: ["MATLAB", "Simulink", "Signal Processing", "MathWorks", "Matrix", "Robotics"] },
     { title: "Engineering Career & Technical Skills Roadmap", type: "Article", category: "Career", url: "blogs/careers.html", tags: ["Career", "Skills", "Engineering", "Embedded", "Automation"] },
 
     // --- Technologies & Terms ---

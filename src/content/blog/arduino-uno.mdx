@@ -1,0 +1,30 @@
+---
+title: "Arduino UNO R4 Minima & Wi-Fi Architectural Overview"
+description: "32-bit Renesas RA4M1 microprocessor, 12-bit DAC, CAN Bus controller, and 12x8 LED Matrix programming."
+date: "Dec 04, 2025"
+author: "RSMK"
+category: "Embedded Systems"
+readTime: "10 min read"
+difficulty: "Beginner"
+tags: ["Arduino", "RA4M1", "ARM", "Renesas", "CAN Bus"]
+---
+
+An architectural overview of the 32-bit **Renesas RA4M1** ARM Cortex-M4 microcontroller driving the **Arduino UNO R4 Minima & Wi-Fi**.
+
+---
+
+## 1. 32-Bit Processing Engine
+
+Replacing the classic 8-bit AVR with a 48 MHz 32-bit ARM Cortex-M4 core provides floating-point processing capabilities and a 12-bit Analog-to-Digital Converter (ADC) alongside a true 12-bit Digital-to-Analog Converter (DAC).
+
+---
+
+## 2. Integrated CAN Bus Controller
+
+The UNO R4 features an integrated Controller Area Network (CAN) peripheral. This enables automotive diagnostic interfacing and high-noise industrial sensor network control without requiring external SPI CAN controllers like the MCP2515.
+
+---
+
+## 3. On-Board 12x8 LED Matrix
+
+The UNO R4 Wi-Fi includes a 12x8 matrix of bright red LEDs driven directly by charlieplexing pins on the Renesas microcontroller, perfect for real-time sensor plotting and operational status animation.

@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const featuredPosts = posts.slice(0, 6);
+---
+
+<BaseLayout title="RSMK Blogs | Technical Engineering Knowledge Base" description="Peer-reviewed engineering documentation, microcontrollers, MATLAB, PLCs, SCADA, and IoT systems." activeTab="home">
+    <!-- Hero Section -->
+    <section style="padding: 80px 0 60px; background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 70%); border-bottom: 1px solid var(--border-color);">
+        <div class="container" style="text-align: center; max-width: 860px;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-full); font-size: 0.85rem; color: var(--primary-color); margin-bottom: 24px;">
+                <span>⚡ Powered by Astro 5 & React Island Architecture</span>
+            </div>
+            <h1 style="font-size: 3.2rem; margin-bottom: 20px; line-height: 1.15;">
+                Open-Source Technical Engineering <span class="text-gradient">Knowledge Base</span>
+            </h1>
+            <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 36px; line-height: 1.6;">
+                Peer-reviewed documentation, register-level microcontrollers, MATLAB numerical computing, industrial PLCs, SCADA architectures, and power electronics.
+            </p>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="/blogs" class="btn btn-primary">Browse All {posts.length} Articles →</a>
+                <a href="/blogs/matlab-guide" class="btn btn-outline">Read MATLAB Guide</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Articles Preview Grid -->
+    <section class="section-padding" style="border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 36px;">
+                <div>
+                    <h2 style="margin-bottom: 8px;">Featured Engineering Documentation</h2>
+                    <p style="margin: 0; color: var(--text-muted);">Explore technical articles, software guides, and system teardowns.</p>
+                </div>
+                <a href="/blogs" class="btn btn-primary btn-sm">Browse Catalog ({posts.length}) →</a>
+            </div>
+
+            <div class="grid-3">
+                {featuredPosts.map((post) => (
+                    <div class="entity-card">
+                        <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                            <span class="badge badge-advanced">{post.data.difficulty}</span>
+                            <span class="tech-pill">{post.data.category}</span>
+                        </div>
+                        <h3 style="font-size: 1.15rem; margin-bottom: 10px;">
+                            <a href={`/blogs/${post.id}`}>{post.data.title}</a>
+                        </h3>
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                            {post.data.description}
+                        </p>
+                        <div style="font-size: 0.8rem; color: var(--text-subtle);">{post.data.readTime} • {post.data.date}</div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </section>
+</BaseLayout>

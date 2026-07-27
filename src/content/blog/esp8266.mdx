@@ -1,0 +1,81 @@
+---
+title: "ESP8266 & ESP32 Microcontroller Engineering Manual"
+description: "Wi-Fi stack operations, hardware timers, FreeRTOS dual-core task scheduling, register-level timers, and industrial DIN-rail gateway deployment."
+date: "Dec 04, 2025"
+author: "RSMK"
+category: "Embedded Systems"
+readTime: "15 min read"
+difficulty: "Intermediate"
+tags: ["ESP32", "ESP8266", "IoT", "FreeRTOS", "Wi-Fi"]
+---
+
+An architectural breakdown of Wi-Fi TCP/IP stack integration, dual-core **FreeRTOS** task scheduling, register-level timers, and industrial DIN-rail gateway deployment.
+
+---
+
+## 1. Hardware Architecture Overview
+
+The **ESP8266** and **ESP32** revolutionized the embedded engineering landscape by combining high-performance 32-bit RISC processing with built-in Wi-Fi and Bluetooth radios on a single low-cost silicon die. Developed by **Espressif Systems**, these SoCs bridged the gap between isolated microcontrollers and connected cloud systems.
+
+<div style="background: var(--surface-color); border-left: 4px solid var(--primary-color); padding: 18px 24px; margin: 24px 0; border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+    <h4 style="margin: 0 0 8px; color: var(--primary-color);">💡 Key Architectural Difference</h4>
+    <p style="margin: 0; line-height: 1.6;">
+        While the ESP8266 utilizes a single 32-bit Tensilica L106 core running at 80/160 MHz, the ESP32 features a dual-core Tensilica Xtensa LX6 architecture capable of running symmetrical tasks using <strong>FreeRTOS</strong>.
+    </p>
+</div>
+
+---
+
+## 2. FreeRTOS Dual-Core Task Distribution
+
+In an ESP32 application, Core 0 is typically dedicated to handling the Wi-Fi and Bluetooth protocol stack (Protocol CPU), while Core 1 handles application logic, sensor polling, and UI rendering (App CPU).
+
+```cpp
+#include <Arduino.h>
+
+TaskHandle_t Task1;
+TaskHandle_t Task2;
+
+void Task1code( void * pvParameters ){
+  for(;;){
+    // Runs on Core 0
+    vTaskDelay(pdMS_TO_TICKS(1000));
+  }
+}
+
+void setup() {
+  xTaskCreatePinnedToCore(
+                    Task1code,   /* Task function. */
+                    "Task1",     /* name of task. */
+                    10000,       /* Stack size of task */
+                    NULL,        /* parameter of the task */
+                    1,           /* priority of the task */
+                    &Task1,      /* Task handle to keep track of created task */
+                    0);          /* pin task to core 0 */
+}
+
+void loop() {
+  // Main loop automatically runs on Core 1
+}
+```
+
+---
+
+## 3. Industrial Modbus & Relay Integration
+
+When deploying the ESP32 in industrial environments, galvanic isolation is mandatory. Connecting MAX485 transceivers via optocouplers permits seamless communication over **Modbus RS-485** networks to industrial **PLCs** and **SCADA** systems.
+
+<div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 18px 24px; margin: 24px 0; border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+    <h4 style="margin: 0 0 8px; color: #ef4444;">⚠️ Industrial Wiring Caution</h4>
+    <p style="margin: 0; line-height: 1.6;">
+        Never drive high-current inductive contactors directly from ESP32 GPIO pins. Always use optoisolated relay channels with flyback suppression diodes.
+    </p>
+</div>
+
+---
+
+## Key Takeaways
+
+- **Dual-Core Efficiency:** ESP32 dual-core architecture enables deterministic task separation between Wi-Fi stack and sensor loops.
+- **Galvanic Isolation:** Isolation via optocouplers and RS-485 transceivers is essential for industrial PLC communication.
+- **FreeRTOS Synchronization:** FreeRTOS primitives (queues, mutexes) prevent memory corruption during concurrent thread access.

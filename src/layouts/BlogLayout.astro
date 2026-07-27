@@ -1,0 +1,50 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.jsx';
+import ReaderCompanion from '../components/ReaderCompanion.jsx';
+
+const { frontmatter, headings = [] } = Astro.props;
+const { title, description, date, author, readTime = "12 min read", category, difficulty = "Advanced", tags = [] } = frontmatter || {};
+---
+
+<BaseLayout title={`${title} | RSMK Blogs`} description={description} activeTab="articles">
+    <main id="main-content" class="section-padding">
+        <div class="container article-layout-3col">
+            
+            <!-- LEFT SIDEBAR: Interactive React Table of Contents -->
+            <aside class="article-sidebar-left">
+                <TableOfContents client:load headings={headings} />
+            </aside>
+
+            <!-- CENTER COLUMN: Article Body -->
+            <article class="article-main-center">
+                <!-- Article Header & Title -->
+                <div class="article-header">
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap;">
+                        <span class="badge badge-advanced">{difficulty}</span>
+                        {category && <span class="tech-pill">{category}</span>}
+                        {tags.slice(0, 2).map((t: string) => (
+                            <span class="tech-pill">{t}</span>
+                        ))}
+                    </div>
+                    <h1 class="article-title">{title}</h1>
+                    <div class="article-meta" style="margin-top: 12px; color: var(--text-subtle); font-size: 0.875rem;">
+                        <span>By {author || "RSMK Engineering Team"}</span> &bull; 
+                        <span>Published {date}</span> &bull; 
+                        <span>{readTime}</span>
+                    </div>
+                </div>
+
+                <div class="blog-content">
+                    <slot />
+                </div>
+            </article>
+
+            <!-- RIGHT SIDEBAR: Interactive React Reader Companion -->
+            <aside class="article-sidebar-right">
+                <ReaderCompanion client:idle initialMinutes={parseInt(readTime) || 12} />
+            </aside>
+
+        </div>
+    </main>
+</BaseLayout>

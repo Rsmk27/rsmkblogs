@@ -1,0 +1,24 @@
+---
+title: "Complete Arduino Hardware & Software Architecture Guide"
+description: "Mastering Arduino across 8-bit AVR and 32-bit ARM microcontrollers, C++ core libraries, and peripheral interfacing."
+date: "Dec 04, 2025"
+author: "RSMK"
+category: "Embedded Systems"
+readTime: "16 min read"
+difficulty: "Beginner"
+tags: ["Arduino", "Microcontrollers", "IDE", "C++", "Sensors"]
+---
+
+A complete architectural guide covering the open-source **Arduino** platform, from physical board pinouts to compiler toolchains and core library mechanics.
+
+---
+
+## 1. The Arduino Hardware Ecosystem
+
+Arduino boards range from compact 8-bit boards (Uno, Nano, Pro Mini) to multi-core 32-bit platforms (Portenta H7, Nano ESP32). Understanding hardware constraints—such as SRAM bounds, clock speeds, and logic voltage levels (3.3V vs 5V)—is essential for reliable circuit design.
+
+---
+
+## 2. Compiler Toolchain & C++ Preprocessing
+
+When compiling an `.ino` sketch, the Arduino IDE automatically generates function prototypes, includes `Arduino.h`, and links your code against the AVR-GCC or ARM GCC toolchain, converting C++ abstractions into optimized machine code binary (.hex / .bin).

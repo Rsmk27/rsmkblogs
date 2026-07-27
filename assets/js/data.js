@@ -117,6 +117,18 @@ const KNOWLEDGE_BASE = {
             relatedArticles: [
                 { title: "ESP8266 & ESP32 IoT Engineering", url: "blogs/esp8266.html" }
             ]
+        },
+        "matlab": {
+            id: "matlab",
+            name: "MATLAB & Simulink",
+            category: "Mathematical Software",
+            shortDesc: "A proprietary multi-paradigm programming language and numerical computing environment developed by MathWorks.",
+            company: "MathWorks",
+            keyFeatures: ["Native matrix manipulation & vectorized operations", "Simulink model-based block diagram simulation", "Signal processing & 3D graphics rendering", "Automatic C/C++ & HDL code generation"],
+            applications: ["Control Systems Engineering", "Signal Processing & DSP", "Robotics & Autonomous Systems", "Deep Learning & AI"],
+            relatedArticles: [
+                { title: "Mastering MATLAB: Numerical Computing & Simulink", url: "blogs/matlab-guide.html" }
+            ]
         }
     },
 
@@ -175,7 +187,10 @@ const KNOWLEDGE_BASE = {
             overview: "Developer of mathematical computing software including MATLAB and Simulink, essential for systems engineering and control design.",
             products: ["MATLAB", "Simulink", "Stateflow", "Simscape", "Embedded Coder"],
             industries: ["Aerospace", "Automotive", "Control Systems", "Signal Processing"],
-            website: "https://www.mathworks.com"
+            website: "https://www.mathworks.com",
+            relatedArticles: [
+                { title: "Mastering MATLAB: Numerical Computing & Simulink", url: "blogs/matlab-guide.html" }
+            ]
         },
         "stmicroelectronics": {
             id: "stmicroelectronics",

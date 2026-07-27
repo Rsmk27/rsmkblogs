@@ -1,0 +1,59 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ManiAIChatbot from '../components/ManiAIChatbot.jsx';
+
+const { title = "RSMK Blogs | Technical Engineering Knowledge Base", description = "Engineering documentation, microcontrollers, MATLAB, PLCs, SCADA, and IoT architecture.", activeTab = "" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content={description}>
+    <title>{title}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <!-- Top Reading Progress Bar -->
+    <div id="reading-progress-bar"></div>
+
+    <Header activeTab={activeTab} />
+
+    <slot />
+
+    <Footer />
+
+    <!-- Mani AI Floating Companion Island -->
+    <ManiAIChatbot client:idle />
+
+    <script is:inline>
+        // Theme Toggle Handler
+        (function() {
+            const toggleBtn = document.getElementById("theme-toggle");
+            const savedTheme = localStorage.getItem("rsmk_theme") || "dark";
+            if (savedTheme === "light") {
+                document.documentElement.setAttribute("data-theme", "light");
+            }
+            if (toggleBtn) {
+                toggleBtn.addEventListener("click", () => {
+                    const currentTheme = document.documentElement.getAttribute("data-theme");
+                    const newTheme = currentTheme === "light" ? "dark" : "light";
+                    if (newTheme === "light") {
+                        document.documentElement.setAttribute("data-theme", "light");
+                    } else {
+                        document.documentElement.removeAttribute("data-theme");
+                    }
+                    localStorage.setItem("rsmk_theme", newTheme);
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

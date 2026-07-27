@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Topics & Engineering Domains | RSMK Blogs" description="Browse engineering topics across microcontrollers, PLCs, power electronics, and software." activeTab="topics">
+    <main id="main-content" class="section-padding">
+        <div class="container">
+            <div style="margin-bottom: 40px;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 12px;">Engineering Topics & Domains</h1>
+                <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 720px;">
+                    Curated technical topics covering embedded systems, industrial automation, power electronics, and mathematical software.
+                </p>
+            </div>
+
+            <div class="grid-3">
+                <div class="entity-card">
+                    <div class="card-icon">🔌</div>
+                    <h3 style="margin: 16px 0 8px;">Embedded Systems</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+                        Bare-metal C/C++, AVR ATmega, ARM Cortex-M, ESP32 FreeRTOS tasks, hardware timers, and communication protocols.
+                    </p>
+                    <a href="/blogs" style="color: var(--primary-color); font-weight: 600;">Browse 8 Articles →</a>
+                </div>
+
+                <div class="entity-card">
+                    <div class="card-icon">💻</div>
+                    <h3 style="margin: 16px 0 8px;">Mathematical Software</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+                        MATLAB matrix computing, Simulink model-based design, signal processing spectral analysis, and control algorithms.
+                    </p>
+                    <a href="/blogs/matlab-guide" style="color: var(--primary-color); font-weight: 600;">Read MATLAB Guide →</a>
+                </div>
+
+                <div class="entity-card">
+                    <div class="card-icon">🏭</div>
+                    <h3 style="margin: 16px 0 8px;">Industrial Automation</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+                        Programmable Logic Controllers (PLCs), Modbus RS-485, Allen-Bradley Micro850, Siemens TIA Portal, and SCADA.
+                    </p>
+                    <a href="/blogs" style="color: var(--primary-color); font-weight: 600;">Browse Automation →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</BaseLayout>

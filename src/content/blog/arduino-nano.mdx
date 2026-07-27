@@ -1,0 +1,61 @@
+---
+title: "Arduino Nano Microcontroller Engineering & Hardware Guide"
+description: "ATmega328P 8-bit RISC architecture, register-level GPIO manipulation, timer counters, PWM signal generation, and sensor interfaces."
+date: "Dec 04, 2025"
+author: "RSMK"
+category: "Embedded Systems"
+readTime: "12 min read"
+difficulty: "Intermediate"
+tags: ["Arduino", "ATmega328P", "AVR", "PWM", "Embedded"]
+---
+
+An in-depth hardware manual exploring the ATmega328P 8-bit RISC architecture, register-level GPIO manipulation, timer counters, **PWM** signal generation, and sensor interfaces.
+
+---
+
+## 1. Microcontroller Architecture Specifications
+
+The **Arduino Nano** is driven by Microchip's ATmega328P 8-bit AVR RISC-based microcontroller. Running at 16 MHz with 32 KB flash memory, 2 KB SRAM, and 1 KB EEPROM, it remains the standard teaching board for register-level hardware programming.
+
+---
+
+## 2. Register Bit Manipulation (Direct Port I/O)
+
+While high-level functions like `digitalWrite()` are beginner-friendly, writing directly to Port registers (`DDRB`, `PORTB`, `PINB`) executes in a single clock cycle (62.5 nanoseconds at 16 MHz).
+
+```c
+#include <avr/io.h>
+#include <util/delay.h>
+
+int main(void) {
+    // Set PB5 (Digital Pin 13) as Output
+    DDRB |= (1 << DDB5);
+
+    while(1) {
+        // Toggle PB5 high/low using register XOR
+        PORTB ^= (1 << PORTB5);
+        _delay_ms(500);
+    }
+}
+```
+
+---
+
+## 3. Hardware Timers & PWM Generation
+
+The ATmega328P includes two 8-bit timers (Timer0, Timer2) and one 16-bit timer (Timer1). Hardware **PWM** generation allows non-blocking speed control of DC motors and LED brightness modulation without CPU overhead.
+
+<div style="background: var(--surface-color); border-left: 4px solid var(--primary-color); padding: 18px 24px; margin: 24px 0; border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+    <h4 style="margin: 0 0 8px; color: var(--primary-color);">💡 Timer0 Frequency Warning</h4>
+    <p style="margin: 0; line-height: 1.6;">
+        Modifying <code>TCCR0A</code> or <code>TCCR0B</code> prescalers will affect Arduino core functions like <code>millis()</code> and <code>delay()</code>. Use Timer1 or Timer2 for custom high-frequency PWM generation.
+    </p>
+</div>
+
+---
+
+## Key Takeaways
+
+- **Direct Port I/O:** Bypassing `digitalWrite()` using `PORTB` register bitwise operations improves execution speed by up to 40x.
+- **Hardware Timers:** Timer1 provides 16-bit precision for high-resolution PWM motor control.
+- **Memory Footprint:** Efficient C code structure allows complex state machines to fit within 2 KB SRAM bounds.

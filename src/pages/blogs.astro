@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+
+// Sort posts by date or title
+posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<BaseLayout title="Articles & Documentation Catalog | RSMK Blogs" description="Engineering documentation catalog across embedded systems, MATLAB, PLCs, power electronics, and IoT." activeTab="articles">
+    <main id="main-content" class="section-padding">
+        <div class="container">
+            <!-- Page Header -->
+            <div style="margin-bottom: 40px;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 12px;">Engineering Documentation Catalog</h1>
+                <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 760px;">
+                    Explore {posts.length} verified technical articles, software manuals, register programming guides, and system architecture teardowns built with Astro & React.
+                </p>
+            </div>
+
+            <!-- Articles Grid -->
+            <div class="grid-3" id="articles-catalog-grid">
+                {posts.map((article) => (
+                    <div class="entity-card article-card-item" data-category={article.data.category}>
+                        <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                            <span class="badge badge-advanced">{article.data.difficulty}</span>
+                            {article.data.tags.slice(0, 2).map((t) => (
+                                <span class="tech-pill">{t}</span>
+                            ))}
+                        </div>
+                        <h3 style="font-size: 1.2rem; margin-bottom: 10px;">
+                            <a href={`/blogs/${article.id}`}>{article.data.title}</a>
+                        </h3>
+                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
+                            {article.data.description}
+                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-subtle); margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                            <span>{article.data.readTime}</span>
+                            <span>{article.data.date}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </main>
+</BaseLayout>
