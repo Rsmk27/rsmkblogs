@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const SEARCH_INDEX = [
+  { title: "Industrial PLC Systems & Ladder Logic Architecture", type: "Article", category: "Industrial Automation", url: "/blogs/plc-guide", tags: ["PLC", "Automation", "Ladder Logic", "SCADA", "IEC 61131-3", "Modbus", "Siemens", "Allen-Bradley"] },
   { title: "Mastering MATLAB: Numerical Computing & Simulink", type: "Article", category: "Engineering Software", url: "/blogs/matlab-guide", tags: ["MATLAB", "Simulink", "Signal Processing", "MathWorks", "Matrix", "Robotics"] },
   { title: "ESP8266 & ESP32 IoT Engineering", type: "Article", category: "Embedded Systems", url: "/blogs/esp8266", tags: ["ESP32", "ESP8266", "IoT", "Wi-Fi", "Microcontrollers"] },
   { title: "Arduino Nano Architecture & Industrial Controls", type: "Article", category: "Embedded Systems", url: "/blogs/arduino-nano", tags: ["Arduino", "ATmega328P", "PWM", "Sensors", "PLC"] },
