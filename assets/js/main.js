@@ -372,6 +372,13 @@ function initManiAIChatbot() {
     let trigger = document.getElementById("mani-ai-trigger");
     let windowEl = document.getElementById("mani-ai-window");
 
+    let overlayEl = document.querySelector(".mani-ai-overlay");
+    if (!overlayEl) {
+        overlayEl = document.createElement("div");
+        overlayEl.className = "mani-ai-overlay";
+        document.body.appendChild(overlayEl);
+    }
+
     if (!trigger) {
         trigger = document.createElement("button");
         trigger.id = "mani-ai-trigger";
@@ -455,10 +462,10 @@ function initManiAIChatbot() {
         });
 
         // 4. Headings
-        src = src.replace(/^####\s+(.*$)/gim, '<h4 style="margin: 12px 0 6px; font-size: 0.95rem; color: var(--text-main); font-weight: 700;">$1</h4>');
-        src = src.replace(/^###\s+(.*$)/gim, '<h3 style="margin: 14px 0 6px; font-size: 1.05rem; color: var(--text-main); font-weight: 700;">$1</h3>');
-        src = src.replace(/^##\s+(.*$)/gim, '<h2 style="margin: 16px 0 8px; font-size: 1.15rem; color: var(--primary-color); font-weight: 700;">$1</h2>');
-        src = src.replace(/^#\s+(.*$)/gim, '<h1 style="margin: 18px 0 10px; font-size: 1.25rem; color: var(--primary-color); font-weight: 800;">$1</h1>');
+        src = src.replace(/^####\s+(.*$)/gim, '<h4 style="margin: 10px 0 4px; font-size: 0.92rem; color: var(--text-main); font-weight: 700;">$1</h4>');
+        src = src.replace(/^###\s+(.*$)/gim, '<h3 style="margin: 12px 0 6px; font-size: 0.98rem; color: var(--text-main); font-weight: 700;">$1</h3>');
+        src = src.replace(/^##\s+(.*$)/gim, '<h2 style="margin: 14px 0 8px; font-size: 1.05rem; color: var(--primary-color); font-weight: 700;">$1</h2>');
+        src = src.replace(/^#\s+(.*$)/gim, '<h1 style="margin: 16px 0 10px; font-size: 1.12rem; color: var(--primary-color); font-weight: 800;">$1</h1>');
 
         // 5. Bold & Italics
         src = src.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
@@ -533,6 +540,7 @@ function initManiAIChatbot() {
 
     trigger.addEventListener("click", () => {
         windowEl.classList.toggle("active");
+        overlayEl.classList.toggle("active", windowEl.classList.contains("active"));
         if (windowEl.classList.contains("active")) {
             inputEl.focus();
         }
@@ -540,6 +548,12 @@ function initManiAIChatbot() {
 
     closeBtn.addEventListener("click", () => {
         windowEl.classList.remove("active");
+        overlayEl.classList.remove("active");
+    });
+
+    overlayEl.addEventListener("click", () => {
+        windowEl.classList.remove("active");
+        overlayEl.classList.remove("active");
     });
 
     clearBtn.addEventListener("click", () => {

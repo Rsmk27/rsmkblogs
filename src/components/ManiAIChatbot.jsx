@@ -49,10 +49,10 @@ export default function ManiAIChatbot() {
       return placeholder;
     });
 
-    src = src.replace(/^####\s+(.*$)/gim, '<h4 style="margin:10px 0 4px; font-size:0.95rem;">$1</h4>');
-    src = src.replace(/^###\s+(.*$)/gim, '<h3 style="margin:12px 0 6px; font-size:1.05rem;">$1</h3>');
-    src = src.replace(/^##\s+(.*$)/gim, '<h2 style="margin:14px 0 8px; color:var(--primary-color);">$1</h2>');
-    src = src.replace(/^#\s+(.*$)/gim, '<h1 style="margin:16px 0 10px; color:var(--primary-color);">$1</h1>');
+    src = src.replace(/^####\s+(.*$)/gim, '<h4 style="margin:10px 0 4px; font-size:0.92rem; font-weight:700;">$1</h4>');
+    src = src.replace(/^###\s+(.*$)/gim, '<h3 style="margin:12px 0 6px; font-size:0.98rem; font-weight:700;">$1</h3>');
+    src = src.replace(/^##\s+(.*$)/gim, '<h2 style="margin:14px 0 8px; font-size:1.05rem; color:var(--primary-color); font-weight:700;">$1</h2>');
+    src = src.replace(/^#\s+(.*$)/gim, '<h1 style="margin:16px 0 10px; font-size:1.12rem; color:var(--primary-color); font-weight:800;">$1</h1>');
 
     src = src.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     src = src.replace(/__([^_]+)__/g, '<strong>$1</strong>');
@@ -137,6 +137,13 @@ export default function ManiAIChatbot() {
 
   return (
     <>
+      {/* Backdrop Overlay for Side View Drawer */}
+      <div
+        className={`mani-ai-overlay ${isOpen ? 'active' : ''}`}
+        onClick={() => setIsOpen(false)}
+        aria-hidden="true"
+      />
+
       {/* Floating Trigger Button */}
       <button id="mani-ai-trigger" onClick={() => setIsOpen(!isOpen)} aria-label="Open Mani AI Assistant">
         <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
