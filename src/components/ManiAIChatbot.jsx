@@ -180,15 +180,24 @@ export default function ManiAIChatbot() {
         </div>
 
         <div className="mani-messages-container">
-          {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`mani-msg ${msg.role === 'user' ? 'mani-msg-user' : 'mani-msg-ai'}`}
-              dangerouslySetInnerHTML={{
-                __html: msg.role === 'user' ? msg.content : renderMarkdown(msg.content),
-              }}
-            />
-          ))}
+          {messages.map((msg, idx) => {
+            if (msg.role === 'user') {
+              return (
+                <div key={idx} className="mani-msg mani-msg-user">
+                  {msg.content}
+                </div>
+              );
+            }
+            return (
+              <div
+                key={idx}
+                className="mani-msg mani-msg-ai"
+                dangerouslySetInnerHTML={{
+                  __html: renderMarkdown(msg.content),
+                }}
+              />
+            );
+          })}
           {isThinking && (
             <div className="mani-msg mani-msg-ai">
               <p>
