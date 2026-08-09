@@ -1,4 +1,73 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+
+const renderMarkdown = (text) => {
+  if (!text) return '';
+  let src = String(text).trim();
+
+  const codeBlocks = [];
+  src = src.replace(/```([a-zA-Z0-9_-]*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+    const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+    const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    codeBlocks.push(
+      `<div class="code-block-wrapper" style="margin:10px 0;"><div class="code-header"><span>${(lang || 'CODE').toUpperCase()}</span></div><pre style="padding:10px; margin:0; overflow-x:auto;"><code>${escaped.trim()}</code></pre></div>`
+    );
+    return placeholder;
+  });
+
+  src = src.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  const inlineCodes = [];
+  src = src.replace(/`([^`]+)`/g, (match, code) => {
+    const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
+    inlineCodes.push(`<code>${code}</code>`);
+    return placeholder;
+  });
+
+  src = src.replace(/^####\s+(.*$)/gim, '<h4 style="margin:10px 0 4px; font-size:0.92rem; font-weight:700;">$1</h4>');
+  src = src.replace(/^###\s+(.*$)/gim, '<h3 style="margin:12px 0 6px; font-size:0.98rem; font-weight:700;">$1</h3>');
+  src = src.replace(/^##\s+(.*$)/gim, '<h2 style="margin:14px 0 8px; font-size:1.05rem; color:var(--primary-color); font-weight:700;">$1</h2>');
+  src = src.replace(/^#\s+(.*$)/gim, '<h1 style="margin:16px 0 10px; font-size:1.12rem; color:var(--primary-color); font-weight:800;">$1</h1>');
+
+  src = src.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  src = src.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+  src = src.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  src = src.replace(/_([^_]+)_/g, '<em>$1</em>');
+  src = src.replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener" style="color:var(--primary-color); text-decoration:underline;">$1</a>'
+  );
+
+  src = src.replace(/^[\s]*[-\*]\s+(.*$)/gim, '<li style="margin-bottom:3px;">$1</li>');
+  src = src.replace(
+    /(<li style="margin-bottom:3px;">.*<\/li>\n?)+/g,
+    '<ul style="margin:6px 0 10px 18px; list-style-type:disc;">export default function ManiAIChatbot() {</ul>'
+  );
+
+  const blocks = src.split(/\n{2,}/);
+  src = blocks
+    .map((b) => {
+      const tr = b.trim();
+      if (!tr) return '';
+      if (
+        tr.startsWith('<h') ||
+        tr.startsWith('<ul') ||
+        tr.startsWith('<ol') ||
+        tr.startsWith('__CODE_BLOCK_')
+      )
+        return tr;
+      return `<p style="margin-bottom:8px; line-height:1.5;">${tr.replace(/\n/g, '<br>')}</p>`;
+    })
+    .join('\n');
+
+  codeBlocks.forEach((b, idx) => {
+    src = src.replace(`__CODE_BLOCK_${idx}__`, b);
+  });
+  inlineCodes.forEach((c, idx) => {
+    src = src.replace(`__INLINE_CODE_${idx}__`, c);
+  });
+
+  return src;
+};
 
 export default function ManiAIChatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,74 +95,13 @@ export default function ManiAIChatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isThinking]);
 
-  const renderMarkdown = (text) => {
-    if (!text) return '';
-    let src = String(text).trim();
 
-    const codeBlocks = [];
-    src = src.replace(/```([a-zA-Z0-9_-]*)\n?([\s\S]*?)```/g, (match, lang, code) => {
-      const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
-      const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      codeBlocks.push(
-        `<div class="code-block-wrapper" style="margin:10px 0;"><div class="code-header"><span>${(lang || 'CODE').toUpperCase()}</span></div><pre style="padding:10px; margin:0; overflow-x:auto;"><code>${escaped.trim()}</code></pre></div>`
-      );
-      return placeholder;
-    });
-
-    src = src.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-    const inlineCodes = [];
-    src = src.replace(/`([^`]+)`/g, (match, code) => {
-      const placeholder = `__INLINE_CODE_${inlineCodes.length}__`;
-      inlineCodes.push(`<code>${code}</code>`);
-      return placeholder;
-    });
-
-    src = src.replace(/^####\s+(.*$)/gim, '<h4 style="margin:10px 0 4px; font-size:0.92rem; font-weight:700;">$1</h4>');
-    src = src.replace(/^###\s+(.*$)/gim, '<h3 style="margin:12px 0 6px; font-size:0.98rem; font-weight:700;">$1</h3>');
-    src = src.replace(/^##\s+(.*$)/gim, '<h2 style="margin:14px 0 8px; font-size:1.05rem; color:var(--primary-color); font-weight:700;">$1</h2>');
-    src = src.replace(/^#\s+(.*$)/gim, '<h1 style="margin:16px 0 10px; font-size:1.12rem; color:var(--primary-color); font-weight:800;">$1</h1>');
-
-    src = src.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    src = src.replace(/__([^_]+)__/g, '<strong>$1</strong>');
-    src = src.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-    src = src.replace(/_([^_]+)_/g, '<em>$1</em>');
-    src = src.replace(
-      /\[([^\]]+)\]\(([^)]+)\)/g,
-      '<a href="$2" target="_blank" rel="noopener" style="color:var(--primary-color); text-decoration:underline;">$1</a>'
-    );
-
-    src = src.replace(/^[\s]*[-\*]\s+(.*$)/gim, '<li style="margin-bottom:3px;">$1</li>');
-    src = src.replace(
-      /(<li style="margin-bottom:3px;">.*<\/li>\n?)+/g,
-      '<ul style="margin:6px 0 10px 18px; list-style-type:disc;">$&</ul>'
-    );
-
-    const blocks = src.split(/\n{2,}/);
-    src = blocks
-      .map((b) => {
-        const tr = b.trim();
-        if (!tr) return '';
-        if (
-          tr.startsWith('<h') ||
-          tr.startsWith('<ul') ||
-          tr.startsWith('<ol') ||
-          tr.startsWith('__CODE_BLOCK_')
-        )
-          return tr;
-        return `<p style="margin-bottom:8px; line-height:1.5;">${tr.replace(/\n/g, '<br>')}</p>`;
-      })
-      .join('\n');
-
-    codeBlocks.forEach((b, idx) => {
-      src = src.replace(`__CODE_BLOCK_${idx}__`, b);
-    });
-    inlineCodes.forEach((c, idx) => {
-      src = src.replace(`__INLINE_CODE_${idx}__`, c);
-    });
-
-    return src;
-  };
+  const renderedMessages = useMemo(() => {
+    return messages.map(msg => ({
+      ...msg,
+      htmlContent: msg.role === 'user' ? msg.content : renderMarkdown(msg.content)
+    }));
+  }, [messages]);
 
   const handleSend = async (queryText) => {
     const query = queryText || inputVal;
@@ -180,12 +188,12 @@ export default function ManiAIChatbot() {
         </div>
 
         <div className="mani-messages-container">
-          {messages.map((msg, idx) => (
+          {renderedMessages.map((msg, idx) => (
             <div
               key={idx}
               className={`mani-msg ${msg.role === 'user' ? 'mani-msg-user' : 'mani-msg-ai'}`}
               dangerouslySetInnerHTML={{
-                __html: msg.role === 'user' ? msg.content : renderMarkdown(msg.content),
+                __html: msg.htmlContent,
               }}
             />
           ))}
