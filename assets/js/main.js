@@ -185,6 +185,10 @@ function initTableOfContents() {
         tocContainer.appendChild(link);
     });
 
+    const links = tocContainer.querySelectorAll(".toc-link");
+    let currentActiveId = null;
+    let ticking = false;
+
     function updateActiveHeading() {
         let currentId = "";
         headings.forEach(heading => {
@@ -194,16 +198,25 @@ function initTableOfContents() {
             }
         });
 
-        const links = tocContainer.querySelectorAll(".toc-link");
-        links.forEach(link => {
-            link.classList.remove("active");
-            if (link.getAttribute("href") === `#${currentId}`) {
-                link.classList.add("active");
-            }
-        });
+        if (currentId !== currentActiveId) {
+            currentActiveId = currentId;
+            links.forEach(link => {
+                if (link.getAttribute("href") === `#${currentId}`) {
+                    link.classList.add("active");
+                } else {
+                    link.classList.remove("active");
+                }
+            });
+        }
+        ticking = false;
     }
 
-    window.addEventListener("scroll", updateActiveHeading);
+    window.addEventListener("scroll", () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateActiveHeading);
+            ticking = true;
+        }
+    }, { passive: true });
     updateActiveHeading();
 }
 
