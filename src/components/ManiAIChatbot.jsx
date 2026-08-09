@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 export default function ManiAIChatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -135,6 +135,13 @@ export default function ManiAIChatbot() {
     }
   };
 
+  const renderedMessages = useMemo(() => {
+    return messages.map(msg => ({
+      ...msg,
+      htmlContent: msg.role === 'user' ? msg.content : renderMarkdown(msg.content)
+    }));
+  }, [messages]);
+
   return (
     <>
       {/* Backdrop Overlay for Side View Drawer */}
@@ -180,12 +187,12 @@ export default function ManiAIChatbot() {
         </div>
 
         <div className="mani-messages-container">
-          {messages.map((msg, idx) => (
+          {renderedMessages.map((msg, idx) => (
             <div
               key={idx}
               className={`mani-msg ${msg.role === 'user' ? 'mani-msg-user' : 'mani-msg-ai'}`}
               dangerouslySetInnerHTML={{
-                __html: msg.role === 'user' ? msg.content : renderMarkdown(msg.content),
+                __html: msg.htmlContent,
               }}
             />
           ))}
