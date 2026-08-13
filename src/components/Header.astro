@@ -1,7 +1,17 @@
 ---
 import GlobalSearchModal from './GlobalSearchModal.jsx';
+import { getCollection } from 'astro:content';
 
 const { activeTab = '' } = Astro.props;
+
+const posts = await getCollection('blog');
+const searchIndex = posts.map(post => ({
+  title: post.data.title,
+  type: "Article",
+  category: post.data.category,
+  url: `/blogs/${post.id}`,
+  tags: post.data.tags || []
+}));
 ---
 
 <header>
@@ -18,7 +28,7 @@ const { activeTab = '' } = Astro.props;
         </nav>
 
         <div style="display: flex; align-items: center; gap: 12px;">
-            <GlobalSearchModal client:load />
+            <GlobalSearchModal client:load searchIndex={searchIndex} />
             <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Dark Mode">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
