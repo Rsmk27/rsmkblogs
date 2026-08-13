@@ -7,6 +7,7 @@ export default new Map([
 ["src/content/blog/arduino-nano.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Farduino-nano.mdx&astroContentModuleFlag=true")],
 ["src/content/blog/careers.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fcareers.mdx&astroContentModuleFlag=true")],
 ["src/content/blog/arduino-uno.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Farduino-uno.mdx&astroContentModuleFlag=true")],
+["src/content/blog/careers.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fcareers.mdx&astroContentModuleFlag=true")],
 ["src/content/blog/esp8266.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fesp8266.mdx&astroContentModuleFlag=true")],
 ["src/content/blog/ev-charging.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fev-charging.mdx&astroContentModuleFlag=true")],
 ["src/content/blog/matlab-guide.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fmatlab-guide.mdx&astroContentModuleFlag=true")],

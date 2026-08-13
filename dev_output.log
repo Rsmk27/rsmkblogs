@@ -1,0 +1,23 @@
+
+> rsmk-blogs@2.0.0 dev
+> astro dev
+
+▶ Astro collects anonymous usage data.
+  This information helps us improve Astro.
+  Run "astro telemetry disable" to opt-out.
+  https://astro.build/telemetry
+
+14:02:03 [types] Generated 1ms
+
+ update  ▶ New version of Astro available: 7.2.0
+  Run npx @astrojs/upgrade to update
+
+14:02:04 [content] Syncing content
+14:02:04 [content] Synced content
+
+ astro  v5.18.2 ready in 911 ms
+
+┃ Local    http://localhost:4321/
+┃ Network  use --host to expose
+
+14:02:04 watching for file changes...
