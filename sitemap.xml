@@ -1,109 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://blogs.rsmk.me/index.html</loc>
+        <loc>https://blogs.rsmk.tech/index.html</loc>
         <lastmod>2026-02-07</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs.html</loc>
         <lastmod>2026-02-07</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/about.html</loc>
+        <loc>https://blogs.rsmk.tech/about.html</loc>
         <lastmod>2026-02-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/projects.html</loc>
+        <loc>https://blogs.rsmk.tech/projects.html</loc>
         <lastmod>2026-02-07</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/5g-6g-tech.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/5g-6g-tech.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/ai-drones.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/ai-drones.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/arduino-guide.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/arduino-guide.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/arduino-mega.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/arduino-mega.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/arduino-nano.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/arduino-nano.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/arduino-uno.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/arduino-uno.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/careers.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/careers.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/esp8266.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/esp8266.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/ev-charging.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/ev-charging.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/quantum-computing.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/quantum-computing.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/renewable-energy.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/renewable-energy.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/semiconductors.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/semiconductors.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/smart-home.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/smart-home.html</loc>
         <lastmod>2026-01-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogs.rsmk.me/blogs/plc-guide.html</loc>
+        <loc>https://blogs.rsmk.tech/blogs/plc-guide.html</loc>
         <lastmod>2026-07-28</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
