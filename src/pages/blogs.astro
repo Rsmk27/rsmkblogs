@@ -1,47 +1,192 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import ArticlesExplorer from '../components/ArticlesExplorer.jsx';
 
-const posts = await getCollection('blog');
+const rawPosts = await getCollection('blog');
 
-// Sort posts by date or title
-posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+// Sort posts by date descending
+const posts = rawPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+// Structured JSON data for the interactive explorer island
+const serializedArticles = posts.map((p) => ({
+  id: p.id,
+  title: p.data.title,
+  description: p.data.description,
+  date: p.data.date,
+  author: p.data.author || 'RSMK Engineering Team',
+  category: p.data.category || 'General',
+  readTime: p.data.readTime || '10 min read',
+  difficulty: p.data.difficulty || 'Intermediate',
+  tags: p.data.tags || [],
+}));
+
+// Identify featured spotlight article (e.g. TCP/IP or PLC guide or top article)
+const featuredArticle = posts.find((p) => p.id === 'tcp/ip' || p.id === 'matlab-guide' || p.id === 'plc-guide') || posts[0];
+
+// Domains list for pathways
+const domainTracks = [
+  {
+    title: "Power Systems & Grid Physics",
+    desc: "AC circuits, transformers, high-voltage transmission, star-delta configurations, and microgrids.",
+    badge: "Electrical",
+    count: posts.filter(p => p.data.category === "Power Systems" || p.data.category === "Smart Energy" || p.data.category === "Power Electronics").length,
+    link: "/blogs/journey-of-electricity",
+    icon: "⚡"
+  },
+  {
+    title: "Embedded Systems & IoT",
+    desc: "Register programming, AVR microcontrollers, ESP32 FreeRTOS, PWM, and wireless sensor nodes.",
+    badge: "Hardware",
+    count: posts.filter(p => p.data.category === "Embedded Systems" || p.data.category === "IoT & Smart Systems").length,
+    link: "/blogs/arduino-guide",
+    icon: "🔌"
+  },
+  {
+    title: "Networking & Protocol Stacks",
+    desc: "Five-layer architectural models, Ethernet frames, ARP, TCP 3-way handshakes, routing, and 5G/6G.",
+    badge: "Networks",
+    count: posts.filter(p => p.data.category === "Networking").length,
+    link: "/blogs/tcp/ip",
+    icon: "🌐"
+  },
+  {
+    title: "Industrial Automation & Robotics",
+    desc: "IEC 61131-3 ladder logic, SCADA integration, autonomous flight controllers, and numerical modeling.",
+    badge: "Automation",
+    count: posts.filter(p => p.data.category === "Industrial Automation" || p.data.category === "Robotics" || p.data.category === "Engineering Software").length,
+    link: "/blogs/plc-guide",
+    icon: "🏭"
+  }
+];
 ---
 
-<BaseLayout title="Articles & Documentation Catalog | RSMK Blogs" description="Engineering documentation catalog across embedded systems, MATLAB, PLCs, power electronics, and IoT." activeTab="articles">
-    <main id="main-content" class="section-padding">
-        <div class="container">
-            <!-- Page Header -->
-            <div style="margin-bottom: 40px;">
-                <h1 style="font-size: 2.5rem; margin-bottom: 12px;">Engineering Documentation Catalog</h1>
-                <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 760px;">
-                    Explore {posts.length} verified technical articles, software manuals, register programming guides, and system architecture teardowns built with Astro & React.
-                </p>
-            </div>
+<BaseLayout 
+    title="Engineering Knowledge Hub & Technical Library | RSMK Blogs" 
+    description="Open-access engineering documentation, architecture teardowns, register programming manuals, and deep-dive technical tutorials." 
+    activeTab="articles"
+>
+    <main id="main-content" class="knowledge-hub-page">
+        <!-- Knowledge Hub Hero Section -->
+        <section class="hub-hero-section">
+            <div class="container">
+                <div class="hub-hero-content">
+                    <div class="hub-badge-pill">
+                        <span class="pulse-dot"></span>
+                        <span>Open-Source Technical Library & Knowledge Space</span>
+                    </div>
+                    <h1 class="hub-title">
+                        Engineering Articles & <span class="text-gradient">Knowledge Hub</span>
+                    </h1>
+                    <p class="hub-subtitle">
+                        Rigorous documentation, register-level hardware manuals, network protocol teardowns, industrial automation guides, and numerical modeling designed for engineers who build.
+                    </p>
 
-            <!-- Articles Grid -->
-            <div class="grid-3" id="articles-catalog-grid">
-                {posts.map((article) => (
-                    <div class="entity-card article-card-item" data-category={article.data.category}>
-                        <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
-                            <span class="badge badge-advanced">{article.data.difficulty}</span>
-                            {article.data.tags.slice(0, 2).map((t) => (
-                                <span class="tech-pill">{t}</span>
-                            ))}
+                    <!-- Knowledge Metrics Strip -->
+                    <div class="hub-metrics-strip">
+                        <div class="metric-block">
+                            <span class="metric-number">{posts.length}</span>
+                            <span class="metric-label">Verified Guides</span>
                         </div>
-                        <h3 style="font-size: 1.2rem; margin-bottom: 10px;">
-                            <a href={`/blogs/${article.id}`}>{article.data.title}</a>
-                        </h3>
-                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px; flex-grow: 1;">
-                            {article.data.description}
-                        </p>
-                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-subtle); margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-color);">
-                            <span>{article.data.readTime}</span>
-                            <span>{article.data.date}</span>
+                        <div class="metric-divider"></div>
+                        <div class="metric-block">
+                            <span class="metric-number">8+</span>
+                            <span class="metric-label">Engineering Domains</span>
+                        </div>
+                        <div class="metric-divider"></div>
+                        <div class="metric-block">
+                            <span class="metric-number">100%</span>
+                            <span class="metric-label">Open Access</span>
+                        </div>
+                        <div class="metric-divider"></div>
+                        <div class="metric-block">
+                            <span class="metric-number">Astro 5</span>
+                            <span class="metric-label">Fast Island Architecture</span>
                         </div>
                     </div>
-                ))}
+                </div>
             </div>
+        </section>
+
+        <div class="container section-padding-hub">
+            <!-- Featured Deep-Dive Spotlight Banner -->
+            {featuredArticle && (
+                <section class="featured-spotlight-card" aria-label="Featured Technical Deep Dive">
+                    <div class="spotlight-badge-row">
+                        <span class="spotlight-pill">⭐ Featured Deep Dive of the Week</span>
+                        <span class="badge badge-advanced">{featuredArticle.data.difficulty}</span>
+                        <span class="tech-pill">{featuredArticle.data.category}</span>
+                    </div>
+
+                    <div class="spotlight-content-grid">
+                        <div class="spotlight-info">
+                            <h2 class="spotlight-title">
+                                <a href={`/blogs/${featuredArticle.id}`}>{featuredArticle.data.title}</a>
+                            </h2>
+                            <p class="spotlight-desc">
+                                {featuredArticle.data.description}
+                            </p>
+                            <div class="spotlight-tags">
+                                {featuredArticle.data.tags?.map((tag: string) => (
+                                    <span class="card-tag-pill">#{tag}</span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div class="spotlight-cta-box">
+                            <div class="spotlight-meta-line">
+                                <span>⏱ Estimated Study: <strong>{featuredArticle.data.readTime}</strong></span>
+                                <span>📅 Published: <strong>{featuredArticle.data.date}</strong></span>
+                                <span>✍ Author: <strong>{featuredArticle.data.author || "RSMK Engineering"}</strong></span>
+                            </div>
+                            <a href={`/blogs/${featuredArticle.id}`} class="btn btn-primary spotlight-btn">
+                                <span>Start Reading Deep Dive</span>
+                                <span class="arrow-anim">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            <!-- Domain Learning Tracks / Pathways Carousel Grid -->
+            <section class="learning-pathways-section">
+                <div class="section-header-compact">
+                    <div>
+                        <h2 class="section-title-sm">Curated Learning Pathways</h2>
+                        <p class="section-sub-sm">Follow structured engineering roadmaps across core technical disciplines.</p>
+                    </div>
+                    <a href="/topics" class="explore-all-link">View All Domains & Topics →</a>
+                </div>
+
+                <div class="pathways-grid">
+                    {domainTracks.map((track) => (
+                        <a href={track.link} class="pathway-card">
+                            <div class="pathway-icon">{track.icon}</div>
+                            <div class="pathway-details">
+                                <div class="pathway-top">
+                                    <span class="pathway-badge">{track.badge}</span>
+                                    <span class="pathway-count">{track.count} Articles</span>
+                                </div>
+                                <h3 class="pathway-title">{track.title}</h3>
+                                <p class="pathway-desc">{track.desc}</p>
+                            </div>
+                            <div class="pathway-arrow">→</div>
+                        </a>
+                    ))}
+                </div>
+            </section>
+
+            <!-- Interactive Knowledge Hub Articles Catalog Explorer Island -->
+            <section class="catalog-explorer-section">
+                <div class="section-header-compact" style="margin-bottom: 24px;">
+                    <div>
+                        <h2 class="section-title-sm">All Engineering Articles & Teardowns</h2>
+                        <p class="section-sub-sm">Search, filter by domain or difficulty level, sort by reading duration, or view your saved articles.</p>
+                    </div>
+                </div>
+
+                <ArticlesExplorer client:load articles={serializedArticles} />
+            </section>
         </div>
     </main>
 </BaseLayout>

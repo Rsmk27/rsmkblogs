@@ -2,49 +2,184 @@
 import BaseLayout from './BaseLayout.astro';
 import TableOfContents from '../components/TableOfContents.jsx';
 import ReaderCompanion from '../components/ReaderCompanion.jsx';
+import MobileReaderDock from '../components/MobileReaderDock.jsx';
 
 const { frontmatter, headings = [] } = Astro.props;
-const { title, description, date, author, readTime = "12 min read", category, difficulty = "Advanced", tags = [] } = frontmatter || {};
+const { title, description, date, author, readTime = "12 min read", category = "Engineering", difficulty = "Advanced", tags = [] } = frontmatter || {};
+
+const minutes = parseInt(readTime) || 10;
 ---
 
 <BaseLayout title={`${title} | RSMK Blogs`} description={description} activeTab="articles">
-    <main id="main-content" class="section-padding">
+    <main id="main-content" class="article-page-wrapper">
         <div class="container article-layout-3col">
             
-            <!-- LEFT SIDEBAR: Interactive React Table of Contents -->
+            <!-- LEFT SIDEBAR: Interactive React Table of Contents (Desktop) -->
             <aside class="article-sidebar-left">
                 <TableOfContents client:load headings={headings} />
             </aside>
 
-            <!-- CENTER COLUMN: Article Body -->
-            <article class="article-main-center">
+            <!-- CENTER COLUMN: Article Body & Interactive Canvas -->
+            <article class="article-main-center" id="article-content-body">
+                <!-- Breadcrumbs -->
+                <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+                    <a href="/">Home</a>
+                    <span class="breadcrumb-sep">/</span>
+                    <a href="/blogs">Articles</a>
+                    <span class="breadcrumb-sep">/</span>
+                    <span class="breadcrumb-current">{category}</span>
+                </nav>
+
                 <!-- Article Header & Title -->
                 <div class="article-header">
-                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap;">
-                        <span class="badge badge-advanced">{difficulty}</span>
-                        {category && <span class="tech-pill">{category}</span>}
-                        {tags.slice(0, 2).map((t: string) => (
-                            <span class="tech-pill">{t}</span>
+                    <div class="article-badges-row">
+                        <span class={`difficulty-badge badge-${difficulty.toLowerCase()}`}>
+                            <span class="difficulty-dot"></span>
+                            {difficulty} Level
+                        </span>
+                        {category && <span class="category-tag">{category}</span>}
+                        {tags.slice(0, 3).map((t: string) => (
+                            <span class="tech-pill">#{t}</span>
                         ))}
                     </div>
+
                     <h1 class="article-title">{title}</h1>
-                    <div class="article-meta" style="margin-top: 12px; color: var(--text-subtle); font-size: 0.875rem;">
-                        <span>By {author || "RSMK Engineering Team"}</span> &bull; 
-                        <span>Published {date}</span> &bull; 
-                        <span>{readTime}</span>
+
+                    {description && (
+                        <p class="article-lead-desc">{description}</p>
+                    )}
+
+                    <div class="article-meta-bar">
+                        <div class="meta-item author-block">
+                            <div class="author-avatar-mini">
+                                <span>{(author || "RSMK")[0]}</span>
+                            </div>
+                            <span class="meta-text author-name">By {author || "RSMK Engineering Team"}</span>
+                        </div>
+                        <div class="meta-sep">•</div>
+                        <div class="meta-item">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span class="meta-text">{readTime}</span>
+                        </div>
+                        <div class="meta-sep">•</div>
+                        <div class="meta-item">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            <span class="meta-text">{date}</span>
+                        </div>
                     </div>
                 </div>
 
+                <!-- In-depth Technical Content Markdown/MDX -->
                 <div class="blog-content">
                     <slot />
                 </div>
+
+                <!-- Article Bottom Feedback & Sharing Footer -->
+                <footer class="article-bottom-section">
+                    <div class="bottom-feedback-card">
+                        <div class="feedback-text">
+                            <h4>Did you learn something new?</h4>
+                            <p>Share this engineering teardown with your team or explore related domains in our catalog.</p>
+                        </div>
+                        <div class="feedback-actions">
+                            <a href="/blogs" class="btn btn-outline btn-sm">Explore More Articles →</a>
+                        </div>
+                    </div>
+                </footer>
             </article>
 
-            <!-- RIGHT SIDEBAR: Interactive React Reader Companion -->
+            <!-- RIGHT SIDEBAR: Interactive React Reader Companion (Desktop) -->
             <aside class="article-sidebar-right">
-                <ReaderCompanion client:idle initialMinutes={parseInt(readTime) || 12} />
+                <ReaderCompanion client:load initialMinutes={minutes} articleTitle={title} />
             </aside>
 
         </div>
+
+        <!-- Mobile & Tablet Floating Reader Dock & Outline Sheet -->
+        <MobileReaderDock client:load headings={headings} articleTitle={title} />
     </main>
+
+    <!-- Client Script for Code Block Copy Buttons & Micro-Interactions -->
+    <script is:inline>
+        (function() {
+            function enhanceCodeBlocks() {
+                const codeBlocks = document.querySelectorAll('.blog-content pre');
+                codeBlocks.forEach(function(pre) {
+                    if (pre.dataset.enhanced) return;
+                    pre.dataset.enhanced = "true";
+
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'code-block-wrapper';
+                    pre.parentNode.insertBefore(wrapper, pre);
+                    wrapper.appendChild(pre);
+
+                    // Code header bar
+                    const header = document.createElement('div');
+                    header.className = 'code-block-header';
+
+                    // Try to detect code language
+                    const code = pre.querySelector('code');
+                    let lang = 'CODE';
+                    if (code) {
+                        const classes = code.className.split(' ');
+                        for (let i = 0; i < classes.length; i++) {
+                            if (classes[i].startsWith('language-')) {
+                                lang = classes[i].replace('language-', '').toUpperCase();
+                                break;
+                            }
+                        }
+                    }
+
+                    const langSpan = document.createElement('span');
+                    langSpan.className = 'code-lang-label';
+                    langSpan.innerText = lang;
+                    header.appendChild(langSpan);
+
+                    // Copy button
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'code-copy-btn';
+                    copyBtn.setAttribute('aria-label', 'Copy code snippet');
+                    copyBtn.innerHTML = `
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <span>Copy</span>
+                    `;
+
+                    copyBtn.addEventListener('click', function() {
+                        const text = code ? code.innerText : pre.innerText;
+                        navigator.clipboard.writeText(text).then(function() {
+                            copyBtn.classList.add('copied');
+                            copyBtn.innerHTML = `
+                                <svg width="14" height="14" fill="none" stroke="#10B981" stroke-width="2" viewBox="0 0 24 24">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span style="color: #10B981;">Copied!</span>
+                            `;
+                            setTimeout(function() {
+                                copyBtn.classList.remove('copied');
+                                copyBtn.innerHTML = `
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <span>Copy</span>
+                                `;
+                            }, 2000);
+                        });
+                    });
+
+                    header.appendChild(copyBtn);
+                    wrapper.insertBefore(header, pre);
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', enhanceCodeBlocks);
+            } else {
+                enhanceCodeBlocks();
+            }
+        })();
+    </script>
 </BaseLayout>

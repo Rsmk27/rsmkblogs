@@ -7,12 +7,19 @@ const { title = "RSMK Blogs | Technical Engineering Knowledge Base", description
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content={description}>
     <title>{title}</title>
+    <!-- Prevent theme flicker on load: default to light -->
+    <script is:inline>
+        (function() {
+            const savedTheme = localStorage.getItem("rsmk_theme") || "light";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+        })();
+    </script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +37,7 @@ const { title = "RSMK Blogs | Technical Engineering Knowledge Base", description
 </head>
 <body>
     <!-- Top Reading Progress Bar -->
-    <div id="reading-progress-bar"></div>
+    <div id="reading-progress-bar" role="progressbar" aria-label="Reading progress"></div>
 
     <Header activeTab={activeTab} />
 
@@ -38,27 +45,84 @@ const { title = "RSMK Blogs | Technical Engineering Knowledge Base", description
 
     <Footer />
 
+    <!-- Back to Top Floating Action Button with Circular Progress -->
+    <button id="back-to-top-btn" aria-label="Back to top" title="Back to top">
+        <svg class="btt-progress-svg" width="40" height="40" viewBox="0 0 40 40">
+            <circle class="btt-circle-bg" cx="20" cy="20" r="16" fill="transparent" stroke-width="2.5" />
+            <circle class="btt-circle-fg" cx="20" cy="20" r="16" fill="transparent" stroke-width="2.5" />
+        </svg>
+        <span class="btt-arrow">↑</span>
+    </button>
+
     <!-- Mani AI Floating Companion Island -->
     <ManiAIChatbot client:idle />
 
     <script is:inline>
-        // Theme Toggle Handler
+        // Theme Toggle & Preferences Handler
         (function() {
             const toggleBtn = document.getElementById("theme-toggle");
-            const savedTheme = localStorage.getItem("rsmk_theme") || "dark";
-            if (savedTheme === "light") {
-                document.documentElement.setAttribute("data-theme", "light");
-            }
+            const savedTheme = localStorage.getItem("rsmk_theme") || "light";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+
             if (toggleBtn) {
                 toggleBtn.addEventListener("click", () => {
-                    const currentTheme = document.documentElement.getAttribute("data-theme");
-                    const newTheme = currentTheme === "light" ? "dark" : "light";
-                    if (newTheme === "light") {
-                        document.documentElement.setAttribute("data-theme", "light");
-                    } else {
-                        document.documentElement.removeAttribute("data-theme");
-                    }
+                    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+                    const newTheme = currentTheme === "dark" ? "light" : "dark";
+                    document.documentElement.setAttribute("data-theme", newTheme);
                     localStorage.setItem("rsmk_theme", newTheme);
+                });
+            }
+
+            // Restore saved font scale
+            const savedScale = localStorage.getItem("rsmk_font_scale");
+            if (savedScale) {
+                document.documentElement.style.setProperty("--article-font-scale", savedScale);
+            }
+
+            // Global Top Reading Progress Bar & Back to Top Controller
+            const progressBar = document.getElementById("reading-progress-bar");
+            const backToTopBtn = document.getElementById("back-to-top-btn");
+            const bttCircleFg = document.querySelector(".btt-circle-fg");
+            const bttCircumference = 2 * Math.PI * 16; // ~100.53
+
+            if (bttCircleFg) {
+                bttCircleFg.style.strokeDasharray = bttCircumference;
+                bttCircleFg.style.strokeDashoffset = bttCircumference;
+            }
+
+            function onWindowScroll() {
+                const scrollY = window.scrollY || window.pageYOffset;
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                
+                if (totalHeight > 0) {
+                    const ratio = Math.min(1, Math.max(0, scrollY / totalHeight));
+                    const percent = ratio * 100;
+
+                    if (progressBar) {
+                        progressBar.style.width = percent + "%";
+                    }
+
+                    if (bttCircleFg) {
+                        const offset = bttCircumference - (ratio * bttCircumference);
+                        bttCircleFg.style.strokeDashoffset = offset;
+                    }
+                }
+
+                if (backToTopBtn) {
+                    if (scrollY > 350) {
+                        backToTopBtn.classList.add("visible");
+                    } else {
+                        backToTopBtn.classList.remove("visible");
+                    }
+                }
+            }
+
+            window.addEventListener("scroll", onWindowScroll, { passive: true });
+            onWindowScroll();
+
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener("click", () => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
                 });
             }
         })();
